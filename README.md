@@ -71,7 +71,7 @@ Onze smart glasses herkennen gebarentaal in real-time en vertalen deze naar:
 
 ## 📁 Project Structuur
 
-```
+```text
 SmartGlasses/
 ├── 📖 README.md                    # Dit bestand
 ├── 🔬 research/                    # Onderzoek en documentatie
@@ -116,7 +116,7 @@ pip install -r requirements.txt
 
 ## 👥 Team
 
-**VIVES Bachelor ICT - Project Experience 2.1**
+## VIVES Bachelor ICT - Project Experience 2.1
 
 | Rol | Verantwoordelijkheden |
 |-----|----------------------|
