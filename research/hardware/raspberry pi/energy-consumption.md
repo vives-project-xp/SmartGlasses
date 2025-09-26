@@ -195,8 +195,8 @@ Deze gids biedt uitgebreide energieverbruiksgegevens en berekeningsmethoden voor
 ### 🔗 Nuttige Links
 
 - [Raspberry Pi Documentatie](https://www.raspberrypi.org/documentation/)
-- [USB Power Meters](https://www.amazon.com/s?k=usb+power+meter)
-- [Batterij Tips &amp; Tricks](https://github.com/raspberrypi/documentation)
+- [USB Power Meters](https://www.google.com/search?sca_esv=70a532a702b7bdb6&sxsrf=AE3TifN_OputTqtX7-zDenKXCgNYmeP27Q:1758878129336&udm=3&fbs=AIIjpHw2KGh6wpocn18KLjPMw8n5q-b0bBxG09ax8fLlbymQasOsl1hbOHNakHWEn_Z1PUI8QGGYdPBGOKk4eWFlVad2F7orqbR9xbnmRNBzDI2iCQBf6fZ94YrSqn3MsZZx95t3IZEq_vA6xHZ4dmnanjKE9QQ0JeUWIB6nPOWOL59p9Uz7fwlQ4QESOy2iRQqfu8U-oTBxXVuQJxkbIbUv0xPVtL6jtA&q=usb+power+meters+overzicht&sa=X&ved=2ahUKEwjcyujQi_aPAxX1RaQEHVnxCq8Qs6gLegQIFRAB&biw=1920&bih=911&dpr=1)
+- [Batterij Tips &amp; Tricks](https://www.batterystuff.com/kb/articles/battery-articles/battery-basics.html?srsltid=AfmBOopnCF9mpVFtCWZ1KIQHIlD5oMHqgM6RZryfDvr3MQmvFIhQi_aW)
 
 ---
 
