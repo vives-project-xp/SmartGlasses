@@ -22,20 +22,20 @@
 
 ### Raspberry Pi Modellen - Energieverbruik Tabel
 
-| Model | Stroomverbruik (A @ 5V) | Vermogensrange (W @ 5V) | Opmerkingen |
-|-------|-------------------------|-------------------------|-------------|
-| **Raspberry Pi Zero** | 0.08 / 0.12 / 0.18 (Idle / Typisch / Piek) | 0.4 / 0.6 / 0.9 | Zeer efficiënt; geen Wi-Fi tenzij Zero W |
-| **Raspberry Pi Zero W** | 0.09 / 0.13 / 0.22 | 0.45 / 0.65 / 1.1 | Wi-Fi/Bluetooth verhoogt piekverbruik |
-| **Raspberry Pi Zero 2 W** | 0.12 / 0.18 / 0.35 | 0.6 / 0.9 / 1.8 | Snellere SoC → typisch hoger verbruik |
-| **Pi A+ / A (oudere A-series)** | 0.08 / 0.15 / 0.25 | 0.4 / 0.75 / 1.25 | Minder I/O dan B → lager totaalverbruik |
-| **Pi Model B / 2B** | 0.18 / 0.35 / 0.75 | 0.9 / 1.75 / 3.75 | Afhankelijk van netwerk, USB randapparatuur |
-| **Pi 3 Model B / B+** | 0.2 / 0.5 / 1.2 | 1.0 / 2.5 / 6.0 | Wi-Fi/BT en CPU verhogen verbruik onder belasting |
-| **Pi 4 Model B (alle RAM)** | 0.30 / 0.75 / 1.5–2.5 | 1.5 / 3.75 / 7.5–12.5 | Afhankelijk van CPU/GPU belasting en aangesloten USB/HDMI |
-| **Pi 400** | 0.35 / 0.9 / 1.8 | 1.75 / 4.5 / 9.0 | Pi4-achtig gedrag maar met geïntegreerd toetsenbord |
-| **Raspberry Pi 5** | 0.45 / 1.4 / 2.5–3.5 | 2.25 / 7.0 / 12.5–17.5 | Hogere prestaties → aanzienlijk hoger verbruik |
-| **HATs / Externe apparaten** | Variabel (0.05 → >1A) | Variabel | Elke USB HDD, camera of HAT verhoogt totaalverbruik sterk |
+| Model                                 | Stroomverbruik (A @ 5V)                    | Vermogensrange (W @ 5V) | Opmerkingen                                               |
+| ------------------------------------- | ------------------------------------------ | ----------------------- | --------------------------------------------------------- |
+| **Raspberry Pi Zero**           | 0.08 / 0.12 / 0.18 (Idle / Typisch / Piek) | 0.4 / 0.6 / 0.9         | Zeer efficiënt; geen Wi-Fi tenzij Zero W                 |
+| **Raspberry Pi Zero W**         | 0.09 / 0.13 / 0.22                         | 0.45 / 0.65 / 1.1       | Wi-Fi/Bluetooth verhoogt piekverbruik                     |
+| **Raspberry Pi Zero 2 W**       | 0.12 / 0.18 / 0.35                         | 0.6 / 0.9 / 1.8         | Snellere SoC → typisch hoger verbruik                    |
+| **Pi A+ / A (oudere A-series)** | 0.08 / 0.15 / 0.25                         | 0.4 / 0.75 / 1.25       | Minder I/O dan B → lager totaalverbruik                  |
+| **Pi Model B / 2B**             | 0.18 / 0.35 / 0.75                         | 0.9 / 1.75 / 3.75       | Afhankelijk van netwerk, USB randapparatuur               |
+| **Pi 3 Model B / B+**           | 0.2 / 0.5 / 1.2                            | 1.0 / 2.5 / 6.0         | Wi-Fi/BT en CPU verhogen verbruik onder belasting         |
+| **Pi 4 Model B (alle RAM)**     | 0.30 / 0.75 / 1.5–2.5                     | 1.5 / 3.75 / 7.5–12.5  | Afhankelijk van CPU/GPU belasting en aangesloten USB/HDMI |
+| **Pi 400**                      | 0.35 / 0.9 / 1.8                           | 1.75 / 4.5 / 9.0        | Pi4-achtig gedrag maar met geïntegreerd toetsenbord      |
+| **Raspberry Pi 5**              | 0.45 / 1.4 / 2.5–3.5                      | 2.25 / 7.0 / 12.5–17.5 | Hogere prestaties → aanzienlijk hoger verbruik           |
+| **HATs / Externe apparaten**    | Variabel (0.05 → >1A)                     | Variabel                | Elke USB HDD, camera of HAT verhoogt totaalverbruik sterk |
 
-> **Legenda**: *Idle* = lage CPU, scherm uit; *Typisch* = lichte desktop of daemon; *Piek* = volledige CPU/GPU + actieve randapparatuur.  
+> **Legenda**: *Idle* = lage CPU, scherm uit; *Typisch* = lichte desktop of daemon; *Piek* = volledige CPU/GPU + actieve randapparatuur.
 > Alle waarden zijn bij benadering; gebruik als startpunt voor batterijberekeningen.
 
 ## 🧮 Essentiële Formules
@@ -91,7 +91,7 @@ Waarbij P_device_W = 5 × I_device_A als je stroom in ampère weet
 #### 18650 Enkele Cel: 3400 mAh @ 3.7V
 
 - **Wh** = 3.4 × 3.7 = **12.58 Wh**
-- **Wh_5V** = 12.58 × 0.90 = **11.32 Wh**  
+- **Wh_5V** = 12.58 × 0.90 = **11.32 Wh**
 - **mAh_5V** = (11.32 / 5) × 1000 = **2,264 mAh @ 5V**
 
 #### Powerbank 10.000 mAh (vaak gespecificeerd @ 3.7V)
@@ -112,27 +112,27 @@ We berekenen looptijden voor drie typische Pi's: Zero W (0.65W typisch), Pi 4 (3
 
 #### Met 18650 (11.32 Wh beschikbaar op 5V)
 
-| Pi Model | Energieverbruik | Looptijd |
-|----------|----------------|----------|
-| **Pi Zero W** | 0.65 W | **17.4 uur** |
-| **Pi 4** | 3.75 W | **3.0 uur** |
-| **Pi 5** | 7.0 W | **1.6 uur** |
+| Pi Model            | Energieverbruik | Looptijd           |
+| ------------------- | --------------- | ------------------ |
+| **Pi Zero W** | 0.65 W          | **17.4 uur** |
+| **Pi 4**      | 3.75 W          | **3.0 uur**  |
+| **Pi 5**      | 7.0 W           | **1.6 uur**  |
 
 #### Met Powerbank 10.000 mAh (33.3 Wh)
 
-| Pi Model | Energieverbruik | Looptijd |
-|----------|----------------|----------|
-| **Pi Zero W** | 0.65 W | **51.2 uur** |
-| **Pi 4** | 3.75 W | **8.9 uur** |
-| **Pi 5** | 7.0 W | **4.8 uur** |
+| Pi Model            | Energieverbruik | Looptijd           |
+| ------------------- | --------------- | ------------------ |
+| **Pi Zero W** | 0.65 W          | **51.2 uur** |
+| **Pi 4**      | 3.75 W          | **8.9 uur**  |
+| **Pi 5**      | 7.0 W           | **4.8 uur**  |
 
 #### Met Powerbank 20.000 mAh (66.6 Wh)
 
-| Pi Model | Energieverbruik | Looptijd |
-|----------|----------------|----------|
-| **Pi Zero W** | 0.65 W | **102.5 uur** |
-| **Pi 4** | 3.75 W | **17.8 uur** |
-| **Pi 5** | 7.0 W | **9.5 uur** |
+| Pi Model            | Energieverbruik | Looptijd            |
+| ------------------- | --------------- | ------------------- |
+| **Pi Zero W** | 0.65 W          | **102.5 uur** |
+| **Pi 4**      | 3.75 W          | **17.8 uur**  |
+| **Pi 5**      | 7.0 W           | **9.5 uur**   |
 
 > ⚠️ **Opmerking**: Deze looptijden zijn ideale schattingen. Werkelijke looptijd kan variëren door:
 >
@@ -196,12 +196,11 @@ Deze gids biedt uitgebreide energieverbruiksgegevens en berekeningsmethoden voor
 
 - [Raspberry Pi Documentatie](https://www.raspberrypi.org/documentation/)
 - [USB Power Meters](https://www.amazon.com/s?k=usb+power+meter)
-- [Batterij Tips & Tricks](https://github.com/raspberrypi/documentation)
+- [Batterij Tips &amp; Tricks](https://github.com/raspberrypi/documentation)
 
 ---
 
-**📅 Laatst bijgewerkt:** September 2025  
-**👥 Project:** VIVES SmartGlasses Research  
-**📧 Contact:** [vives-project-xp](https://github.com/vives-project-xp)
+**📅 Laatst bijgewerkt:** September 2025
+**👥 Project:** VIVES SmartGlasses Research
 
 ---
