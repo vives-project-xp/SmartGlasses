@@ -2,18 +2,21 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=flat&logo=raspberry-pi&logoColor=white)](https://www.raspberrypi.org/)
+[![GitHub](https://img.shields.io/badge/GitHub-SmartGlasses-181717?style=flat&logo=github)](https://github.com/vives-project-xp/SmartGlasses)
 
 > **📋 Uitgebreide gids voor het berekenen van batterijduur en energievereisten voor Raspberry Pi projecten**
 
 ⚠️ **Belangrijke mededeling**: De energieverbruikswaarden hieronder zijn typische schattingen gebaseerd op veelvoorkomende metingen. Werkelijke waarden hangen af van werkbelasting, aangesloten randapparatuur (USB, display, harde schijf), netwerkactiviteit (Wi-Fi, Ethernet), SD-kaart gebruik, en voedingskwaliteit (USB-C kabel, powerbank efficiëntie). Voor precieze metingen, gebruik een USB power meter of een toegewijde voedingsmeetopstelling.
 
+---
+
 ## 📑 Inhoudsopgave
 
-- [Energieverbruik Overzicht](#energieverbruik-overzicht)
-- [Essentiële Formules](#essentiële-formules)
-- [Praktische Voorbeelden](#praktische-voorbeelden)
-- [Optimalisatie Tips](#optimalisatie-tips)
-- [Snelle Calculator](#snelle-calculator)
+- [Energieverbruik Overzicht](#-energieverbruik-overzicht)
+- [Essentiële Formules](#-essentiële-formules)
+- [Praktische Voorbeelden](#-praktische-voorbeelden)
+- [Optimalisatie Tips](#-optimalisatie-tips)
+- [Snelle Calculator](#-snelle-calculator)
 
 ## 🔋 Energieverbruik Overzicht
 
@@ -177,34 +180,28 @@ runtime_hours = ((mAh_battery / 1000) × V_battery × efficiency) / P_device_W
 
 Waarbij P_device_W = 5 × I_device_A als je stroom in ampère weet
 
-## 🛠️ Aangepaste Berekeningen
-
-Wil je dat ik dit voor jouw exacte opstelling bereken?
-
-**Geef alsjeblieft:**
-
-- Exact Pi model (bijv. Raspberry Pi 4B 4GB)
-- Alle aangesloten randapparatuur (display, HDD, camera, HATs) met hun stroomvereisten als je die weet
-- Welke batterij/powerbank (mAh en voltage) je wilt gebruiken
-
-→ Ik maak directe gevalideerde berekeningen en een korte tabel met looptijden en benodigde capaciteit.
-
----
-
 ## 📋 Samenvatting
 
 Deze gids biedt uitgebreide energieverbruiksgegevens en berekeningsmethoden voor Raspberry Pi batterij projecten. Gebruik de formules en voorbeelden als startpunten, maar meet altijd werkelijk verbruik voor kritische toepassingen.
 
 **Belangrijkste punten:**
 
-- Pi Zero W: ~0.65W typisch (uitstekend voor batterijprojecten)
-- Pi 4: ~3.75W typisch (matige batterijduur)
-- Pi 5: ~7.0W typisch (vereist grotere batterijen)
-- Houd altijd rekening met randapparatuur en conversie verliezen
-- Meet met USB power meters voor precisie
+- Pi Zero W: ~0.65W typisch ⭐⭐⭐⭐⭐ (uitstekend voor batterijprojecten)
+- Pi 4: ~3.75W typisch ⭐⭐⭐ (matige batterijduur - geschikt met goede batterij)
+- Pi 5: ~7.0W typisch ⭐⭐ (vereist grote batterijen voor redelijke looptijd)
+- **Altijd** rekening houden met randapparatuur en conversie verliezen (10-20%)
+- **Meet altijd** met USB power meters voor precisie in kritische toepassingen
+
+### 🔗 Nuttige Links
+
+- [Raspberry Pi Documentatie](https://www.raspberrypi.org/documentation/)
+- [USB Power Meters](https://www.amazon.com/s?k=usb+power+meter)
+- [Batterij Tips & Tricks](https://github.com/raspberrypi/documentation)
 
 ---
 
-Laatst bijgewerkt: September 2025
- 
- 
+**📅 Laatst bijgewerkt:** September 2025  
+**👥 Project:** VIVES SmartGlasses Research  
+**📧 Contact:** [vives-project-xp](https://github.com/vives-project-xp)
+
+---
