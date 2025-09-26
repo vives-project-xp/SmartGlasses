@@ -1,3 +1,0 @@
-# Negeer de temp map en alles erin
-
-templates/
