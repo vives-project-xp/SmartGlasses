@@ -162,7 +162,7 @@ We verwelkomen bijdragen van de VIVES community!
 2. **🌿 Maak** een feature branch (`git checkout -b feature/AmazingFeature`)
 3. **💾 Commit** je wijzigingen (`git commit -m 'Add AmazingFeature'`)
 4. **📤 Push** naar de branch (`git push origin feature/AmazingFeature`)
-5. **🔃 Open** een Pull Request
+5. **🔃 Open** een Pull Request(`git pull origin main`)
 
 ---
 
