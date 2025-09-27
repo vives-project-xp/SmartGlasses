@@ -1,0 +1,21 @@
+ipykernel  # Jupyter kernel for running notebooks
+
+# Core ML libraries
+# tensorflow-gpu
+keras>=3.0.0
+scikit-learn
+pandas
+numpy
+tensorflow
+
+# Visualization
+matplotlib
+seaborn
+
+# Data utilities
+kagglehub
+kagglehub[pandas-datasets]
+
+# Additional GPU utilities (optional)
+nvidia-ml-py3  # For GPU monitoring
+gpustat  # For GPU status monitoring
