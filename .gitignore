@@ -196,6 +196,5 @@ ASALocalRun/
 .localhistory/
 healthchecksdb
 MigrationBackup/
-.vscode
 .vuepress/dist
 .venv/
