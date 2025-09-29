@@ -197,3 +197,4 @@ healthchecksdb
 MigrationBackup/
 .vscode
 .vuepress/dist
+.venv/
