@@ -2,6 +2,7 @@
 
 templates/
 temp/
+notebooks/images
 
 # Visual Studio en andere standaard ignores
 *.rsuser
