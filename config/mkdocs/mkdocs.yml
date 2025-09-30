@@ -58,6 +58,8 @@ markdown_extensions:
   - footnotes
   - toc:
       permalink: true
+  - attr_list
 
 plugins:
   - search
+  - mkdocs-pdf

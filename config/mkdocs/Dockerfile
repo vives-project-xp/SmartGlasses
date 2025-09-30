@@ -1,7 +1,9 @@
 FROM python:3.11-alpine
 
 # Install dependencies
-RUN pip install --no-cache-dir mkdocs-material
+RUN pip install --no-cache-dir \
+    mkdocs-material \
+    mkdocs-pdf
 
 # Set working directory
 WORKDIR /docs
