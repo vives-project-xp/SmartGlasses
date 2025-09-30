@@ -118,14 +118,14 @@ pip install -r requirements.txt
 
 ## VIVES Bachelor ICT - Project Experience 2.1
 
-| Rol | Verantwoordelijkheden |
-|-----|----------------------|
-| **🎯 Project Manager** | Planning, coördinatie, stakeholder communicatie |
-| **🤖 AI/ML Engineer** | Machine learning modellen, computer vision |
-| **⚡ Hardware Engineer** | Raspberry Pi integratie, power management |
-| **📱 Software Developer** | Backend API, mobile app ontwikkeling |
-| **🎨 UX/UI Designer** | User interface, user experience ontwerp |
-| **🔧 DevOps Engineer** | CI/CD, cloud deployment, testing |
+| Member                    |
+| ---------------------- |
+| [<img src="https://github.com/SimonStnn.png" alt="" width="25" style="margin-bottom:-6px;"> Simon Stijnen](https://github.com/SimonStnn)    |
+| [<img src="https://github.com/kyell182.png" alt="" width="25" style="margin-bottom:-6px;"> Kyell De Windt](https://github.com/kyell182)    |
+| [<img src="https://github.com/LynnDelaere.png" alt="" width="25" style="margin-bottom:-6px;"> Lynn Delaere](https://github.com/LynnDelaere)    |
+| [<img src="https://github.com/OlivierWesterman.png" alt="" width="25" style="margin-bottom:-6px;"> Olivier Westerman](https://github.com/OlivierWesterman)    |
+| [<img src="https://github.com/TimoPlets.png" alt="" width="25" style="margin-bottom:-6px;"> Timo Plets](https://github.com/TimoPlets)    |
+
 
 ---
 
