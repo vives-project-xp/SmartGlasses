@@ -9,7 +9,7 @@
       "type": "debugpy",
       "request": "launch",
       "module": "fastapi",
-      "args": ["dev", "${workspaceFolder}/server/src/main.py"],
+      "args": ["dev", "${workspaceFolder}/src/main.py"],
       "jinja": true
     }
   ]
