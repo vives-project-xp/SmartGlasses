@@ -1,16 +1,15 @@
 # Raspberry Pi Energieverbruik & Batterijberekeningen
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=flat&logo=raspberry-pi&logoColor=white)](https://www.raspberrypi.org/)
 [![GitHub](https://img.shields.io/badge/GitHub-SmartGlasses-181717?style=flat&logo=github)](https://github.com/vives-project-xp/SmartGlasses)
 
-> **📋 Uitgebreide gids voor het berekenen van batterijduur en energievereisten voor Raspberry Pi projecten**
+>  **Uitgebreide gids voor het berekenen van batterijduur en energievereisten voor Raspberry Pi projecten**
 
 ⚠️ **Belangrijke mededeling**: De energieverbruikswaarden hieronder zijn typische schattingen gebaseerd op veelvoorkomende metingen. Werkelijke waarden hangen af van werkbelasting, aangesloten randapparatuur (USB, display, harde schijf), netwerkactiviteit (Wi-Fi, Ethernet), SD-kaart gebruik, en voedingskwaliteit (USB-C kabel, powerbank efficiëntie). Voor precieze metingen, gebruik een USB power meter of een toegewijde voedingsmeetopstelling.
 
 ---
 
-## 📑 Inhoudsopgave
+## Inhoudsopgave
 
 - [Energieverbruik Overzicht](#-energieverbruik-overzicht)
 - [Essentiële Formules](#-essentiële-formules)
@@ -18,7 +17,7 @@
 - [Optimalisatie Tips](#-optimalisatie-tips)
 - [Snelle Calculator](#-snelle-calculator)
 
-## 🔋 Energieverbruik Overzicht
+## Energieverbruik Overzicht
 
 ### Raspberry Pi Modellen - Energieverbruik Tabel
 
@@ -38,7 +37,7 @@
 > **Legenda**: *Idle* = lage CPU, scherm uit; *Typisch* = lichte desktop of daemon; *Piek* = volledige CPU/GPU + actieve randapparatuur.
 > Alle waarden zijn bij benadering; gebruik als startpunt voor batterijberekeningen.
 
-## 🧮 Essentiële Formules
+## Essentiële Formules
 
 ### Stap-voor-Stap Energieberekeningen
 
@@ -74,7 +73,7 @@ runtime_hours = Wh_5V / P_device
 mAh_5V = (Wh_5V / 5) × 1000
 ```
 
-### 🔥 Snelle Formule (Eén regel)
+### Snelle Formule (Eén regel)
 
 ```text
 runtime_hours = ((mAh / 1000) × V_bat × η) / P_device
@@ -82,7 +81,7 @@ runtime_hours = ((mAh / 1000) × V_bat × η) / P_device
 
 Waarbij P_device_W = 5 × I_device_A als je stroom in ampère weet
 
-## 🔧 Praktische Voorbeelden
+## Praktische Voorbeelden
 
 *Veronderstelde efficiëntie: Voor voorbeelden gebruik ik η = 0.90 (90%) — pas aan als jouw powerbank anders beweert.*
 
@@ -140,7 +139,7 @@ We berekenen looptijden voor drie typische Pi's: Zero W (0.65W typisch), Pi 4 (3
 > - Extra randapparatuur (USB HDD, display) kan 0.5–2A extra kosten
 > - Powerbank zelf kan verliezen hebben bij lage belastingen of kortsluitbeveiliging
 
-## 💡 Optimalisatie Tips
+## Optimalisatie Tips
 
 ### Meting & Testen
 
@@ -159,18 +158,18 @@ We berekenen looptijden voor drie typische Pi's: Zero W (0.65W typisch), Pi 4 (3
 - **Powerbank Specificatie Controle**: Veel powerbanks geven mAh op bij 3.7V. Gebruik altijd conversies (mAh→Wh) zoals hierboven getoond
 - **Reserve Marge**: Plan voor minstens 10–20% extra energieverlies bij koud weer of verouderde batterijen
 
-## ✅ Aankoop Checklist
+## Aankoop Checklist
 
 Voordat je een batterij selecteert, overweeg:
 
-1. **📟 Welk Pi model?** (Zero vs Pi4 vs Pi5 geeft ordes van grootte verschil)
-2. **🔌 USB apparaten/displays aangesloten?** Tel hun stroomverbruik op
-3. **⚡ Gebruikspatroon?** Gebruik "typisch" of "piek" in berekening afhankelijk van werkbelasting
-4. **🔋 Batterij type?** (enkele 18650, powerbank 3.7V rating, 2S/3S packs → pas V_bat aan)
-5. **📊 Verwachte conversie-efficiëntie?** (0.85–0.95 typisch)
-6. **⏱️ Gewenste looptijd** → bereken terug de benodigde Wh of mAh_5V
+1.  **Welk Pi model?** (Zero vs Pi4 vs Pi5 geeft ordes van grootte verschil)
+2. **USB apparaten/displays aangesloten?** Tel hun stroomverbruik op
+3. **Gebruikspatroon?** Gebruik "typisch" of "piek" in berekening afhankelijk van werkbelasting
+4. **Batterij type?** (enkele 18650, powerbank 3.7V rating, 2S/3S packs → pas V_bat aan)
+5. **Verwachte conversie-efficiëntie?** (0.85–0.95 typisch)
+6. **Gewenste looptijd** → bereken terug de benodigde Wh of mAh_5V
 
-## 🚀 Snelle Calculator
+## Snelle Calculator
 
 ### Eén-Regel Formule
 
@@ -180,19 +179,19 @@ runtime_hours = ((mAh_battery / 1000) × V_battery × efficiency) / P_device_W
 
 Waarbij P_device_W = 5 × I_device_A als je stroom in ampère weet
 
-## 📋 Samenvatting
+## Samenvatting
 
 Deze gids biedt uitgebreide energieverbruiksgegevens en berekeningsmethoden voor Raspberry Pi batterij projecten. Gebruik de formules en voorbeelden als startpunten, maar meet altijd werkelijk verbruik voor kritische toepassingen.
 
 **Belangrijkste punten:**
 
-- Pi Zero W: ~0.65W typisch ⭐⭐⭐⭐⭐ (uitstekend voor batterijprojecten)
-- Pi 4: ~3.75W typisch ⭐⭐⭐ (matige batterijduur - geschikt met goede batterij)
-- Pi 5: ~7.0W typisch ⭐⭐ (vereist grote batterijen voor redelijke looptijd)
+- Pi Zero W: ~0.65W typisch  (uitstekend voor batterijprojecten)
+- Pi 4: ~3.75W typisch (matige batterijduur - geschikt met goede batterij)
+- Pi 5: ~7.0W typisch  (vereist grote batterijen voor redelijke looptijd)
 - **Altijd** rekening houden met randapparatuur en conversie verliezen (10-20%)
 - **Meet altijd** met USB power meters voor precisie in kritische toepassingen
 
-### 🔗 Nuttige Links
+### Nuttige Links
 
 - [Raspberry Pi Documentatie](https://www.raspberrypi.org/documentation/)
 - [USB Power Meters](https://www.google.com/search?sca_esv=70a532a702b7bdb6&sxsrf=AE3TifN_OputTqtX7-zDenKXCgNYmeP27Q:1758878129336&udm=3&fbs=AIIjpHw2KGh6wpocn18KLjPMw8n5q-b0bBxG09ax8fLlbymQasOsl1hbOHNakHWEn_Z1PUI8QGGYdPBGOKk4eWFlVad2F7orqbR9xbnmRNBzDI2iCQBf6fZ94YrSqn3MsZZx95t3IZEq_vA6xHZ4dmnanjKE9QQ0JeUWIB6nPOWOL59p9Uz7fwlQ4QESOy2iRQqfu8U-oTBxXVuQJxkbIbUv0xPVtL6jtA&q=usb+power+meters+overzicht&sa=X&ved=2ahUKEwjcyujQi_aPAxX1RaQEHVnxCq8Qs6gLegQIFRAB&biw=1920&bih=911&dpr=1)

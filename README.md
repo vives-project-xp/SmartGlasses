@@ -24,13 +24,12 @@ Onze smart glasses herkennen gebarentaal in real-time en vertalen deze naar:
 
 ## Hoofdfuncties
 
-| Functie | Beschrijving | Status |
-|---------|--------------|--------|
-| **Gebarenherkenning** | AI-gestuurde herkenning van Nederlandse Gebarentaal (NGT) |  In ontwikkeling |
-| **Tekst Conversie** | Real-time vertaling naar Nederlandse tekst |  In ontwikkeling |
-| **Text-to-Speech** | Spraakuitvoer met Nederlandse stem |  Gepland |
-| **App Integratie** | Mobiele app voor instellingen en geschiedenis |  Gepland |
-
+| Functie                     | Beschrijving                                              | Status          |
+| --------------------------- | --------------------------------------------------------- | --------------- |
+| **Gebarenherkenning** | AI-gestuurde herkenning van Nederlandse Gebarentaal (NGT) | In ontwikkeling |
+| **Tekst Conversie**   | Real-time vertaling naar Nederlandse tekst                | In ontwikkeling |
+| **Text-to-Speech**    | Spraakuitvoer met Nederlandse stem                        | Gepland         |
+| **App Integratie**    | Mobiele app voor instellingen en geschiedenis             | Gepland         |
 
 ---
 
@@ -115,13 +114,13 @@ pip install -r requirements.txt
 
 ## VIVES Bachelor ICT - Project Experience 2.1
 
-| Member                    |Taak|
-| ---------------------- |------------------------------|
-| [Simon Stijnen](https://github.com/SimonStnn)    | tba  |
-| [Kyell De Windt](https://github.com/kyell182)    | tba  |
-| [Lynn Delaere](https://github.com/LynnDelaere)    | tba  |
-| [Olivier Westerman](https://github.com/OlivierWesterman)    | tba  |
-| [Timo Plets](https://github.com/TimoPlets)    | tba  |
+| Member                                                | Taak |
+| ----------------------------------------------------- | ---- |
+| [Simon Stijnen](https://github.com/SimonStnn)            | tba  |
+| [Kyell De Windt](https://github.com/kyell182)            | tba  |
+| [Lynn Delaere](https://github.com/LynnDelaere)           | tba  |
+| [Olivier Westerman](https://github.com/OlivierWesterman) | tba  |
+| [Timo Plets](https://github.com/TimoPlets)               | tba  |
 
 ---
 
@@ -146,11 +145,11 @@ pip install -r requirements.txt
 
 ## Academische Context
 
-**Universiteit:** VIVES Hogeschool  
-**Opleiding:** Bachelor ICT  
-**Vak:** Project Experience 2.1  
-**Academiejaar:** 2025-2026  
-**Semester:** 1  
+**Universiteit:** VIVES Hogeschool
+**Opleiding:** Bachelor ICT
+**Vak:** Project Experience 2.1
+**Academiejaar:** 2025-2026
+**Semester:** 1
 
 ### Leeruitkomsten
 
