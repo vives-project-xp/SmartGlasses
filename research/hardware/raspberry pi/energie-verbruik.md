@@ -3,7 +3,7 @@
 [![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?style=flat&logo=raspberry-pi&logoColor=white)](https://www.raspberrypi.org/)
 [![GitHub](https://img.shields.io/badge/GitHub-SmartGlasses-181717?style=flat&logo=github)](https://github.com/vives-project-xp/SmartGlasses)
 
->  **Uitgebreide gids voor het berekenen van batterijduur en energievereisten voor Raspberry Pi projecten**
+> **Uitgebreide gids voor het berekenen van batterijduur en energievereisten voor Raspberry Pi projecten**
 
 ⚠️ **Belangrijke mededeling**: De energieverbruikswaarden hieronder zijn typische schattingen gebaseerd op veelvoorkomende metingen. Werkelijke waarden hangen af van werkbelasting, aangesloten randapparatuur (USB, display, harde schijf), netwerkactiviteit (Wi-Fi, Ethernet), SD-kaart gebruik, en voedingskwaliteit (USB-C kabel, powerbank efficiëntie). Voor precieze metingen, gebruik een USB power meter of een toegewijde voedingsmeetopstelling.
 
