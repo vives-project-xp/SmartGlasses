@@ -140,18 +140,6 @@ pip install -r requirements.txt
 
 ---
 
-## Bijdragen
-
-We verwelkomen bijdragen van de VIVES community!
-
-1. **Fork** het project
-2. **Maak** een feature branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** je wijzigingen (`git commit -m 'Add AmazingFeature'`)
-4. **Push** naar de branch (`git push origin feature/AmazingFeature`)
-5. **Open** een Pull Request(`git pull origin main`)
-
----
-
 ## Documentatie
 
 ---
