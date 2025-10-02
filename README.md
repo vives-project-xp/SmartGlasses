@@ -2,7 +2,6 @@
 
 [![VIVES](https://img.shields.io/badge/VIVES-Bachelor_ICT-blue?style=flat)](https://www.vives.be)
 [![Project Experience](https://img.shields.io/badge/Project_Experience-2.1-green?style=flat)](https://github.com/vives-project-xp)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub](https://img.shields.io/github/stars/vives-project-xp/SmartGlasses?style=social)](https://github.com/vives-project-xp/SmartGlasses)
 
 > **Een innovatief project voor de vertaling van gebarentaal naar tekst en spraak met behulp van smart glasses technologie.**
@@ -31,8 +30,7 @@ Onze smart glasses herkennen gebarentaal in real-time en vertalen deze naar:
 | **Tekst Conversie** | Real-time vertaling naar Nederlandse tekst |  In ontwikkeling |
 | **Text-to-Speech** | Spraakuitvoer met Nederlandse stem |  Gepland |
 | **App Integratie** | Mobiele app voor instellingen en geschiedenis |  Gepland |
-| **Batterij Optimalisatie** | Energiezuinig ontwerp voor dagelijks gebruik |  In onderzoek |
-| **Cloud Sync** | Synchronisatie met cloud voor verbeterde herkenning |  Gepland |
+
 
 ---
 
@@ -43,7 +41,7 @@ Onze smart glasses herkennen gebarentaal in real-time en vertalen deze naar:
 ```text
  Smart Glasses
 ├── camera Module (Gebarendetectie)
-├── OLED Display (Tekstweergave)  
+├── Display (Tekstweergave)  
 ├── Microfoon Array (Audio input)
 ├── Mini Speaker (Audio output)
 ├── Lithium Batterij (Voeding)
@@ -63,7 +61,6 @@ AI & Machine Learning
  Backend Services
 ├── Python API (Flask/FastAPI)
 ├── Database (SQLite/PostgreSQL)
-├── Cloud Services (Azure/AWS)
 └── Real-time Processing
 ```
 
@@ -118,14 +115,13 @@ pip install -r requirements.txt
 
 ## VIVES Bachelor ICT - Project Experience 2.1
 
-| Member                    |
-| ---------------------- |
-| [Simon Stijnen](https://github.com/SimonStnn)    |
-| [Kyell De Windt](https://github.com/kyell182)    |
-| [Lynn Delaere](https://github.com/LynnDelaere)    |
-| [Olivier Westerman](https://github.com/OlivierWesterman)    |
-| [Timo Plets](https://github.com/TimoPlets)    |
-
+| Member                    |Taak|
+| ---------------------- |------------------------------|
+| [Simon Stijnen](https://github.com/SimonStnn)    | tba  |
+| [Kyell De Windt](https://github.com/kyell182)    | tba  |
+| [Lynn Delaere](https://github.com/LynnDelaere)    | tba  |
+| [Olivier Westerman](https://github.com/OlivierWesterman)    | tba  |
+| [Timo Plets](https://github.com/TimoPlets)    | tba  |
 
 ---
 
@@ -133,24 +129,14 @@ pip install -r requirements.txt
 
 ### Sprint 1 (Huidig)
 
-- [x] Project setup en planning
-- [x] Technisch onderzoek
+- [ ] Project setup en planning
+- [ ] Technisch onderzoek
 - [ ] Basis camera integratie
 - [ ] Eerste ML model training
 
 ### Sprint 2 (Volgende)
 
-- [ ] Text-to-speech implementatie
-- [ ] Display integratie
-- [ ] Basis mobile app
-- [ ] Power management optimalisatie
-
 ### Sprint 3 (Toekomst)
-
-- [ ] Cloud services setup
-- [ ] User testing & feedback
-- [ ] Beta release
-- [ ] Performance optimalisatie
 
 ---
 
@@ -167,11 +153,6 @@ We verwelkomen bijdragen van de VIVES community!
 ---
 
 ## Documentatie
-
-- **[Hardware Research](./research/hardware/)** - Raspberry Pi specificaties en power consumption
-- **[Software Research](./research/software/)** - AI/ML frameworks en implementaties
-- **[API Documentation](./docs/api/)** - REST API endpoints (komt binnenkort)
-- **[Mobile App Guide](./docs/mobile/)** - App setup en gebruik (komt binnenkort)
 
 ---
 
@@ -190,20 +171,6 @@ We verwelkomen bijdragen van de VIVES community!
 - **Onderzoek**: Technisch onderzoek en documentatie
 - **Ontwikkeling**: Full-stack ontwikkeling met hardware integratie
 - **Probleemoplossing**: Toegankelijkheidsuitdagingen aanpakken
-
----
-
-## Licentie
-
-Dit project valt onder de **MIT License**. Zie het [LICENSE](LICENSE) bestand voor details.
-
----
-
-## Contact
-
-**Email:** [projectteam@student.vives.be](mailto:projectteam@student.vives.be)  
-**Website:** [VIVES Hogeschool](https://www.vives.be)  
-**GitHub:** [@vives-project-xp](https://github.com/vives-project-xp)
 
 ---
 
