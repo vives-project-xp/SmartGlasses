@@ -93,51 +93,26 @@ docker --version
 
 ### Server Dependencies (FastAPI)
 
-```bash
-cd server
-pip3 install -r requirements.txt
-```
+!!! note "Next Steps"
+    See [Server setup & run](./Development/server.md) for the server setup and how to run the FastAPI backend.
 
 ### Client Dependencies (React Native/Expo)
 
-```bash
-cd client
-npm install
-```
+!!! note "Next Steps"
+    See [Client setup & run](./Development/client.md) for the client setup and how to start the Expo development server.
 
 ### Notebook Dependencies (Optional - for AI/ML development)
 
-```bash
-cd notebooks
-pip3 install -r requirements.txt
-```
+!!! note "Next Steps"
+    See [Notebooks setup & run](./Development/notebooks.md) for details on installing notebook dependencies and running notebooks.
 
 ## Step 6: Start Development Services
 
-### Start the FastAPI Server
+!!! note "Next Steps"
+    See the development-specific docs for how to start services:
 
-```bash
-cd server
-python3 src/main.py
-```
-
-The server will be available at `http://localhost:8000`
-
-### Start the Expo Development Server
-
-In a new terminal:
-
-```bash
-cd client
-npm start
-```
-
-This will start the Expo development server and provide options to run on:
-
-- Web browser
-- Android emulator
-- iOS simulator (Mac only)
-- Physical device via Expo Go app
+- Server: [Server setup & run](./Development/server.md)
+- Client: [Client setup & run](./Development/client.md)
 
 ### Start Documentation Server (Optional)
 
@@ -147,7 +122,7 @@ To view the project documentation locally:
 docker-compose up docs
 ```
 
-Documentation will be available at `http://localhost:8085`
+Documentation will be available at <http://localhost:8085>
 
 ## Development Environment Features
 

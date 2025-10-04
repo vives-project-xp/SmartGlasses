@@ -15,7 +15,7 @@
   // "forwardPorts": [],
 
   // Open the workspace file after container creation
-  "postStartCommand": "code .devcontainer/SmartGlasses.code-workspace",
+  // "postStartCommand": "code .devcontainer/SmartGlasses.code-workspace",
 
   // Configure tool-specific properties.
   "customizations": {
