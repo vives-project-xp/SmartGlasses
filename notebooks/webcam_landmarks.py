@@ -48,11 +48,19 @@ while cam.isOpened():
 
             # Draw bounding box around the hands
             margin = 30
+            img_h, img_w, _ = img_rgb.shape
             x_coords = [landmark.x for landmark in hand_landmarks.landmark]
             y_coords = [landmark.y for landmark in hand_landmarks.landmark]
-            x_min, x_max = int(min(x_coords) * width), int(max(x_coords) * width)
-            y_min, y_max = int(min(y_coords) * height), int(max(y_coords) * height)
-            cv.rectangle(img_rgb, (x_min - margin, y_min - margin), (x_max + margin, y_max + margin), (0, 255, 0), 2)
+            y_min, y_max = int(min(y_coords) * img_h), int(max(y_coords) * img_h)
+            x_min, x_max = int(min(x_coords) * img_w), int(max(x_coords) * img_w)
+
+            cv.rectangle(
+                img_rgb,
+                (x_min - margin, y_min - margin),
+                (x_max + margin, y_max + margin),
+                (0, 255, 0),
+                2,
+            )
 
     cv.imshow("Show Video", cv.flip(img_rgb, 1))
 
