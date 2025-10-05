@@ -1,13 +1,23 @@
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import HandScreen from "./hand";
 
 export default function CameraScreen() {
   const [facing, setFacing] = useState<CameraType>("back");
-  const [permission, requestPermission] = useCameraPermissions();
+  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
+  const cameraRef = useRef<any>(null);
 
-  if (!permission) {
+  // Request permission automatically on mount so camera opens when entering screen
+  useEffect(() => {
+    if (!cameraPermission || !cameraPermission.granted) {
+      // calling requestPermission will prompt the user on first run
+      requestCameraPermission();
+    }
+  }, [cameraPermission, requestCameraPermission]);
+
+  if (!cameraPermission) {
     // Camera permissions are still loading.
     return (
       <View style={styles.container}>
@@ -16,14 +26,17 @@ export default function CameraScreen() {
     );
   }
 
-  if (!permission.granted) {
+  if (!cameraPermission.granted) {
     // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
         <Text style={styles.message}>
           We need your permission to show the camera
         </Text>
-        <TouchableOpacity style={styles.button} onPress={requestPermission}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={requestCameraPermission}
+        >
           <Text style={styles.buttonText}>Grant Permission</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -40,22 +53,29 @@ export default function CameraScreen() {
     setFacing((current) => (current === "back" ? "front" : "back"));
   }
 
+  // Always attempt to show the camera (permission is requested automatically)
+
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
+      <CameraView ref={cameraRef} style={styles.camera} facing={facing} />
 
-          <TouchableOpacity
-            style={[styles.button, styles.backButton]}
-            onPress={() => router.back()}
-          >
-            <Text style={styles.text}>Back</Text>
-          </TouchableOpacity>
-        </View>
-      </CameraView>
+      {/* Overlay landmarks and UI: absolutely positioned on top of the CameraView */}
+      <View pointerEvents="none" style={styles.overlay}>
+        <HandScreen cameraRef={cameraRef} />
+      </View>
+
+      <View style={styles.buttonContainer} pointerEvents="box-none">
+        <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+          <Text style={styles.text}>Flip Camera</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, styles.backButton]}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.text}>Back</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -102,5 +122,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "white",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
   },
 });
