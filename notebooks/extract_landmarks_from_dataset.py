@@ -52,7 +52,6 @@ def wrist_plausible(lms, W, H, tol=0.55):
     
     return True
 
-
 # Try variants for each image to improve hand detection
 def variants_selector(image):
     yield image, "orig"
