@@ -5,11 +5,14 @@ export default function Index() {
   const handleGetStarted = () => {
     router.push("/camera");
   };
+  const handleAbout = () => {
+    router.push("/about");
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Welcome to Smart Glasses</Text>
+        <Text style={styles.title}>Welcome to Smart </Text>
         <Text style={styles.subtitle}>
           Experience the future of augmented reality with our smart glasses
           interface
@@ -17,6 +20,9 @@ export default function Index() {
 
         <TouchableOpacity style={styles.button} onPress={handleGetStarted}>
           <Text style={styles.buttonText}>Get Started</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleAbout}>
+          <Text style={styles.buttonText}>About</Text>
         </TouchableOpacity>
       </View>
     </View>
