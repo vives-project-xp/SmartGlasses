@@ -15,5 +15,8 @@
       "client/": true,
       "server/": true
     }
+  },
+  "extensions": {
+    "recommendations": ["bradlc.vscode-tailwindcss"]
   }
 }
