@@ -1,0 +1,13 @@
+# Ignore artifacts:
+# Directories
+node_modules
+.next
+build
+coverage
+dist
+public
+
+# Files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
