@@ -1,17 +1,22 @@
-# Client (Expo React Native) - Setup & Run
+# Expo React Native - Setup & Run
 
 This document covers installing client dependencies and running the Expo development server.
 
 Prerequisites:
 
-- Node.js (v16+ recommended)
+- Node.js ([v22](https://nodejs.org/dist/v22.20.0/node-v22.20.0-x64.msi) recommended)
 - npm or yarn
 - Expo CLI (optional; `npm install -g expo-cli`)
 
 Install dependencies:
 
+!!! Note
+    Development is done in the `client/` directory. Ensure you are in this directory before running commands:
+    ```sh
+    cd client
+    ```
+
 ```bash
-cd client
 npm install
 ```
 
