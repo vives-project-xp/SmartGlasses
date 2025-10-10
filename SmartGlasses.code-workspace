@@ -1,22 +1,36 @@
 {
   "folders": [
     {
+      "name": "SmartGlasses Workspace",
       "path": "."
     },
     {
+      "name": "Server",
       "path": "./server"
     },
     {
+      "name": "Client",
       "path": "./client"
+    },
+    {
+      "name": "Docs",
+      "path": "./docs"
+    },
+    {
+      "name": "Notebooks",
+      "path": "./notebooks"
     }
   ],
   "settings": {
     "files.exclude": {
       "client/": true,
-      "server/": true
-    }
-  },
-  "extensions": {
-    "recommendations": ["bradlc.vscode-tailwindcss"]
+      "server/": true,
+      "docs/": true,
+      "notebooks/": true
+    },
+    "files.autoSave": "afterDelay",
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
