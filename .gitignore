@@ -4,6 +4,7 @@ templates/
 temp/
 notebooks/images
 notebooks/annotations
+.env
 
 # Visual Studio en andere standaard ignores
 *.rsuser
