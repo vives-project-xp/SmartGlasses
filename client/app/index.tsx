@@ -40,7 +40,7 @@ export default function Index() {
 
         <View className="flex-row self-stretch">
           <Button
-            label="Info"
+            label="About"
             className="bg-white px-10 py-4 border-2 rounded-lg border-[#B1B1B1] mr-3 flex-1"
             labelClasses="text-black text-lg font-semibold"
             onPress={handleAbout}

@@ -68,9 +68,16 @@ function Button({
       {...props}
     >
       <Text
+        // prevent label clipping: single line, auto-scale, allow accessibility scaling
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.65}
+        allowFontScaling
+        // keep tailwind classes and ensure text can shrink if needed
         className={cn(
           buttonTextVariants({ variant, size, className: labelClasses })
         )}
+        style={{ flexShrink: 1 }}
       >
         {label}
       </Text>

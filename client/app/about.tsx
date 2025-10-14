@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { FlatList, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Linking, Pressable, Text, View } from "react-native";
 
 export default function About() {
   const handleback = () => {
@@ -18,30 +18,40 @@ export default function About() {
       members?: { name: string; image?: string; link?: string }[];
     };
   }) => (
-    <View style={styles.card}>
-      <Text style={styles.sectionTitle}>{item.title}</Text>
+    // Card: full width, consistent padding, centered content
+    <View className="mb-4 w-full items-center rounded-xl bg-white p-4 shadow-md">
+      <Text className="mb-2 text-center text-lg font-semibold text-gray-800">{item.title}</Text>
 
+      {/* members row: centered, wrapped */}
       {item.members ? (
-        <View style={styles.memberRow}>
+        <View className="mt-3 flex-row flex-wrap justify-center">
           {item.members.map((m) => (
-            <View key={m.name} style={styles.member}>
+            <View key={m.name} className="mb-3 mr-3 w-24 items-center">
               {m.image ? (
-                <Image source={{ uri: m.image }} style={styles.avatar} />
+                <Image source={{ uri: m.image }} className="mb-2 h-16 w-16 rounded-full" />
               ) : (
-                <View style={[styles.avatar, styles.avatarPlaceholder]} />
+                <View className="mb-2 h-16 w-16 rounded-full bg-gray-200" />
               )}
-              <Text style={styles.memberName}>{m.name}</Text>
+              <Text className="text-center text-xs text-gray-700">{m.name}</Text>
             </View>
           ))}
         </View>
       ) : null}
 
-      {item.content ? <Text style={styles.sectionText}>{item.content}</Text> : null}
+      {/* content: centered with consistent line-height */}
+      {item.content ? (
+        <Text className="mt-3 text-center text-sm leading-6 text-gray-600">{item.content}</Text>
+      ) : null}
 
+      {/* link button: only when link exists, consistent styling */}
       {item.link ? (
-        <TouchableOpacity onPress={() => item.link && Linking.openURL(item.link)}>
-          <Text style={styles.linkText}>Open link</Text>
-        </TouchableOpacity>
+        <Pressable
+          onPress={() => item.link && Linking.openURL(item.link)}
+          accessibilityRole="link"
+          className="mt-4 rounded-md bg-blue-600 px-4 py-2 shadow-sm"
+        >
+          <Text className="text-center font-medium text-white">Open link</Text>
+        </Pressable>
       ) : null}
     </View>
   );
@@ -59,19 +69,7 @@ export default function About() {
       title: "About the project",
       content: "SmartGlasses — Sign Language → Text",
     },
-    {
-      key: "mkdocs",
-      title: "MKDocs",
-      content: "This documentation site contains all the info about the project",
-      link: "https://github.com/vives-project-xp/SmartGlasses/tree/main/docs",
-    },
-    {
-      key: "githubrepo",
-      title: "GitHub Repository",
-      content: "This is the main repository for the project.",
-      link: "https://github.com/vives-project-xp/SmartGlasses",
-    },
-    {
+        {
       key: "idea",
       title: "Idea",
       content:
@@ -96,6 +94,19 @@ export default function About() {
         "1. Prototype camera capture\n2. Integrate landmark extraction\n3. Train/test classifier\n4. Hook classifier to app\n5. Improve accuracy & smoothing\n6. Polish UI, add history & settings",
     },
     {
+      key: "mkdocs",
+      title: "MKDocs",
+      content: "This documentation site contains all the info about the project",
+      link: "https://github.com/vives-project-xp/SmartGlasses/tree/main/docs",
+    },
+    {
+      key: "githubrepo",
+      title: "GitHub Repository",
+      content: "This is the main repository for the project.",
+      link: "https://github.com/vives-project-xp/SmartGlasses",
+    },
+
+    {
       key: "team",
       title: "Project team",
       members: [
@@ -109,101 +120,24 @@ export default function About() {
   ];
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-gray-100 px-5 py-6">
       <FlatList
         data={aboutData}
         keyExtractor={(item) => item.key}
         renderItem={renderItem}
-        style={{ width: "100%" }}                 // ensure FlatList itself uses full width
-        contentContainerStyle={styles.listContent}
+        className="w-full"
+        contentContainerStyle={{ paddingBottom: 28, paddingTop: 6 }}
         showsVerticalScrollIndicator={false}
       />
-      <TouchableOpacity style={styles.button} onPress={handleback}>
-        <Text style={styles.buttonText}>Back</Text>
-      </TouchableOpacity>
+
+      {/* consistent Back button styling */}
+      <Pressable
+        accessibilityRole="button"
+        onPress={handleback}
+        className="mt-4 self-center rounded-full border border-gray-300 bg-white px-8 py-3"
+      >
+        <Text className="text-base font-semibold text-gray-800">Back</Text>
+      </Pressable>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-    padding: 20,
-  },
-  listContent: {
-    paddingBottom: 24, // removed alignItems so items can stretch
-  },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
-    alignItems: "center", // keeps children centered inside the card
-    alignSelf: "stretch", // allow the card to stretch to full FlatList width
-    width: "100%", // stays fine but alignSelf is primary
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#222",
-    marginBottom: 8,
-    textAlign: "center",
-  },
-  sectionText: {
-    fontSize: 15,
-    color: "#555",
-    lineHeight: 22,
-    textAlign: "left",
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    paddingHorizontal: 28,
-    paddingVertical: 12,
-    borderRadius: 24,
-    alignSelf: "center",
-    marginTop: 12,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  linkText: {
-    color: "#007AFF",
-    marginTop: 10,
-    fontWeight: "600",
-    textDecorationLine: "underline",
-  },
-  memberRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    gap: 12, // Android may ignore; use margin in child as fallback
-    marginTop: 8,
-  },
-  member: {
-    alignItems: "center",
-    width: 90,
-    marginRight: 12,
-    marginBottom: 12,
-  },
-  avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    marginBottom: 6,
-  },
-  avatarPlaceholder: {
-    backgroundColor: "#ddd",
-  },
-  memberName: {
-    fontSize: 13,
-    textAlign: "center",
-  },
-});
