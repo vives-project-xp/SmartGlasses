@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # Web console
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server --console-address ":9001" /data
+    volumes:
+      - ./data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: lakefs
+      POSTGRES_PASSWORD: lakefs
+      POSTGRES_DB: lakefs
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  lakefs:
+    image: treeverse/lakefs:latest
+    depends_on: [postgres]
+    ports:
+      - "8000:8000"                      # UI + S3 Gateway endpoint
+    environment:
+      LAKEFS_DATABASE_TYPE: "postgres"
+      LAKEFS_DATABASE_CONNECTION_STRING: "postgres://lakefs:lakefs@postgres:5432/lakefs?sslmode=disable"
+
+      # Force libpq/PG clients to use TCP (avoid unix socket /tmp/.s.PGSQL.5432)
+      PGHOST: postgres
+      PGUSER: lakefs
+      PGPASSWORD: lakefs
+      PGDATABASE: lakefs
+      PGPORT: "5432"
+
+      # Blockstore = S3-compatible --> MinIO
+      LAKEFS_BLOCKSTORE_TYPE: "s3"
+      LAKEFS_BLOCKSTORE_S3_ENDPOINT: "http://minio:9000"
+      LAKEFS_BLOCKSTORE_S3_FORCE_PATH_STYLE: "true"
+
+      # Gebruik het MinIO service-account van hierboven
+      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
+
+      # Vereist door lakeFS (32+ chars random) - read from .env when available
+      LAKEFS_AUTH_ENCRYPT_SECRET_KEY: ${LAKEFS_AUTH_ENCRYPT_SECRET_KEY}
+      LAKEFS_LOGGING_LEVEL: "INFO"
+    command: ["run"]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8000/_health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pg_data:

@@ -1,4 +1,4 @@
-# Server (FastAPI) - Setup & Run
+# Server
 
 This document covers installing server dependencies and running the FastAPI backend.
 
