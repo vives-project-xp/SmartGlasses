@@ -2,8 +2,7 @@
 
 templates/
 temp/
-notebooks/images
-notebooks/annotations
+*annotations
 .env
 
 # Visual Studio en andere standaard ignores
