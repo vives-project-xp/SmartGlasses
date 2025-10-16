@@ -1,12 +1,6 @@
-import { router } from "expo-router";
 import { FlatList, Image, Linking, Pressable, Text, View } from "react-native";
 
 export default function About() {
-
-  const handleback = () => {
-    router.push("/");
-  };
-
   const renderItem = ({
     item,
   }: {
