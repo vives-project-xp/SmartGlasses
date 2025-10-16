@@ -4,9 +4,6 @@ import React, { useState } from "react";
 import { FlatList, Image, Linking, Pressable, Text, View } from "react-native";
 
 export default function Settings() {
-  // const handleback = () => {
-  //   router.push("/");
-  // };
 
   // Item component so each list item can have its own state (picker value)
   function Item({
@@ -144,7 +141,6 @@ export default function Settings() {
         className="w-full pb-8 pt-6"
         showsVerticalScrollIndicator={false}
       />
-      {/* Add any additional components or elements here if needed */}
     </View>
   );
 }

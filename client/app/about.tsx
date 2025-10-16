@@ -1,9 +1,7 @@
 import { router } from "expo-router";
 import { FlatList, Image, Linking, Pressable, Text, View } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function About() {
-  const insets = useSafeAreaInsets(); // safe area insets for top/bottom system UI
 
   const handleback = () => {
     router.push("/");
@@ -123,10 +121,6 @@ export default function About() {
   ];
 
   return (
-    /* SafeAreaView prevents content from overlapping status/navigation bars.
-       We still use Tailwind className for layout and add runtime bottom padding
-       from the device insets so Android navigation tray won't overlap content. */
-
       <FlatList
         data={aboutData}
         keyExtractor={(item) => item.key}
