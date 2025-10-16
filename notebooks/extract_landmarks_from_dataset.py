@@ -14,8 +14,12 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.75,
     )
 
+
 # Folder of images to process
-IMAGE_FOLDER = './images/dataset'
+IMAGE_FOLDER = './notebooks/images/dataset'
+
+print("Current working directory:", os.getcwd())
+print("Looking for images in:", os.path.abspath(IMAGE_FOLDER))
 
 # Add padding to the bottom of the image
 def pad_bottom(image, pad):
