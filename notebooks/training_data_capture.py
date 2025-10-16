@@ -53,8 +53,9 @@ def save_landmark_data(letter, landmarks_list, frame, bbox_norm=None, left_mode=
 
     json_path = os.path.join(letter_folder, f"{letter.upper()}_landmark_data.json")
 
+    count_images = len(os.listdir(img_folder))
     timestamp = int(time.time() * 1000)
-    base_name = f"{letter.upper()}_{timestamp}"
+    base_name = f"{letter.upper()}_{count_images}_{timestamp}"
     img_name = f"{base_name}.jpg"
     img_path = os.path.join(img_folder, img_name)
 
@@ -105,6 +106,7 @@ def save_landmark_data(letter, landmarks_list, frame, bbox_norm=None, left_mode=
 
     # Append new entry
     all_data.append({
+        "image_id": count_images + 1,
         "timestamp": timestamp,
         "label": letter.upper(),
         "image_file": f"images/{img_name}",

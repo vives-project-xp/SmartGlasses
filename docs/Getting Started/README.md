@@ -99,88 +99,9 @@ docker --version
 ### Client Dependencies (React Native/Expo)
 
 !!! note "Next Steps"
-    See [Client setup & run](./Development/client.md) for the client setup and how to start the Expo development server.
+    See [Client setup & run](./Development/Client) for the client setup and how to start the Expo development server.
 
 ### Notebook Dependencies (Optional - for AI/ML development)
 
 !!! note "Next Steps"
     See [Notebooks setup & run](./Development/notebooks.md) for details on installing notebook dependencies and running notebooks.
-
-## Step 6: Start Development Services
-
-!!! note "Next Steps"
-    See the development-specific docs for how to start services:
-
-- Server: [Server setup & run](./Development/server.md)
-- Client: [Client setup & run](./Development/client.md)
-
-### Start Documentation Server (Optional)
-
-To view the project documentation locally:
-
-```bash
-docker-compose up docs
-```
-
-Documentation will be available at <http://localhost:8085>
-
-## Development Environment Features
-
-The dev container includes pre-installed tools and extensions:
-
-### VS Code Extensions
-
-- **Python**: Language support, debugging, linting
-- **Jupyter**: Notebook support for AI/ML experiments
-- **Postman**: API testing and development
-- **Git Graph**: Visual git history
-- **Markdown**: Documentation editing support
-- **Prettier**: Code formatting
-
-### Command Line Tools
-
-- **Git**: Version control
-- **Docker CLI**: Container management
-- **Android SDK**: Mobile development tools
-- **FFmpeg**: Media processing (for camera/video features)
-
-## Troubleshooting
-
-### Container Build Issues
-
-- Ensure Docker Desktop is running
-- Try rebuilding: `Ctrl+Shift+P` → "Dev Containers: Rebuild Container"
-- Check Docker Desktop settings for sufficient memory allocation
-
-### Port Conflicts
-
-- Server (8000): Change port in `server/src/main.py`
-- Docs (8085): Modify `docker-compose.yaml`
-- Expo Metro (8081): Expo will automatically find available ports
-
-### Permission Issues
-
-The container runs as root user. If you encounter permission issues with files:
-
-```bash
-sudo chown -R $USER:$USER .
-```
-
-### Android Development
-
-For Android development, ensure:
-
-1. Android Studio is installed on host machine
-2. USB debugging enabled on device
-3. Device connected via USB or Android emulator running
-
-## Next Steps
-
-After successful installation:
-
-1. **Explore the codebase**: Check out the main components in `server/` and `client/`
-2. **Read the documentation**: Browse `docs/` for architecture and setup guides
-3. **Run the notebooks**: Experiment with AI models in `notebooks/`
-4. **Check the roadmap**: See planned features and contribute to development
-
-For additional help, consult the project documentation or create an issue on GitHub.

@@ -1,68 +1,62 @@
+import { Button } from "@/components/Button";
 import { router } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, View } from "react-native";
 
 export default function Index() {
   const handleGetStarted = () => {
     router.push("/camera");
   };
 
+  const handleAbout = () => {
+    router.push("/about");
+  };
+
+  const handleSettings = () => {
+    router.push("/settings");
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Welcome to Smart Glasses</Text>
-        <Text style={styles.subtitle}>
-          Experience the future of augmented reality with our smart glasses
-          interface
+    <View className="flex-1 bg-[#F2F2F2] justify-center items-center p-5">
+      <View className="items-center max-w-[300px]">
+        <Image
+          source={require('../assets/images/Handsymbol.png')}
+          style={{ width: 100, height: 100 }}
+        />
+
+        <Text className="text-4xl font-bold text-[#333333] text-center mb-5">Smartglasses</Text>
+        <Text className="text-base text-[#666666] text-center leading-6 mb-10">
+          Gestures to text & speech
         </Text>
 
-        <TouchableOpacity style={styles.button} onPress={handleGetStarted}>
-          <Text style={styles.buttonText}>Get Started</Text>
-        </TouchableOpacity>
+        <View className="self-stretch">
+          <Button
+            size="lg"
+            className="bg-black py-4 rounded-lg w-full mb-5"
+            label="Start detection"
+            labelClasses="text-white text-lg font-semibold"
+            onPress={handleGetStarted}
+          />
+        </View>
+
+        <View className="flex-row self-stretch">
+          <Button
+            label="About"
+            className="bg-white px-10 py-4 border-2 rounded-lg border-[#B1B1B1] mr-3 flex-1"
+            labelClasses="text-black text-lg font-semibold"
+            onPress={handleAbout}
+            size="lg"
+            variant="secondary"
+          />
+          <Button
+            label="Settings"
+            className="bg-white px-10 py-4 border-2 rounded-lg border-[#B1B1B1] flex-1"
+            labelClasses="text-black text-lg font-semibold"
+            onPress={handleSettings}
+            size="lg"
+            variant="secondary"
+          />
+        </View>
       </View>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  content: {
-    alignItems: "center",
-    maxWidth: 300,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#333",
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
-    textAlign: "center",
-    lineHeight: 24,
-    marginBottom: 40,
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    paddingHorizontal: 40,
-    paddingVertical: 15,
-    borderRadius: 25,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-});
+};

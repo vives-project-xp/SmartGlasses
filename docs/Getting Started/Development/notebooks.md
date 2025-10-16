@@ -1,4 +1,4 @@
-# Notebooks - Setup & Run
+# Notebooks
 
 This document explains how to install optional dependencies used by the project's Jupyter notebooks and how to run them.
 

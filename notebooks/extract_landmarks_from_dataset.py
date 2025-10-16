@@ -64,6 +64,9 @@ def variants_selector(image):
         M = cv.getRotationMatrix2D((image.shape[1]/2, image.shape[0]/2), ang, 1.0)
         yield cv.warpAffine(image, M, (image.shape[1], image.shape[0])), f"rot{ang}"
 
+all_entries = []
+count = 0
+# Process each image in the folder
 for root, dirs, files in os.walk(IMAGE_FOLDER):
     for file in files:
         if not file.lower().endswith((".png", ".jpg", ".jpeg")):
@@ -102,27 +105,34 @@ for root, dirs, files in os.walk(IMAGE_FOLDER):
             landmark_drawing_spec=drawing_styles.get_default_hand_landmarks_style(),
             connection_drawing_spec=drawing_styles.get_default_hand_connections_style())
 
-        # Extract and append landmarks info to a JSON file in the same folder as the image
+        # Extract and append landmarks info to a single JSON file
         landmark_list = [{'x': lm.x, 'y': lm.y, 'z': lm.z} for lm in hand_landmarks.landmark]
-        # Save JSON in the same directory as the image
-        json_path = os.path.join(root, 'landmarks_all.json')
+
+        count += 1
         entry = {
-            'image': os.path.relpath(file_path, root),
+            'image': os.path.relpath(file_path, IMAGE_FOLDER),
+            'label': os.path.basename(root),
+            'count': count,
             'variant': tag,
             'landmarks': landmark_list
         }
-        # Load existing data if file exists
-        if os.path.exists(json_path):
-            with open(json_path, 'r') as json_file:
-                data = json.load(json_file)
-        else:
-            data = []
-        data.append(entry)
-        with open(json_path, 'w') as json_file:
-            json.dump(data, json_file, indent=2)
-        print(f"[INFO] appended landmarks to {json_path} (variant: {tag})")
 
-        # # Optionally save the annotated image
-        # annotated_path = os.path.splitext(file_path)[0] + f'_annotated_{tag}.jpg'
-        # cv.imwrite(annotated_path, annotated_image)
-        # print(f"[INFO] saved annotated image to {annotated_path}")
+        # Check for duplicates in all_entries
+        image_name = os.path.relpath(file_path, IMAGE_FOLDER)
+        existing_entry = None
+        for i, existing in enumerate(all_entries):
+            if existing.get('image') == image_name and existing.get('variant') == tag:
+                existing_entry = i
+                break
+        if existing_entry is not None:
+            all_entries[existing_entry] = entry
+            print(f"[INFO] updated existing entry for {image_name} (variant: {tag})")
+        else:
+            all_entries.append(entry)
+            print(f"[INFO] added new entry for {image_name} (variant: {tag})")
+
+# Save all entries to one big JSON file in images/dataset
+json_path = os.path.join(IMAGE_FOLDER, 'landmarks_all.json')
+with open(json_path, 'w') as json_file:
+    json.dump(all_entries, json_file, indent=2)
+print(f"[INFO] saved all landmark entries to {json_path}")
