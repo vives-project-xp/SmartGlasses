@@ -1,11 +1,6 @@
-import { router } from "expo-router";
 import { FlatList, Image, Linking, Pressable, Text, View } from "react-native";
 
 export default function About() {
-  const handleback = () => {
-    router.push("/");
-  };
-
   const renderItem = ({
     item,
   }: {
@@ -69,7 +64,7 @@ export default function About() {
       title: "About the project",
       content: "SmartGlasses — Sign Language → Text",
     },
-        {
+    {
       key: "idea",
       title: "Idea",
       content:
@@ -120,24 +115,11 @@ export default function About() {
   ];
 
   return (
-    <View className="flex-1 bg-gray-100 px-5 py-6">
       <FlatList
         data={aboutData}
         keyExtractor={(item) => item.key}
         renderItem={renderItem}
-        className="w-full"
-        contentContainerStyle={{ paddingBottom: 28, paddingTop: 6 }}
-        showsVerticalScrollIndicator={false}
+        className="w-full pt-6"
       />
-
-      {/* consistent Back button styling */}
-      <Pressable
-        accessibilityRole="button"
-        onPress={handleback}
-        className="mt-4 self-center rounded-full border border-gray-300 bg-white px-8 py-3"
-      >
-        <Text className="text-base font-semibold text-gray-800">Back</Text>
-      </Pressable>
-    </View>
   );
 }
