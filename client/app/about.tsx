@@ -1,7 +1,10 @@
 import { router } from "expo-router";
 import { FlatList, Image, Linking, Pressable, Text, View } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function About() {
+  const insets = useSafeAreaInsets(); // safe area insets for top/bottom system UI
+
   const handleback = () => {
     router.push("/");
   };
@@ -69,7 +72,7 @@ export default function About() {
       title: "About the project",
       content: "SmartGlasses — Sign Language → Text",
     },
-        {
+    {
       key: "idea",
       title: "Idea",
       content:
@@ -120,24 +123,15 @@ export default function About() {
   ];
 
   return (
-    <View className="flex-1 bg-gray-100 px-5 py-6">
+    /* SafeAreaView prevents content from overlapping status/navigation bars.
+       We still use Tailwind className for layout and add runtime bottom padding
+       from the device insets so Android navigation tray won't overlap content. */
+
       <FlatList
         data={aboutData}
         keyExtractor={(item) => item.key}
         renderItem={renderItem}
-        className="w-full"
-        contentContainerStyle={{ paddingBottom: 28, paddingTop: 6 }}
-        showsVerticalScrollIndicator={false}
+        className="w-full pt-6"
       />
-
-      {/* consistent Back button styling */}
-      <Pressable
-        accessibilityRole="button"
-        onPress={handleback}
-        className="mt-4 self-center rounded-full border border-gray-300 bg-white px-8 py-3"
-      >
-        <Text className="text-base font-semibold text-gray-800">Back</Text>
-      </Pressable>
-    </View>
   );
 }

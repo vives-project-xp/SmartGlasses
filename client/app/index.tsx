@@ -16,47 +16,44 @@ export default function Index() {
   };
 
   return (
-    <View className="flex-1 bg-[#F2F2F2] justify-center items-center p-5">
-      <View className="items-center max-w-[300px]">
-        <Image
-          source={require('../assets/images/Handsymbol.png')}
-          style={{ width: 100, height: 100 }}
-        />
+    <View className="flex-1 items-center justify-center bg-[#F2F2F2] p-5">
+      <View className="max-w-[300px] items-center">
+        <Image source={require("../assets/images/Handsymbol.png")} className="h-24 w-24" />
 
-        <Text className="text-4xl font-bold text-[#333333] text-center mb-5">Smartglasses</Text>
-        <Text className="text-base text-[#666666] text-center leading-6 mb-10">
+        <Text className="mb-5 text-center text-4xl font-bold text-[#333333]">Smartglasses</Text>
+        <Text className="mb-10 text-center text-base leading-6 text-[#666666]">
           Gestures to text & speech
         </Text>
 
-        <View className="self-stretch">
+        <View className="mb-5 self-stretch">
           <Button
             size="lg"
-            className="bg-black py-4 rounded-lg w-full mb-5"
+            className=" w-full rounded-lg bg-black"
             label="Start detection"
             labelClasses="text-white text-lg font-semibold"
             onPress={handleGetStarted}
           />
         </View>
 
-        <View className="flex-row self-stretch">
+        <View className="flex-row gap-3 self-stretch">
           <Button
             label="About"
-            className="bg-white px-10 py-4 border-2 rounded-lg border-[#B1B1B1] mr-3 flex-1"
+            className=" flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white px-8"
             labelClasses="text-black text-lg font-semibold"
             onPress={handleAbout}
-            size="lg"
+            size="default"
             variant="secondary"
           />
           <Button
             label="Settings"
-            className="bg-white px-10 py-4 border-2 rounded-lg border-[#B1B1B1] flex-1"
+            className="flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white px-8"
             labelClasses="text-black text-lg font-semibold"
             onPress={handleSettings}
-            size="lg"
+            size="default"
             variant="secondary"
           />
         </View>
       </View>
     </View>
   );
-};
+}
