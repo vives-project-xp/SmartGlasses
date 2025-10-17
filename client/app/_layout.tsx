@@ -22,7 +22,7 @@ export default function RootLayout() {
           name="camera"
           options={{
             title: "Camera View",
-            headerShown: true,
+            headerShown: false,
           }}
           />
         <Stack.Screen

@@ -8,14 +8,15 @@ export default function CameraScreen() {
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const [showTranslation, setShowTranslation] = useState(false);
 
-  // 🔧 vereenvoudigde permission check (sneller & stabieler)
+  // Request permission automatically on mount so camera opens when entering screen
   useEffect(() => {
     if (!cameraPermission?.granted) {
       requestCameraPermission();
     }
-  }, [cameraPermission]);
+  }, [cameraPermission, requestCameraPermission]);
 
   if (!cameraPermission) {
+    // Camera permissions are still loading.
     return <Text>Loading camera...</Text>;
   }
 
@@ -23,16 +24,20 @@ export default function CameraScreen() {
     return (
       <View
         // camera container: full width square, aspect ratio keeps it square
-        className="mb-3 w-full rounded-2xl border border-[#B1B1B1] bg-black aspect-square"
+        className="mb-3 aspect-square w-full rounded-2xl border border-[#B1B1B1] bg-black"
       ></View>
     );
+  }
+
+  function toggleCameraFacing() {
+    setFacing((current) => (current === "back" ? "front" : "back"));
   }
 
   return (
     <View className="flex-1 bg-[#F2F2F2]">
       <View className="flex-1 items-center justify-center px-5">
         {/* camera container: responsive square (max width) and centered */}
-        <View className="rounded-2xl mb-3 w-full self-center border border-[#B1B1B1] bg-black aspect-square">
+        <View className="mb-3 aspect-square w-full self-center rounded-2xl border border-[#B1B1B1] bg-black">
           {/* CameraView fills the square container - wrap in a flex-1 View so layout uses Tailwind */}
           <View className="flex-1">
             <CameraView facing={facing} mode="picture" style={{ flex: 1 }} />
@@ -40,36 +45,34 @@ export default function CameraScreen() {
         </View>
 
         {showTranslation && (
-          <View className="mb-5 w-full rounded-xl border border-[#B1B1B1] bg-white p-6 min-h-[200px]">
+          <View className="mb-5 min-h-[200px] w-full rounded-xl border border-[#B1B1B1] bg-white p-6">
             <View className="flex-row items-start justify-between">
               <Text className="text-left text-xl font-semibold text-black">Vertaling</Text>
             </View>
             <Text className="mt-4 text-lg text-gray-700">(translation will appear here)</Text>
-            </View>
+          </View>
         )}
       </View>
 
       {/* bedieningsknoppen */}
       <View pointerEvents="box-none" className="absolute bottom-0 left-0 right-0">
-        <View className="flex-row items-center justify-center space-x-2 self-stretch bg-white px-4 py-3 gap-4">
+        <View className="flex-row items-center justify-center gap-4 space-x-2 self-stretch bg-white px-4 py-3">
           <Button
             label="Text"
-            className="rounded-lg border-2 border-[#B1B1B1] bg-white px-4 py-2"
-            labelClasses="text-black text-base font-semibold"
-            onPress={() => setShowTranslation(true)}
+            className="rounded-lg border-2 border-[#B1B1B1] bg-white px-5 py-4"
+            labelClasses="text-black text-lg font-semibold"
+            onPress={() => setShowTranslation((v) => !v)}
+            size="lg"
+            variant="secondary"
           />
           <Button
             label="Flip"
-            className="rounded-lg border-2 border-[#B1B1B1] bg-white px-4 py-2"
-            labelClasses="text-black text-base font-semibold"
-            onPress={() => setFacing((f) => (f === "back" ? "front" : "back"))}
+            className="rounded-lg border-2 border-[#B1B1B1] bg-white px-10 py-4"
+            labelClasses="text-black text-lg font-semibold"
+            onPress={toggleCameraFacing}
+            size="lg"
+            variant="secondary"
           />
-          <Button
-                label="Close translation"
-                onPress={() => setShowTranslation(false)}
-                className="mx-0.5 rounded-lg border-2 border-[#B1B1B1] bg-white px-4 py-2"
-                labelClasses="text-black text-base font-semibold"
-              />
         </View>
       </View>
     </View>
