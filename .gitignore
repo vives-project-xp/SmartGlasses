@@ -4,6 +4,8 @@ templates/
 temp/
 *annotations
 .env
+notebooks/data
+*.ipynb_checkpoints
 
 # Visual Studio en andere standaard ignores
 *.rsuser
