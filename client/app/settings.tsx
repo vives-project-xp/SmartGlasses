@@ -1,10 +1,8 @@
 import { Picker } from "@react-native-picker/picker"; // npm i @react-native-picker/picker
-import { router } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, Image, Linking, Pressable, Text, View } from "react-native";
 
 export default function Settings() {
-
   // Item component so each list item can have its own state (picker value)
   function Item({
     item,
@@ -54,6 +52,7 @@ export default function Settings() {
               selectedValue={selected}
               onValueChange={(v) => setSelected(String(v))}
               mode="dropdown"
+              className="mb-4 pb-4"
             >
               {item.options.map((opt) => (
                 <Picker.Item key={opt.value} label={opt.label} value={opt.value} />
@@ -133,7 +132,7 @@ export default function Settings() {
   ];
 
   return (
-    <View className="flex-1 bg-gray-100 px-5">
+    <View className="flex-1 bg-gray-100  px-5">
       <FlatList
         data={SettingsData}
         keyExtractor={(item) => item.key}

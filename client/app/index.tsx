@@ -18,7 +18,11 @@ export default function Index() {
   return (
     <View className="flex-1 items-center justify-center bg-[#F2F2F2] p-5">
       <View className="max-w-[300px] items-center">
-        <Image source={require("../assets/images/Handsymbol.png")} className="h-24 w-24" />
+        <Image
+          source={require("../assets/images/Handsymbol.png")}
+          className="h-24 w-24"
+          style={{ width: 100, height: 100 }}
+        />
 
         <Text className="mb-5 text-center text-4xl font-bold text-[#333333]">Smartglasses</Text>
         <Text className="mb-10 text-center text-base leading-6 text-[#666666]">
@@ -39,7 +43,7 @@ export default function Index() {
           <Button
             label="About"
             className=" flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white px-8"
-            labelClasses="text-black text-lg font-semibold"
+            labelClasses="text-black text-lg font-semibold text-nowrap"
             onPress={handleAbout}
             size="default"
             variant="secondary"
@@ -47,7 +51,7 @@ export default function Index() {
           <Button
             label="Settings"
             className="flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white px-8"
-            labelClasses="text-black text-lg font-semibold"
+            labelClasses="text-black text-lg font-semibold text-nowrap"
             onPress={handleSettings}
             size="default"
             variant="secondary"

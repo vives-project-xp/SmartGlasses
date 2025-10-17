@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from "react-native";
 
 import { cn } from "../lib/utils";
 
-const buttonVariants = cva("flex flex-row items-center justify-center rounded-md", {
+const buttonVariants = cva("flex-row items-center justify-center rounded-md", {
   variants: {
     variant: {
       default: "bg-primary",
@@ -60,7 +60,7 @@ function Button({ label, labelClasses, className, variant, size, ...props }: But
       <Text
         className={cn(buttonTextVariants({ variant, size, className: labelClasses }))}
         allowFontScaling
-        style={{ fontSize: computedFontSize, textAlign: "center", width: "100%", flexWrap: "wrap" }}
+        style={{ fontSize: computedFontSize, textAlign: "center", flexWrap: "wrap" }}
       >
         {label}
       </Text>
