@@ -31,7 +31,7 @@ services:
 
   lakefs:
     image: treeverse/lakefs:latest
-    depends_on: [postgres]
+    depends_on: [postgres,minio]
     container_name: lakefs
     ports:
       - "8000:8000"                      # UI + S3 Gateway endpoint
@@ -50,10 +50,13 @@ services:
       LAKEFS_BLOCKSTORE_TYPE: "s3"
       LAKEFS_BLOCKSTORE_S3_ENDPOINT: "http://minio:9000"
       LAKEFS_BLOCKSTORE_S3_FORCE_PATH_STYLE: "true"
+      LAKEFS_BLOCKSTORE_S3_REGION: "us-east-1"
+      LAKEFS_BLOCKSTORE_S3_DISCOVER_BUCKET_REGION: "false"
 
       # Gebruik het MinIO service-account van hierboven
-      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
-      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
+      LAKEFS_BLOCKSTORE_S3_CREDENTIALS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
+      LAKEFS_BLOCKSTORE_S3_CREDENTIALS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
+      LAKEFS_BLOCKSTORE_S3_PRE_SIGNED_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT}
 
       # Vereist door lakeFS (32+ chars random) - read from .env when available
       LAKEFS_AUTH_ENCRYPT_SECRET_KEY: ${LAKEFS_AUTH_ENCRYPT_SECRET_KEY}
@@ -84,6 +87,7 @@ services:
       LAKEFS_SECRET_ACCESS_KEY: ${LAKEFS_SECRET_ACCESS_KEY}
     ports:
       - "8888:8888"  # Jupyter Notebook
+      - "7860:7860"  # Gradio default
     depends_on:
       - minio
       - lakefs
