@@ -4,7 +4,7 @@ import mediapipe.python.solutions.drawing_utils as drawing
 import mediapipe.python.solutions.drawing_styles as drawing_styles
 import numpy as np
 import os
-import json
+import csv
 
 # Initialize the Hands model
 hands = mp_hands.Hands(
@@ -14,9 +14,8 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.75,
     )
 
-
 # Folder of images to process
-IMAGE_FOLDER = './notebooks/images/dataset'
+IMAGE_FOLDER = './alphabet/images'
 
 print("Current working directory:", os.getcwd())
 print("Looking for images in:", os.path.abspath(IMAGE_FOLDER))
@@ -105,34 +104,26 @@ for root, dirs, files in os.walk(IMAGE_FOLDER):
             landmark_drawing_spec=drawing_styles.get_default_hand_landmarks_style(),
             connection_drawing_spec=drawing_styles.get_default_hand_connections_style())
 
-        # Extract and append landmarks info to a single JSON file
+        # Extract and store the landmarks
         landmark_list = [{'x': lm.x, 'y': lm.y, 'z': lm.z} for lm in hand_landmarks.landmark]
-
         count += 1
         entry = {
-            'image': os.path.relpath(file_path, IMAGE_FOLDER),
-            'label': os.path.basename(root),
-            'count': count,
+            'image_path': os.path.abspath(file_path),
             'variant': tag,
+            'count': count,
+            'class': os.path.basename(root),
             'landmarks': landmark_list
         }
+        all_entries.append(entry)
 
-        # Check for duplicates in all_entries
-        image_name = os.path.relpath(file_path, IMAGE_FOLDER)
-        existing_entry = None
-        for i, existing in enumerate(all_entries):
-            if existing.get('image') == image_name and existing.get('variant') == tag:
-                existing_entry = i
-                break
-        if existing_entry is not None:
-            all_entries[existing_entry] = entry
-            print(f"[INFO] updated existing entry for {image_name} (variant: {tag})")
-        else:
-            all_entries.append(entry)
-            print(f"[INFO] added new entry for {image_name} (variant: {tag})")
+# Save all entries to a csv file
+SAVE_CSV = './alphabet/images/hand_landmarks.csv'
+with open(SAVE_CSV, 'w', newline='') as csvfile:
+    fieldnames = ['image_path', 'variant', 'count', 'class', 'landmarks']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-# Save all entries to one big JSON file in images/dataset
-json_path = os.path.join(IMAGE_FOLDER, 'landmarks_all.json')
-with open(json_path, 'w') as json_file:
-    json.dump(all_entries, json_file, indent=2)
-print(f"[INFO] saved all landmark entries to {json_path}")
+    writer.writeheader()
+    for entry in all_entries:
+        # write only the expected fields to avoid ValueError when extra keys appear
+        row = {k: entry.get(k, '') for k in fieldnames}
+        writer.writerow(row)

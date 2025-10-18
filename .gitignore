@@ -5,6 +5,9 @@ temp/
 *annotations
 .env
 notebooks/data
+*.png
+*.jpg
+*.jpeg
 *.ipynb_checkpoints
 
 # Visual Studio en andere standaard ignores
@@ -204,3 +207,10 @@ MigrationBackup/
 
 # Notebook specifieke ignores
 notebooks/LSTM Test/Realtime-Sign-Language-Detection-Using-LSTM-Model/MP_Data/**
+
+# ignored by lakectl local
+notebooks/images/*
+!notebooks/images/.lakefs_ref.yaml
+notebooks/alphabet/images/*
+!notebooks/alphabet/images/.lakefs_ref.yaml
+# End ignored by lakectl local
