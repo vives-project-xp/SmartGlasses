@@ -41,7 +41,7 @@ export default function Index() {
           Signapse
         </Text>
         <Text
-          className="mt-2 text-base md:tesxt-lg text-center leading-6"
+          className="mt-2 text-base md:text-lg text-center leading-6"
           style={{ color: colors.textMuted }}
         >
           Gebaren naar tekst & spraak
