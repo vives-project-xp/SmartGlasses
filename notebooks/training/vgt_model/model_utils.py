@@ -73,13 +73,13 @@ def save_model(model: nn.Module, path: str = 'vgt_alphabet_model.pth'):
     torch.save(model.state_dict(), local_path)
 
     # Also save to the package model directory
-    # try:
-    #     if not os.path.exists(PACKAGE_MODEL_DIR):
-    #         os.makedirs(PACKAGE_MODEL_DIR, exist_ok=True)
-    #     package_path = PACKAGE_MODEL_DIR / path
-    #     torch.save(model.state_dict(), package_path)
-    # except Exception:
-    #     pass
+    try:
+        if not os.path.exists(PACKAGE_MODEL_DIR):
+            os.makedirs(PACKAGE_MODEL_DIR, exist_ok=True)
+        package_path = PACKAGE_MODEL_DIR / path
+        torch.save(model.state_dict(), package_path)
+    except Exception:
+        pass
 
 
 def load_model(
