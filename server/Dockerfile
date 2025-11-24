@@ -13,13 +13,20 @@ WORKDIR /app
 # Copy and install Python dependencies
 COPY ./server/requirements.txt .
 
-RUN pip install --no-cache-dir -q -r requirements.txt
+RUN apt-get update  && \
+    apt-get install -y \
+        curl \
+        libgl1 \
+        libglib2.0-0 \
+        && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install -r requirements.txt -q --no-cache-dir
 
 # Copy and install local package
 COPY ./notebooks/package /package
 RUN pip install --no-cache-dir -q -e /package
 
-# Copy application code
 COPY ./server .
 
 EXPOSE 8000

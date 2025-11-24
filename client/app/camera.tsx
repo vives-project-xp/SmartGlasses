@@ -1,8 +1,11 @@
 import { Button } from "@/components/Button";
 import { LandmarksOverlay } from "@/components/LandmarksOverlay";
 import api, { HttpError, NetworkError } from "@/lib/api";
+import { useTheme } from "@/lib/theme";
+import { useAppSettings } from "@/lib/app-settings";
 import { useWordBuilder } from "@/lib/useWordBuilder";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
+import { useIsFocused } from "@react-navigation/native";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Platform, ScrollView, Text, View } from "react-native";
@@ -19,6 +22,13 @@ export default function CameraScreen() {
   const [landmarks, setLandmarks] = useState<{ x: number; y: number; z: number }[]>([]);
 
   const cameraRef = useRef<CameraView>(null);
+  const isFocused = useIsFocused();
+  const { colors } = useTheme();
+  const { alphabetModel, showLandmarksButton } = useAppSettings();
+  const withAlpha = (hex: string, alpha: string = "D0") =>
+    hex?.length === 7 ? `${hex}${alpha}` : hex;
+  const cardTranslucent = withAlpha(colors.card);
+  const buttonBg = withAlpha(colors.card);
 
   // Word builder hook with optimized settings for sign language
   const { currentWord, letterBuffer, addLetter, clearWord, deleteLastLetter, commitBuffer } =
@@ -30,17 +40,35 @@ export default function CameraScreen() {
 
   // Request permission and load classes on mount
   useEffect(() => {
-    if (!permission?.granted) requestPermission();
+    if (!permission?.granted) {
+      requestPermission();
+      return;
+    }
+    if (!alphabetModel) {
+      setClasses([]);
+      return;
+    }
+
+    let cancelled = false;
+    setClasses([]);
 
     api
-      .classes("vgt")
-      .then((resp) => setClasses(resp.classes || []))
+      .classes(alphabetModel)
+      .then((resp) => {
+        if (!cancelled) {
+          setClasses(resp.classes || []);
+        }
+      })
       .catch(console.warn);
-  }, [permission?.granted, requestPermission]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [permission?.granted, requestPermission, alphabetModel]);
 
   // Capture and process images
   const capture = async () => {
-    if (!cameraRef.current || !permission?.granted) return;
+    if (!cameraRef.current || !permission?.granted || !alphabetModel || !isFocused) return;
 
     try {
       const cam = cameraRef.current;
@@ -73,7 +101,7 @@ export default function CameraScreen() {
 
       if (detectedLandmarks.length === 21) {
         setLandmarks(detectedLandmarks);
-        const result = await api.predict("vgt", detectedLandmarks);
+        const result = await api.predict(alphabetModel, detectedLandmarks);
         const index = Number(result?.prediction);
         const detectedLetter =
           !isNaN(index) && classes[index] ? classes[index] : result?.prediction || null;
@@ -109,17 +137,32 @@ export default function CameraScreen() {
 
   // Auto-capture loop
   useEffect(() => {
-    if (!permission?.granted) return;
+    if (!permission?.granted || !alphabetModel || !isFocused) return;
 
     const interval = setInterval(capture, CAPTURE_INTERVAL);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [permission?.granted, classes]);
+  }, [permission?.granted, alphabetModel, isFocused]);
+
+  // Stop preview and clear state when screen loses focus
+  useEffect(() => {
+    if (!isFocused) {
+      cameraRef.current?.pausePreview?.();
+      setLandmarks([]);
+      setPrediction(null);
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (!showLandmarksButton) {
+      setShowLandmarks(false);
+    }
+  }, [showLandmarksButton]);
 
   if (!permission) {
     return (
       <View className="flex-1 items-center justify-center p-6">
-        <Text className="mb-4 text-center">camera laden...</Text>
+        <Text className="mb-4 text-center">Loading camera...</Text>
       </View>
     );
   }
@@ -127,9 +170,9 @@ export default function CameraScreen() {
   if (!permission || !permission.granted) {
     return (
       <View className="flex-1 items-center justify-center p-6">
-        <Text className="mb-4 text-center">camera toegang is noodzakelijk</Text>
-        <Button onPress={requestPermission} label="Toestemming geven" />
-        <Button onPress={() => router.push("/")} label="Terug" />
+        <Text className="mb-4 text-center">Camera permission is required</Text>
+        <Button onPress={requestPermission} label="Grant permission" />
+        <Button onPress={() => router.push("/")} label="Back" />
       </View>
     );
   }
@@ -139,38 +182,66 @@ export default function CameraScreen() {
   };
 
   return (
-    <View className="flex-1 bg-[#F2F2F2]">
-      <CameraView ref={cameraRef} facing={facing} style={{ flex: 1 }} animateShutter={false} />
-      <LandmarksOverlay
-        landmarks={landmarks}
-        visible={showLandmarks}
-        mirrored={facing === "front"}
-      />
+    <View className="flex-1" style={{ backgroundColor: colors.background }}>
+      {isFocused && (
+        <>
+          <CameraView ref={cameraRef} facing={facing} style={{ flex: 1 }} animateShutter={false} />
+          <LandmarksOverlay
+            landmarks={landmarks}
+            visible={showLandmarks}
+            mirrored={facing === "front"}
+          />
+        </>
+      )}
 
       <SafeAreaView
         pointerEvents="box-none"
         className="absolute inset-x-0 bottom-4 px-4 sm:bottom-6 sm:px-6 md:bottom-8 md:px-8"
       >
         <View className="w-full px-4 sm:px-6 md:px-8">
-          {/* Current Word Display */}
-          <View className="mb-3 min-h-28 w-full max-w-2xl self-center rounded-xl border border-[#B1B1B1] bg-white px-4 py-3 md:min-h-32">
-            <Text className="mb-1 text-xs font-medium text-gray-500 md:text-sm">Word</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-1">
-              <Text className="text-2xl font-bold text-black md:text-3xl">
-                {currentWord || "—"}
-                {letterBuffer && <Text className="text-blue-500 opacity-60">{letterBuffer}</Text>}
-              </Text>
-            </ScrollView>
-          </View>
+          {/* Combined Word + Current Letter */}
+          <View
+            className="mb-3 w-full max-w-2xl self-center rounded-xl border px-4 py-3"
+            style={{ borderColor: colors.border, backgroundColor: cardTranslucent }}
+          >
+            <View className="flex-row items-stretch gap-3">
+              {/* Word (2/3) */}
+              <View style={{ flex: 2, borderRightWidth: 1, borderRightColor: colors.border }}>
+                <Text
+                  className="mb-1 text-xs font-medium md:text-sm"
+                  style={{ color: colors.textMuted }}
+                >
+                  Word
+                </Text>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-1">
+                  <Text
+                    className="text-2xl font-bold md:text-3xl"
+                    style={{ color: colors.text }}
+                  >
+                    {currentWord || "—"}
+                    {letterBuffer && (
+                      <Text className="text-blue-500 opacity-60">{letterBuffer}</Text>
+                    )}
+                  </Text>
+                </ScrollView>
+              </View>
 
-          {/* Current Letter Display */}
-          <View className="mb-3 h-28 w-full max-w-2xl items-center justify-center self-center rounded-xl border border-[#B1B1B1] bg-white px-4 md:h-32">
-            <Text className="mb-1 text-xs font-medium text-gray-500 md:text-sm">
-              Current Letter
-            </Text>
-            <Text className="text-center text-4xl font-bold text-black md:text-5xl">
-              {prediction || "—"}
-            </Text>
+              {/* Current Letter (1/3) */}
+              <View style={{ flex: 1 }} className="items-center justify-center">
+                <Text
+                  className="mb-1 text-xs font-medium md:text-sm"
+                  style={{ color: colors.textMuted }}
+                >
+                  Current Letter
+                </Text>
+                <Text
+                  className="text-center text-2xl font-bold md:text-3xl"
+                  style={{ color: colors.text }}
+                >
+                  {prediction || "—"}
+                </Text>
+              </View>
+            </View>
           </View>
 
           {/* Word Controls */}
@@ -178,24 +249,42 @@ export default function CameraScreen() {
             <View className="flex-row items-center justify-between gap-2 md:gap-3">
               <Button
                 label="⌫ Delete"
-                className="h-12 flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white sm:h-14 md:h-16"
-                labelClasses="text-black text-base sm:text-lg md:text-xl font-semibold"
+                className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
+                style={{
+                  borderColor: colors.border,
+                  borderWidth: 2,
+                  backgroundColor: buttonBg,
+                }}
+                labelClasses="text-base sm:text-lg md:text-xl font-semibold"
+                labelStyle={{ color: colors.text }}
                 onPress={deleteLastLetter}
                 size="lg"
                 variant="secondary"
               />
               <Button
                 label="✓ Add"
-                className="h-12 flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white sm:h-14 md:h-16"
-                labelClasses="text-black text-base sm:text-lg md:text-xl font-semibold"
+                className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
+                style={{
+                  borderColor: colors.border,
+                  borderWidth: 2,
+                  backgroundColor: buttonBg,
+                }}
+                labelClasses="text-base sm:text-lg md:text-xl font-semibold"
+                labelStyle={{ color: colors.text }}
                 onPress={commitBuffer}
                 size="lg"
                 variant="secondary"
               />
               <Button
                 label="✗ Clear"
-                className="h-12 flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white sm:h-14 md:h-16"
-                labelClasses="text-black text-base sm:text-lg md:text-xl font-semibold"
+                className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
+                style={{
+                  borderColor: colors.border,
+                  borderWidth: 2,
+                  backgroundColor: buttonBg,
+                }}
+                labelClasses="text-base sm:text-lg md:text-xl font-semibold"
+                labelStyle={{ color: colors.text }}
                 onPress={clearWord}
                 size="lg"
                 variant="secondary"
@@ -208,24 +297,44 @@ export default function CameraScreen() {
             <View className="flex-row items-center justify-between gap-2 md:gap-3">
               <Button
                 label="Back"
-                className="h-12 flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white sm:h-14 md:h-16"
-                labelClasses="text-black text-base sm:text-lg md:text-xl font-semibold"
+                className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
+                style={{
+                  borderColor: colors.border,
+                  borderWidth: 2,
+                  backgroundColor: buttonBg,
+                }}
+                labelClasses="text-base sm:text-lg md:text-xl font-semibold"
+                labelStyle={{ color: colors.text }}
                 onPress={() => router.push("/")}
                 size="lg"
                 variant="secondary"
               />
-              <Button
-                label={`Landmarks ${showLandmarks ? "On" : "Off"}`}
-                className="h-12 flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white sm:h-14 md:h-16"
-                labelClasses="text-black text-base sm:text-lg md:text-xl font-semibold"
-                onPress={() => setShowLandmarks((v) => !v)}
-                size="lg"
-                variant="secondary"
-              />
+              {showLandmarksButton && (
+                <Button
+                  label={`Landmarks ${showLandmarks ? "On" : "Off"}`}
+                  className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
+                  style={{
+                    borderColor: colors.border,
+                    borderWidth: 2,
+                    backgroundColor: buttonBg,
+                  }}
+                  labelClasses="text-base sm:text-lg md:text-xl font-semibold"
+                  labelStyle={{ color: colors.text }}
+                  onPress={() => setShowLandmarks((v) => !v)}
+                  size="lg"
+                  variant="secondary"
+                />
+              )}
               <Button
                 label="Flip"
-                className="h-12 flex-1 rounded-lg border-2 border-[#B1B1B1] bg-white sm:h-14 md:h-16"
-                labelClasses="text-black text-base sm:text-lg md:text-xl font-semibold"
+                className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
+                style={{
+                  borderColor: colors.border,
+                  borderWidth: 2,
+                  backgroundColor: buttonBg,
+                }}
+                labelClasses="text-base sm:text-lg md:text-xl font-semibold"
+                labelStyle={{ color: colors.text }}
                 onPress={toggleCameraFacing}
                 size="lg"
                 variant="secondary"
