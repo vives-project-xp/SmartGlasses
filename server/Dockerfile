@@ -1,6 +1,5 @@
 FROM python:3.12-slim
 
-# Install runtime dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     curl \
@@ -10,24 +9,11 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-# Copy and install Python dependencies
-COPY ./server/requirements.txt .
+COPY pyproject.toml .
 
-RUN apt-get update  && \
-    apt-get install -y \
-        curl \
-        libgl1 \
-        libglib2.0-0 \
-        && \
-    rm -rf /var/lib/apt/lists/*
+RUN pip install -q --no-cache-dir -e .
 
-RUN pip install -r requirements.txt -q --no-cache-dir
-
-# Copy and install local package
-COPY ./notebooks/package /package
-RUN pip install --no-cache-dir -q -e /package
-
-COPY ./server .
+COPY . .
 
 EXPOSE 8000
 

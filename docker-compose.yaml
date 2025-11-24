@@ -19,8 +19,7 @@ services:
   server:
     container_name: server
     build:
-      context: .
-      dockerfile: server/Dockerfile
+      context: ./server
     restart: unless-stopped
     ports:
       - "8000:8000"

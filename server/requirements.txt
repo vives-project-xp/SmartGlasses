@@ -5,3 +5,4 @@ typing_extensions~=4.15.0
 tqdm
 mediapipe>=0.10.14
 opencv-python-headless>=4.11.0.86
+smart_gestures==0.2.3
