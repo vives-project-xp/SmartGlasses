@@ -1,0 +1,478 @@
+version: "3"
+
+tasks:
+  # Deploy tasks
+  deploy:all:
+    desc: Deploy all Kubernetes resources
+    cmds:
+      - task: deploy:namespace
+      - task: deploy:volumes
+      - task: deploy:config-maps
+      - task: deploy:postgres
+      - task: deploy:minio
+      - task: deploy:lakefs
+      - task: deploy:client
+      - task: deploy:server
+      - task: deploy:docs
+      - task: deploy:registry
+      - task: deploy:registry-ui
+      - task: deploy:ingress
+
+  deploy:namespace:
+    desc: Deploy namespace
+    cmds:
+      - kubectl apply -f namespace.yaml
+
+  deploy:volumes:
+    desc: Deploy persistent volume claims
+    cmds:
+      - kubectl apply -f registry.pvc.yaml
+      - kubectl apply -f minio.pvc.yaml
+      - kubectl apply -f postgres.pvc.yaml
+
+  deploy:config-maps:
+    desc: Deploy config maps
+    cmds:
+      - kubectl apply -f client.config.yaml
+      - kubectl apply -f server.config.yaml
+      - kubectl apply -f minio.config.yaml
+      - kubectl apply -f postgres.config.yaml
+      - kubectl apply -f lakefs.config.yaml
+
+  # Individual application deployment
+  deploy:client:
+    desc: Deploy client application
+    cmds:
+      - kubectl apply -f client.deployment.yaml
+      - kubectl apply -f client.service.yaml
+      - kubectl apply -f client.hpa.yaml
+      - kubectl apply -f client.pdb.yaml
+
+  deploy:server:
+    desc: Deploy server application
+    cmds:
+      - kubectl apply -f server.deployment.yaml
+      - kubectl apply -f server.service.yaml
+      - kubectl apply -f server.hpa.yaml
+      - kubectl apply -f server.pdb.yaml
+
+  deploy:docs:
+    desc: Deploy documentation application
+    cmds:
+      - kubectl apply -f docs.deployment.yaml
+      - kubectl apply -f docs.service.yaml
+      - kubectl apply -f docs.pdh.yaml
+
+  deploy:registry:
+    desc: Deploy registry server application
+    cmds:
+      - kubectl apply -f registry-server.deployment.yaml
+      - kubectl apply -f registry-server.service.yaml
+
+  deploy:registry-ui:
+    desc: Deploy registry UI application
+    cmds:
+      - kubectl apply -f registry-ui.deployment.yaml
+      - kubectl apply -f registry-ui.service.yaml
+
+  deploy:minio:
+    desc: Deploy MinIO object storage
+    cmds:
+      - kubectl apply -f minio.pvc.yaml
+      - kubectl apply -f minio.config.yaml
+      - kubectl apply -f minio.deployment.yaml
+      - kubectl apply -f minio.service.yaml
+
+  deploy:postgres:
+    desc: Deploy PostgreSQL database
+    cmds:
+      - kubectl apply -f postgres.pvc.yaml
+      - kubectl apply -f postgres.config.yaml
+      - kubectl apply -f postgres.deployment.yaml
+      - kubectl apply -f postgres.service.yaml
+
+  deploy:lakefs:
+    desc: Deploy lakeFS data versioning
+    cmds:
+      - kubectl apply -f lakefs.config.yaml
+      - kubectl apply -f lakefs.deployment.yaml
+      - kubectl apply -f lakefs.service.yaml
+
+  deploy:ingress:
+    desc: Deploy ingress resources
+    cmds:
+      - kubectl apply -f ingress.yaml
+      - kubectl apply -f traefik-dashboard.ingress.route.yaml
+
+  # Status and monitoring tasks
+  status:
+    desc: Check status of all resources
+    cmds:
+      - kubectl get all -n signapse
+
+  status:pods:
+    desc: Get pod status
+    cmds:
+      - kubectl get pods -n signapse
+
+  status:services:
+    desc: Get service status
+    cmds:
+      - kubectl get services -n signapse
+
+  status:ingress:
+    desc: Get ingress status
+    cmds:
+      - kubectl get ingress -n signapse
+
+  status:pvc:
+    desc: Get persistent volume claims status
+    cmds:
+      - kubectl get pvc -n signapse
+
+  # Logs tasks
+  logs:client:
+    desc: View client logs
+    cmds:
+      - kubectl logs -n signapse -l app=client --tail=100 -f
+
+  logs:server:
+    desc: View server logs
+    cmds:
+      - kubectl logs -n signapse -l app=server --tail=100 -f
+
+  logs:registry:
+    desc: View registry server logs
+    cmds:
+      - kubectl logs -n signapse -l app=registry-server --tail=100 -f
+
+  logs:registry-ui:
+    desc: View registry UI logs
+    cmds:
+      - kubectl logs -n signapse -l app=registry-ui --tail=100 -f
+
+  logs:docs:
+    desc: View documentation logs
+    cmds:
+      - kubectl logs -n signapse -l app=docs --tail=100 -f
+
+  logs:minio:
+    desc: View MinIO logs
+    cmds:
+      - kubectl logs -n signapse -l app=minio --tail=100 -f
+
+  logs:postgres:
+    desc: View PostgreSQL logs
+    cmds:
+      - kubectl logs -n signapse -l app=postgres --tail=100 -f
+
+  logs:lakefs:
+    desc: View lakeFS logs
+    cmds:
+      - kubectl logs -n signapse -l app=lakefs --tail=100 -f
+
+  # Describe tasks
+  describe:client:
+    desc: Describe client resources
+    cmds:
+      - kubectl describe deployment client -n signapse
+
+  describe:server:
+    desc: Describe server resources
+    cmds:
+      - kubectl describe deployment server -n signapse
+
+  describe:registry:
+    desc: Describe registry server resources
+    cmds:
+      - kubectl describe deployment registry-server -n signapse
+
+  describe:docs:
+    desc: Describe docs resources
+    cmds:
+      - kubectl describe deployment docs -n signapse
+
+  describe:minio:
+    desc: Describe MinIO resources
+    cmds:
+      - kubectl describe deployment minio -n signapse
+
+  describe:postgres:
+    desc: Describe PostgreSQL resources
+    cmds:
+      - kubectl describe deployment postgres -n signapse
+
+  describe:lakefs:
+    desc: Describe lakeFS resources
+    cmds:
+      - kubectl describe deployment lakefs -n signapse
+
+  # Restart tasks
+  restart:client:
+    desc: Restart client deployment
+    cmds:
+      - kubectl rollout restart deployment/client -n signapse
+
+  restart:server:
+    desc: Restart server deployment
+    cmds:
+      - kubectl rollout restart deployment/server -n signapse
+
+  restart:docs:
+    desc: Restart docs deployment
+    cmds:
+      - kubectl rollout restart deployment/docs -n signapse
+
+  restart:registry:
+    desc: Restart registry server deployment
+    cmds:
+      - kubectl rollout restart deployment/registry-server -n signapse
+
+  restart:registry-ui:
+    desc: Restart registry UI deployment
+    cmds:
+      - kubectl rollout restart deployment/registry-ui -n signapse
+
+  restart:minio:
+    desc: Restart MinIO deployment
+    cmds:
+      - kubectl rollout restart deployment/minio -n signapse
+
+  restart:postgres:
+    desc: Restart PostgreSQL deployment
+    cmds:
+      - kubectl rollout restart deployment/postgres -n signapse
+
+  restart:lakefs:
+    desc: Restart lakeFS deployment
+    cmds:
+      - kubectl rollout restart deployment/lakefs -n signapse
+
+  restart:all:
+    desc: Restart all deployments
+    cmds:
+      - kubectl rollout restart deployment -n signapse
+
+  # Delete tasks
+  delete:all:
+    desc: Delete all Kubernetes resources
+    cmds:
+      - task: delete:ingress
+      - task: delete:client
+      - task: delete:server
+      - task: delete:docs
+      - task: delete:registry
+      - task: delete:registry-ui
+      - task: delete:lakefs
+      - task: delete:minio
+      - task: delete:postgres
+      - task: delete:config-maps
+      - task: delete:namespace
+      - cmd: echo "All resources deleted. Except PVCs."
+
+  delete:namespace:
+    desc: Delete namespace (and all resources within)
+    cmds:
+      - kubectl delete -f namespace.yaml
+
+  delete:volumes:
+    desc: Delete persistent volume claims
+    cmds:
+      - kubectl delete -f registry.pvc.yaml
+      - kubectl delete -f minio.pvc.yaml
+      - kubectl delete -f postgres.pvc.yaml
+
+  delete:config-maps:
+    desc: Delete config maps
+    cmds:
+      - kubectl delete -f client.config.yaml
+      - kubectl delete -f server.config.yaml
+      - kubectl delete -f minio.config.yaml
+      - kubectl delete -f postgres.config.yaml
+      - kubectl delete -f lakefs.config.yaml
+
+  delete:client:
+    desc: Delete client application
+    cmds:
+      - kubectl delete -f client.deployment.yaml
+      - kubectl delete -f client.service.yaml
+      - kubectl delete -f client.hpa.yaml
+      - kubectl delete -f client.pdb.yaml
+
+  delete:server:
+    desc: Delete server application
+    cmds:
+      - kubectl delete -f server.deployment.yaml
+      - kubectl delete -f server.service.yaml
+      - kubectl delete -f server.hpa.yaml
+      - kubectl delete -f server.pdb.yaml
+
+  delete:docs:
+    desc: Delete docs application
+    cmds:
+      - kubectl delete -f docs.deployment.yaml
+      - kubectl delete -f docs.service.yaml
+      - kubectl delete -f docs.pdh.yaml
+
+  delete:registry:
+    desc: Delete registry server application
+    cmds:
+      - kubectl delete -f registry-server.deployment.yaml
+      - kubectl delete -f registry-server.service.yaml
+
+  delete:registry-ui:
+    desc: Delete registry UI application
+    cmds:
+      - kubectl delete -f registry-ui.deployment.yaml
+      - kubectl delete -f registry-ui.service.yaml
+
+  delete:minio:
+    desc: Delete MinIO application
+    cmds:
+      - kubectl delete -f minio.deployment.yaml
+      - kubectl delete -f minio.service.yaml
+
+  delete:postgres:
+    desc: Delete PostgreSQL application
+    cmds:
+      - kubectl delete -f postgres.deployment.yaml
+      - kubectl delete -f postgres.service.yaml
+
+  delete:lakefs:
+    desc: Delete lakeFS application
+    cmds:
+      - kubectl delete -f lakefs.deployment.yaml
+      - kubectl delete -f lakefs.service.yaml
+
+  delete:ingress:
+    desc: Delete ingress resources
+    cmds:
+      - kubectl delete -f ingress.yaml
+      - kubectl delete -f traefik-dashboard.ingress.route.yaml
+
+  # Port forwarding tasks
+  forward:client:
+    desc: Forward client port to localhost
+    cmds:
+      - kubectl port-forward -n signapse service/client 3000:3000
+
+  forward:server:
+    desc: Forward server port to localhost
+    cmds:
+      - kubectl port-forward -n signapse service/server 8000:8000
+
+  forward:registry:
+    desc: Forward registry server port to localhost
+    cmds:
+      - kubectl port-forward -n signapse service/registry-server 5000:5000
+
+  forward:registry-ui:
+    desc: Forward registry UI port to localhost
+    cmds:
+      - kubectl port-forward -n signapse service/registry-ui 5001:5001
+
+  forward:docs:
+    desc: Forward documentation port to localhost
+    cmds:
+      - kubectl port-forward -n signapse service/docs 8080:8000
+
+  forward:minio:
+    desc: Forward MinIO ports to localhost
+    cmds:
+      - kubectl port-forward -n signapse service/minio 9000:9000 9001:9001
+
+  forward:postgres:
+    desc: Forward PostgreSQL port to localhost
+    cmds:
+      - kubectl port-forward -n signapse service/postgres 5432:5432
+
+  forward:lakefs:
+    desc: Forward lakeFS port to localhost
+    cmds:
+      - kubectl port-forward -n signapse service/lakefs 8000:8000
+
+  # Shell access tasks
+  shell:client:
+    desc: Open shell in client pod
+    cmds:
+      - kubectl exec -it -n signapse $(kubectl get pod -n signapse -l app=client -o jsonpath='{.items[0].metadata.name}') -- sh
+
+  shell:server:
+    desc: Open shell in server pod
+    cmds:
+      - kubectl exec -it -n signapse $(kubectl get pod -n signapse -l app=server -o jsonpath='{.items[0].metadata.name}') -- sh
+
+  shell:docs:
+    desc: Open shell in docs pod
+    cmds:
+      - kubectl exec -it -n signapse $(kubectl get pod -n signapse -l app=docs -o jsonpath='{.items[0].metadata.name}') -- sh
+
+  shell:registry:
+    desc: Open shell in registry server pod
+    cmds:
+      - kubectl exec -it -n signapse $(kubectl get pod -n signapse -l app=registry-server -o jsonpath='{.items[0].metadata.name}') -- sh
+
+  shell:registry-ui:
+    desc: Open shell in registry UI pod
+    cmds:
+      - kubectl exec -it -n signapse $(kubectl get pod -n signapse -l app=registry-ui -o jsonpath='{.items[0].metadata.name}') -- sh
+
+  shell:minio:
+    desc: Open shell in MinIO pod
+    cmds:
+      - kubectl exec -it -n signapse $(kubectl get pod -n signapse -l app=minio -o jsonpath='{.items[0].metadata.name}') -- sh
+
+  shell:postgres:
+    desc: Open shell in PostgreSQL pod
+    cmds:
+      - kubectl exec -it -n signapse $(kubectl get pod -n signapse -l app=postgres -o jsonpath='{.items[0].metadata.name}') -- sh
+
+  shell:lakefs:
+    desc: Open shell in lakeFS pod
+    cmds:
+      - kubectl exec -it -n signapse $(kubectl get pod -n signapse -l app=lakefs -o jsonpath='{.items[0].metadata.name}') -- sh
+
+  # Validation tasks
+  validate:
+    desc: Validate all YAML files
+    cmds:
+      - kubectl apply --dry-run=client -f namespace.yaml
+      - kubectl apply --dry-run=client -f registry.pvc.yaml
+      - kubectl apply --dry-run=client -f minio.pvc.yaml
+      - kubectl apply --dry-run=client -f postgres.pvc.yaml
+      - kubectl apply --dry-run=client -f client.config.yaml
+      - kubectl apply --dry-run=client -f server.config.yaml
+      - kubectl apply --dry-run=client -f minio.config.yaml
+      - kubectl apply --dry-run=client -f postgres.config.yaml
+      - kubectl apply --dry-run=client -f lakefs.config.yaml
+      - kubectl apply --dry-run=client -f client.deployment.yaml
+      - kubectl apply --dry-run=client -f server.deployment.yaml
+      - kubectl apply --dry-run=client -f docs.deployment.yaml
+      - kubectl apply --dry-run=client -f minio.deployment.yaml
+      - kubectl apply --dry-run=client -f postgres.deployment.yaml
+      - kubectl apply --dry-run=client -f lakefs.deployment.yaml
+      - kubectl apply --dry-run=client -f registry-server.deployment.yaml
+      - kubectl apply --dry-run=client -f registry-ui.deployment.yaml
+      - kubectl apply --dry-run=client -f ingress.yaml
+
+  # Update tasks
+  update:all:
+    desc: Update all resources (apply changes)
+    cmds:
+      - task: deploy:all
+
+  # Troubleshooting tasks
+  events:
+    desc: Show recent events in namespace
+    cmds:
+      - kubectl get events -n signapse --sort-by='.lastTimestamp'
+
+  top:pods:
+    desc: Show resource usage of pods
+    cmds:
+      - kubectl top pods -n signapse
+
+  top:nodes:
+    desc: Show resource usage of nodes
+    cmds:
+      - kubectl top nodes

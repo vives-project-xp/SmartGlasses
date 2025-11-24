@@ -1,0 +1,13 @@
+[Unit]
+Description=Signapse action runner service
+After=network.target
+
+[Service]
+User=devbit
+WorkingDirectory=/home/devbit/SmartGlasses
+ExecStart=/home/devbit/SmartGlasses/.github/actions-runner/run.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

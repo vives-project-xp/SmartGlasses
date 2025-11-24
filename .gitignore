@@ -9,6 +9,8 @@ notebooks/data
 
 .idea/
 
+.github/actions-runner/
+
 # Visual Studio en andere standaard ignores
 *.rsuser
 *.suo

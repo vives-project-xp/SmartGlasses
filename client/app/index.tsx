@@ -1,15 +1,8 @@
 import { Button } from "@/components/Button";
-import { useTheme } from "@/lib/theme";
 import { router } from "expo-router";
 import { Image, Text, View } from "react-native";
 
 export default function Index() {
-  const { colors, colorScheme } = useTheme();
-  const logoSource =
-    colorScheme === "dark"
-      ? require("../assets/images/icon2.png")
-      : require("../assets/images/icon.png");
-
   const handleGetStarted = () => {
     router.push("/camera");
   };
@@ -23,38 +16,25 @@ export default function Index() {
   };
 
   return (
-    <View
-      className="flex-1 justify-center items-center px-6 sm:px-8 md:px-12"
-      style={{ backgroundColor: colors.background }}
-    >
+    <View className="flex-1 bg-[#F2F2F2] justify-center items-center px-6 sm:px-8 md:px-12">
       <View className="w-full max-w-[640px] items-center">
         <Image
-          source={logoSource}
+          source={require('../assets/images/icon.png')}
           resizeMode="contain"
           className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 max-w-[128px] max-h-[128px]"
         />
 
-        <Text
-          className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-center"
-          style={{ color: colors.text }}
-        >
-          Signapse
-        </Text>
-        <Text
-          className="mt-2 text-base md:text-lg text-center leading-6"
-          style={{ color: colors.textMuted }}
-        >
+        <Text className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-[#333333] text-center">Signapse</Text>
+        <Text className="mt-2 text-base md:tesxt-lg text-[#666666] text-center leading-6">
           Gebaren naar tekst & spraak
         </Text>
 
         <View className="mt-6 w-full">
           <Button
             size="lg"
-            className="w-full rounded-lg"
-            style={{ backgroundColor: colors.buttonBackground }}
+            className="w-full bg-black rounded-lg"
             label="Start detectie"
-            labelClasses="text-lg font-semibold"
-            labelStyle={{ color: colors.buttonText }}
+            labelClasses="text-white text-lg font-semibold"
             onPress={handleGetStarted}
           />
         </View>
@@ -62,26 +42,16 @@ export default function Index() {
         <View className="mt-3 w-full flex-col md:flex-row gap-3">
           <Button
             label="Over"
-            className="w-full md:w-auto md:flex-1 rounded-lg px-10 border-2"
-            style={{
-              backgroundColor: colors.card,
-              borderColor: colors.border,
-            }}
-            labelClasses="text-lg font-semibold"
-            labelStyle={{ color: colors.text }}
+            className="w-full md:w-auto md:flex-1 bg-white px-10 border-2 rounded-lg border-[#B1B1B1]"
+            labelClasses="text-black text-lg font-semibold"
             onPress={handleAbout}
             size="lg"
             variant="secondary"
           />
           <Button
             label="Instellingen"
-            className="w-full md:w-auto md:flex-1 rounded-lg px-10 border-2"
-            style={{
-              backgroundColor: colors.card,
-              borderColor: colors.border,
-            }}
-            labelClasses="text-lg font-semibold"
-            labelStyle={{ color: colors.text }}
+            className="w-full md:w-auto md:flex-1 bg-white px-10 border-2 rounded-lg border-[#B1B1B1]"
+            labelClasses="text-black text-lg font-semibold"
             onPress={handleSettings}
             size="lg"
             variant="secondary"
