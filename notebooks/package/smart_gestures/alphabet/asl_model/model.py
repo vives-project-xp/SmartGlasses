@@ -153,5 +153,6 @@ class ASLModel():
         with torch.no_grad():
             output = self.model(input_tensor)
             predicted_idx = int(torch.argmax(output, dim=1).item())
-            predicted_class = self.classes[predicted_idx]
-        return predicted_class 
+            pred_name = self.classes[predicted_idx]
+            confidence = float(torch.softmax(output, dim=1)[0, predicted_idx].item())
+        return pred_name, confidence

@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
-# Constants for model configuration
+# Constants
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 IN_DIM = 258
 HIDDEN_DIM = 128
@@ -23,8 +23,22 @@ MODEL_DIR = THIS_DIR.parent.parent.parent / "models"
 CLASSES_MAP_PATH = DATA_DIR / "gesture_map.json"
 MODEL_FILE = MODEL_DIR / "lstm_model.pth"
 
+if not CLASSES_MAP_PATH.exists():
+    raise FileNotFoundError(f"Classes map file not found: {CLASSES_MAP_PATH}")
+if not MODEL_FILE.exists():
+    raise FileNotFoundError(f"Model file not found: {MODEL_FILE}")
+
 
 def normalize_landmarks(sequence: np.ndarray) -> np.ndarray:
+    """
+    Normalize the hand landmarks in the sequence.
+    The normalization centers the hand landmarks based on the root landmark (first hand landmark of the first frame)
+    and scales them based on the distance from the wrist to the middle finger MCP joint.
+    Args:
+        sequence (np.ndarray): Input sequence of hand landmarks.
+    Returns:
+        np.ndarray: Normalized sequence of hand landmarks.
+    """
     if sequence.ndim != 2:
         raise ValueError("Input sequence must be a 2D array")
 
@@ -55,6 +69,7 @@ def normalize_landmarks(sequence: np.ndarray) -> np.ndarray:
 
 
 class GestureLSTM(nn.Module):
+    """LSTM-based Gesture Recognition Model"""
     def __init__(
         self,
         in_dim: int,
@@ -104,6 +119,13 @@ class GestureLSTM(nn.Module):
 
 
 def create_model(num_classes: int) -> nn.Module:
+    """
+    Create a LSTM-based gesture recognition model.
+    Args:
+        num_classes (int): Number of output classes.
+    Returns:
+        nn.Module: The created model.
+    """
     model = GestureLSTM(
         in_dim=IN_DIM,
         hidden_dim=HIDDEN_DIM,
@@ -114,10 +136,19 @@ def create_model(num_classes: int) -> nn.Module:
 
 
 def get_classes() -> list[str]:
+    """
+    Load the class names from the gesture_map.json file.
+    Returns:
+        list[str]: List of class names.
+    """
     return json.load(open(CLASSES_MAP_PATH, "r", encoding="utf-8"))
 
 
 class LSTMModel:
+    """
+    A high level class for the LSTM gesture recognition model.
+    This class handles loading the model, preparing input data, and making predictions.
+    """
     def __init__(self):
         self.classes = get_classes()
         self.model = create_model(num_classes=len(self.classes))
@@ -162,5 +193,6 @@ class LSTMModel:
             logits = self.model(x_tensor, length_tensor)
             pred_idx = int(torch.argmax(logits, dim=1).item())
             pred_name = self.classes[pred_idx]
+            confidence = float(torch.softmax(logits, dim=1)[0, pred_idx].item())
 
-        return pred_name
+        return pred_name, confidence

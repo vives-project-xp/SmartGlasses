@@ -43,19 +43,13 @@ def create_model(num_classes: int, in_dim: int) -> nn.Module:
         nn.Module: The created PyTorch model, moved to the configured DEVICE.
     """
     model = nn.Sequential(
-        nn.Linear(in_dim, 512),
-        nn.BatchNorm1d(512),
+        nn.Linear(in_dim, 256),
         nn.ReLU(inplace=True),
-        nn.Dropout(0.3),
-        nn.Linear(512, 512),
-        nn.BatchNorm1d(512),
+        nn.Dropout(0.2),
+        nn.Linear(256, 256),
         nn.ReLU(inplace=True),
-        nn.Dropout(0.3),
-        nn.Linear(512, 256),
-        nn.BatchNorm1d(256),
-        nn.ReLU(inplace=True),
-        nn.Dropout(0.3),
-        nn.Linear(256, num_classes)
+        nn.Dropout(0.2),
+        nn.Linear(256, num_classes),
     )
     return model.to(DEVICE)
 
