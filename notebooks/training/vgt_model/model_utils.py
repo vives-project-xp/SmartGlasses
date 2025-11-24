@@ -43,19 +43,13 @@ def create_model(num_classes: int, in_dim: int) -> nn.Module:
         nn.Module: The created PyTorch model, moved to the configured DEVICE.
     """
     model = nn.Sequential(
-        nn.Linear(in_dim, 512),
-        nn.BatchNorm1d(512),
+        nn.Linear(in_dim, 256),
         nn.ReLU(inplace=True),
-        nn.Dropout(0.3),
-        nn.Linear(512, 512),
-        nn.BatchNorm1d(512),
+        nn.Dropout(0.2),
+        nn.Linear(256, 256),
         nn.ReLU(inplace=True),
-        nn.Dropout(0.3),
-        nn.Linear(512, 256),
-        nn.BatchNorm1d(256),
-        nn.ReLU(inplace=True),
-        nn.Dropout(0.3),
-        nn.Linear(256, num_classes)
+        nn.Dropout(0.2),
+        nn.Linear(256, num_classes),
     )
     return model.to(DEVICE)
 
@@ -79,13 +73,13 @@ def save_model(model: nn.Module, path: str = 'vgt_alphabet_model.pth'):
     torch.save(model.state_dict(), local_path)
 
     # Also save to the package model directory
-    # try:
-    #     if not os.path.exists(PACKAGE_MODEL_DIR):
-    #         os.makedirs(PACKAGE_MODEL_DIR, exist_ok=True)
-    #     package_path = PACKAGE_MODEL_DIR / path
-    #     torch.save(model.state_dict(), package_path)
-    # except Exception:
-    #     pass
+    try:
+        if not os.path.exists(PACKAGE_MODEL_DIR):
+            os.makedirs(PACKAGE_MODEL_DIR, exist_ok=True)
+        package_path = PACKAGE_MODEL_DIR / path
+        torch.save(model.state_dict(), package_path)
+    except Exception:
+        pass
 
 
 def load_model(

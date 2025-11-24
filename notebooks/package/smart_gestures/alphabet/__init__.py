@@ -1,7 +1,7 @@
 """SmartGlasses alphabet package
 
-Top-level package that exposes subpackages `asl_model` and `vgt_model`,
-as well as the unified `GestureModel` class.
+Top-level package that exposes subpackages `asl_model` and `vgt_model`.
+
 """
 
 from . import asl_model
