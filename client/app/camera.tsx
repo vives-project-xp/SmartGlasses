@@ -204,9 +204,12 @@ export default function CameraScreen() {
             className="mb-3 w-full max-w-2xl self-center rounded-xl border px-4 py-3"
             style={{ borderColor: colors.border, backgroundColor: cardTranslucent }}
           >
-            <View className="flex-row items-stretch gap-3">
+            <View className="flex-row items-stretch">
               {/* Word (2/3) */}
-              <View style={{ flex: 2, borderRightWidth: 1, borderRightColor: colors.border }}>
+              <View
+                className="pr-4"
+                style={{ flex: 2.2, borderRightWidth: 1, borderRightColor: colors.text }}
+              >
                 <Text
                   className="mb-1 text-xs font-medium md:text-sm"
                   style={{ color: colors.textMuted }}
@@ -227,7 +230,7 @@ export default function CameraScreen() {
               </View>
 
               {/* Current Letter (1/3) */}
-              <View style={{ flex: 1 }} className="items-center justify-center">
+              <View style={{ flex: 1 }} className="items-center justify-center pl-4">
                 <Text
                   className="mb-1 text-xs font-medium md:text-sm"
                   style={{ color: colors.textMuted }}
