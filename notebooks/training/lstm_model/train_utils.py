@@ -31,7 +31,7 @@ def train_model(
     
     # SCHEDULER: Reduces LR by a factor of 0.5 if loss doesn't improve for 5 epochs
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode='min', factor=0.5, patience=5, verbose=True
+        optimizer, mode='min', factor=0.5, patience=5
     )
     
     for epoch in range(epochs):
