@@ -20,8 +20,6 @@ Onze smart glasses herkennen gebarentaal in real-time en vertalen deze naar:
 - **Spraakuitvoer** voor omstanders
 - **Mobiele notificaties** voor uitgebreide communicatie
 
----
-
 ## Hoofdfuncties
 
 | Functie                     | Beschrijving                                              | Status          |
@@ -31,123 +29,21 @@ Onze smart glasses herkennen gebarentaal in real-time en vertalen deze naar:
 | **Text-to-Speech**    | Spraakuitvoer met Nederlandse stem                        | Gepland         |
 | **App Integratie**    | Mobiele app voor instellingen en geschiedenis             | Gepland         |
 
----
-
-## Technische Architectuur
-
-### Hardware Components
-
-```text
- Smart Glasses
-├── camera Module (Gebarendetectie)
-├── Display (Tekstweergave)  
-├── Microfoon Array (Audio input)
-├── Mini Speaker (Audio output)
-├── Lithium Batterij (Voeding)
-├── Wi-Fi/Bluetooth Module (Connectiviteit)
-└── Raspberry Pi Zero/Compute Module (Processing)
-```
-
-### Software Stack
-
-```text
-AI & Machine Learning
-├── Computer Vision (OpenCV, MediaPipe)
-├── Deep Learning (TensorFlow, PyTorch)
-├── NLP & TTS (pyttsx3, gTTS)
-└── Data Processing (NumPy, Pandas)
-
- Backend Services
-├── Python API (Flask/FastAPI)
-├── Database (SQLite/PostgreSQL)
-└── Real-time Processing
-```
-
----
-
-## Project Structuur
-
-```text
-SmartGlasses/
-├── README.md                    # Dit bestand
-├── research/                    # Onderzoek en documentatie
-│   ├── hardware/               # Hardware research
-│   │   └── raspberry-pi/          # Raspberry Pi specs & power consumption
-│   └── software/               # Software research
-├── src/                        # Source code (komt binnenkort)
-├── mobile-app/                 # Mobiele app (komt binnenkort)
-├── tests/                      # Unit tests en integratie tests
-├── data/                       # Training data en modellen
-└── docs/                       # Technische documentatie
-```
-
----
-
-## Getting Started
-
-### Vereisten
-
-- **Python 3.8+**
-- **Camera** (voor testen)
-- **Linux/Windows/macOS**
-- **Git** voor version control
-
-### Installatie
-
-```bash
-# Clone de repository
-git clone https://github.com/vives-project-xp/SmartGlasses.git
-cd SmartGlasses
-
-# Maak virtuele omgeving aan
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-# venv\Scripts\activate   # Windows
-
-# Installeer dependencies (komt binnenkort)
-pip install -r requirements.txt
-```
-
----
-
 ## Team
 
-## VIVES Bachelor ICT - Project Experience 2.1
-
-| Member                                                | Taak |
-| ----------------------------------------------------- | ---- |
-| [Simon Stijnen](https://github.com/SimonStnn)            | tba  |
-| [Kyell De Windt](https://github.com/kyell182)            | tba  |
-| [Lynn Delaere](https://github.com/LynnDelaere)           | tba  |
-| [Olivier Westerman](https://github.com/OlivierWesterman) | tba  |
-| [Timo Plets](https://github.com/TimoPlets)               | tba  |
-
----
-
-## Roadmap
-
-### Sprint 1 (Huidig)
-
-- [ ] Project setup en planning
-- [ ] Technisch onderzoek
-- [ ] Basis camera integratie
-- [ ] Eerste ML model training
-
-### Sprint 2 (Volgende)
-
-### Sprint 3 (Toekomst)
-
----
-
-## Documentatie
-
----
+| | Member                                                | Taak |
+|---| ----------------------------------------------------- | ---- |
+| [<img src="https://github.com/SimonStnn.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/SimonStnn) | [Simon Stijnen](https://github.com/SimonStnn)            | tba  |
+| [<img src="https://github.com/kyell182.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/kyell182) | [Kyell De Windt](https://github.com/kyell182)            | tba  |
+| [<img src="https://github.com/LynnDelaere.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/LynnDelaere) | [Lynn Delaere](https://github.com/LynnDelaere)           | tba  |
+| [<img src="https://github.com/OlivierWesterman.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/OlivierWesterman) | [Olivier Westerman](https://github.com/OlivierWesterman) | tba  |
+| [<img src="https://github.com/TimoPlts.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/TimoPlts) | [Timo Plets](https://github.com/TimoPlts)               | tba  |
 
 ## Academische Context
 
 **Universiteit:** VIVES Hogeschool
 **Opleiding:** Bachelor ICT
-**Vak:** Project Experience 2.1
+**Vak:** Project Experience
 **Academiejaar:** 2025-2026
 **Semester:** 1
 
@@ -161,17 +57,6 @@ pip install -r requirements.txt
 
 ---
 
-## Dankwoord
-
-Speciale dank aan:
-
-- **VIVES docenten** voor hun begeleiding en expertise
-- **Dove gemeenschap** voor input en feedback over toegankelijkheid
-- **Open source community** voor de geweldige tools en frameworks
-- **Medestudenten** voor samenwerking en peer review
-
----
-
 **Vergeet niet om dit project een ster te geven als je het interessant vindt!**
 
-Gemaakt met liefde door VIVES Bachelor ICT studenten
+Gemaakt met ❤️ door [VIVES Bachelor Electronica-ICT studenten](#team)
