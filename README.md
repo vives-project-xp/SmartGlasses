@@ -5,9 +5,9 @@
 [![VIVES Elektronica-ICT](https://img.shields.io/badge/VIVES-Bachelor_Electronica_–_ICT-blue?style=flat)](https://www.vives.be/nl/technology/elektronica-ict)
 [![Project Experience](https://img.shields.io/badge/VIVES-Project_Experience-green?style=flat)](https://github.com/vives-project-xp)
 [![GitHub](https://img.shields.io/github/stars/vives-project-xp/Signapse?style=social)](https://github.com/vives-project-xp/Signapse)
-![Signapse contributors](https://img.shields.io/github/contributors/vives-project-xp/Signapse?style=social&logo=github)
-![Signapse API Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.smart-gestures.devbitapp.be%2Fhealth&query=%24.version&prefix=v&style=flat&label=API%20Version&color=green)
-![PyPI - Version](https://img.shields.io/pypi/v/smart_gestures?style=flat)
+[![Signapse contributors](https://img.shields.io/github/contributors/vives-project-xp/Signapse?style=social&logo=github)]([#team](https://github.com/vives-project-xp/Signapse/graphs/contributors))
+[![Signapse API Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.smart-gestures.devbitapp.be%2Fhealth&query=%24.version&prefix=v&style=flat&label=API%20Version&color=green)](https://api.smart-gestures.devbitapp.be/health)
+[![PyPI - Version](https://img.shields.io/pypi/v/smart_gestures?style=flat)](https://pypi.org/project/smart_gestures/)
 
 > **Een innovatief project voor de vertaling van gebarentaal naar tekst en spraak met behulp van smart glasses technologie.**
 
