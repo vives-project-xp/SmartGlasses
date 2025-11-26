@@ -1,8 +1,13 @@
-# SmartGlasses - Gebarentaal naar Tekst & Geluid
+# Signapse
 
-[![VIVES](https://img.shields.io/badge/VIVES-Bachelor_ICT-blue?style=flat)](https://www.vives.be)
-[![Project Experience](https://img.shields.io/badge/Project_Experience-2.1-green?style=flat)](https://github.com/vives-project-xp)
-[![GitHub](https://img.shields.io/github/stars/vives-project-xp/SmartGlasses?style=social)](https://github.com/vives-project-xp/SmartGlasses)
+> Gebarentaal naar Tekst & Geluid
+
+[![VIVES Elektronica-ICT](https://img.shields.io/badge/VIVES-Bachelor_Electronica_–_ICT-blue?style=flat)](https://www.vives.be/nl/technology/elektronica-ict)
+[![Project Experience](https://img.shields.io/badge/VIVES-Project_Experience-green?style=flat)](https://github.com/vives-project-xp)
+[![GitHub](https://img.shields.io/github/stars/vives-project-xp/Signapse?style=social)](https://github.com/vives-project-xp/Signapse)
+![Signapse contributors](https://img.shields.io/github/contributors/vives-project-xp/Signapse?style=social&logo=github)
+![Signapse API Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.smart-gestures.devbitapp.be%2Fhealth&query=%24.version&prefix=v&style=flat&label=API%20Version&color=green)
+![PyPI - Version](https://img.shields.io/pypi/v/smart_gestures?style=flat)
 
 > **Een innovatief project voor de vertaling van gebarentaal naar tekst en spraak met behulp van smart glasses technologie.**
 
@@ -10,24 +15,7 @@
 
 ## Projectoverzicht
 
-Het **SmartGlasses** project is een ambitieus initiatief ontwikkeld door studenten van **VIVES Bachelor ICT** voor het vak **Project Experience 2.1**. Ons doel is het creëren van een toegankelijkheidsoplossing die de communicatiekloof tussen dove/slechthorende personen en horende personen overbrugt.
-
-### Missie
-
-Onze smart glasses herkennen gebarentaal in real-time en vertalen deze naar:
-
-- **Tekstweergave** op het display van de bril
-- **Spraakuitvoer** voor omstanders
-- **Mobiele notificaties** voor uitgebreide communicatie
-
-## Hoofdfuncties
-
-| Functie                     | Beschrijving                                              | Status          |
-| --------------------------- | --------------------------------------------------------- | --------------- |
-| **Gebarenherkenning** | AI-gestuurde herkenning van Nederlandse Gebarentaal (NGT) | In ontwikkeling |
-| **Tekst Conversie**   | Real-time vertaling naar Nederlandse tekst                | In ontwikkeling |
-| **Text-to-Speech**    | Spraakuitvoer met Nederlandse stem                        | Gepland         |
-| **App Integratie**    | Mobiele app voor instellingen en geschiedenis             | Gepland         |
+Het **Signapse** project is een ambitieus initiatief ontwikkeld door studenten van **VIVES Bachelor ICT** voor het vak **Project Experience 2.1**. Ons doel is het creëren van een toegankelijkheidsoplossing die de communicatiekloof tussen dove/slechthorende personen en horende personen overbrugt.
 
 ## Team
 
