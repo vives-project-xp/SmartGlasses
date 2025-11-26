@@ -140,5 +140,6 @@ class VGTModel():
             logits = self.model(x_tensor)
             pred_idx = int(torch.argmax(logits, dim=1).item())
             pred_name = self.classes[pred_idx]
-        return pred_name
+            confidence = float(torch.softmax(logits, dim=1)[0, pred_idx].item())
+        return pred_name, confidence
 
