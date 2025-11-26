@@ -210,6 +210,9 @@ https://expo.dev/accounts/username/projects/project/builds/abc
 Below is a visual flowchart for debugging EAS errors:
 
 ```mermaid
+---
+id: fa676993-7c73-4b02-be2a-1484a1043c3c
+---
 flowchart TD
     Start([EAS CLI Error]) --> A{eas command not working?}
 
@@ -222,12 +225,13 @@ flowchart TD
     B -->|Network| F[Network / timeout → expo login + ping expo.dev]
     B -->|Other| G[JS / deps / permissions → lint + reinstall modules]
 
-    style Login fill:#e8f5e8,stroke:#388e3c
-    style C fill:#e3f2fd,stroke:#1976d2
-    style D fill:#fff3e0,stroke:#ef6c00
-    style E fill:#ffebee,stroke:#d32f2f
-    style F fill:#f1f8e9,stroke:#4caf50
-    style G fill:#f3e5f5,stroke:#7b1fa2
+
+    style Login fill:#e8f5e8,stroke:#388e3c,color:#000
+    style C fill:#e3f2fd,stroke:#1976d2,color:#000
+    style D fill:#fff3e0,stroke:#ef6c00,color:#000
+    style E fill:#ffebee,stroke:#d32f2f,color:#000
+    style F fill:#f1f8e9,stroke:#4caf50,color:#000
+    style G fill:#f3e5f5,stroke:#7b1fa2,color:#000
 ```
 
 ### EAS CLI – All Commands per Category (Cheat Sheet)

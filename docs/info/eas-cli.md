@@ -93,12 +93,13 @@ The `eas.json` file defines `profiles`. Each profile describes how a build shoul
 EAS Build allows you to create native builds of your app in the cloud or on your local machine. You can choose different build profiles defined in your `eas.json` file.
 
 Common build profiles include:
-* `preview`: For quick testing with minimal optimizations.
-* `development`: For testing with debug options enabled.
-* `production`: For app store distribution with optimizations.
-* `custom`: User-defined profiles for specific build configurations.
-* `internal`: For internal distribution builds.
-* `simulator`: For building iOS simulator binaries.
+
+*	`preview`: For quick testing with minimal optimizations.
+*	`development`: For testing with debug options enabled.
+*	`production`: For app store distribution with optimizations.
+*	`custom`: User-defined profiles for specific build configurations.
+*	`internal`: For internal distribution builds.
+*	`simulator`: For building iOS simulator binaries.
 
 running a build is as simple as executing the following command in your project directory:
 
