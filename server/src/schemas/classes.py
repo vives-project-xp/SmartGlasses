@@ -6,5 +6,4 @@ class ClassesResponse(BaseModel):
 
 
 class LSTMClassesResponse(BaseModel):
-    classes: dict[str, int] = Field(...,
-                                    description="List of LSTM class names")
+    classes: dict[str, int] = Field(..., description="List of LSTM class names")

@@ -53,12 +53,9 @@ class LSTMFrame(BaseModel):
         Returns:
             NDArray[np.float32]: Array of shape (258,) containing [pose, left_hand, right_hand]
         """
-        pose_features = np.array(
-            [[lm.x, lm.y, lm.z, lm.visibility] for lm in self.pose]).flatten()
-        left_hand_features = np.array(
-            [[lm.x, lm.y, lm.z] for lm in self.left_hand]).flatten()
-        right_hand_features = np.array(
-            [[lm.x, lm.y, lm.z] for lm in self.right_hand]).flatten()
+        pose_features = np.array([[lm.x, lm.y, lm.z, lm.visibility] for lm in self.pose]).flatten()
+        left_hand_features = np.array([[lm.x, lm.y, lm.z] for lm in self.left_hand]).flatten()
+        right_hand_features = np.array([[lm.x, lm.y, lm.z] for lm in self.right_hand]).flatten()
 
         return np.concatenate([pose_features, left_hand_features, right_hand_features])
 
@@ -94,8 +91,7 @@ class LSTMPredictBody(BaseModel):
     def validate_frames(cls, v: list[LSTMFrame]) -> list[LSTMFrame]:
         """Validate that we have exactly 40 frames."""
         if len(v) != LSTM_SEQUENCE_LENGTH:
-            raise ValueError(
-                f"LSTM model requires exactly {LSTM_SEQUENCE_LENGTH} frames, " f"received {len(v)} frames")
+            raise ValueError(f"LSTM model requires exactly {LSTM_SEQUENCE_LENGTH} frames, " f"received {len(v)} frames")
         return v
 
     def to_numpy_sequence(self) -> NDArray[np.float32]:

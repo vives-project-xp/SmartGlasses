@@ -29,6 +29,7 @@ LSTM_HAND_LANDMARKS = 21  # MediaPipe Hand landmarks per hand
 # ---- Data schema ----
 class Landmark(BaseModel):
     """Single landmark with x, y coordinates and optional z depth."""
+
     x: float
     y: float
     z: float = 0.0
@@ -36,6 +37,7 @@ class Landmark(BaseModel):
 
 class PoseLandmark(BaseModel):
     """Pose landmark with x, y, z coordinates and visibility score."""
+
     x: float
     y: float
     z: float
@@ -44,6 +46,7 @@ class PoseLandmark(BaseModel):
 
 class HandLandmark(BaseModel):
     """Hand landmark with x, y, z coordinates."""
+
     x: float
     y: float
     z: float
