@@ -17,8 +17,8 @@ SEQUENCE_LENGTH = 40
 
 # Paths
 THIS_DIR = Path(__file__).parent
-DATA_DIR = THIS_DIR.parent.parent.parent / "data"
-MODEL_DIR = THIS_DIR.parent.parent.parent / "models"
+DATA_DIR = THIS_DIR / "data"
+MODEL_DIR = THIS_DIR / "models"
 
 CLASSES_MAP_PATH = DATA_DIR / "gesture_map.json"
 MODEL_FILE = MODEL_DIR / "lstm_model.pth"
@@ -70,6 +70,7 @@ def normalize_landmarks(sequence: np.ndarray) -> np.ndarray:
 
 class GestureLSTM(nn.Module):
     """LSTM-based Gesture Recognition Model"""
+
     def __init__(
         self,
         in_dim: int,
@@ -91,12 +92,12 @@ class GestureLSTM(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x: torch.Tensor, sequence_lengths: torch.Tensor) -> torch.Tensor:
-        sorted_lengths, sorted_idx = sorted_lengths.sort(0, descending=True)
+        sorted_lengths, sorted_idx = sequence_lengths.sort(0, descending=True)
         x_sorted = x[sorted_idx]
 
         packed_input = pack_padded_sequence(
             x_sorted,
-            sequence_lengths.cpu(),
+            sorted_lengths.cpu(),
             batch_first=True,
             enforce_sorted=True,
         )
@@ -135,7 +136,7 @@ def create_model(num_classes: int) -> nn.Module:
     return model.to(DEVICE)
 
 
-def get_classes() -> list[str]:
+def get_classes() -> dict[str, int]:
     """
     Load the class names from the gesture_map.json file.
     Returns:
@@ -149,8 +150,10 @@ class LSTMModel:
     A high level class for the LSTM gesture recognition model.
     This class handles loading the model, preparing input data, and making predictions.
     """
+
     def __init__(self):
         self.classes = get_classes()
+        self.idx_to_class = {idx: name for name, idx in self.classes.items()}
         self.model = create_model(num_classes=len(self.classes))
 
         state_dict = torch.load(MODEL_FILE, map_location=DEVICE)
@@ -177,7 +180,7 @@ class LSTMModel:
 
         return x_tensor, length_tensor
 
-    def predict(self, sequence: list[list[float]] | np.ndarray) -> str:
+    def predict(self, sequence: list[list[float]] | np.ndarray) -> tuple[str, float]:
         if not isinstance(sequence, np.ndarray):
             sequence = np.array(sequence, dtype=np.float32)
 
@@ -192,7 +195,8 @@ class LSTMModel:
         with torch.no_grad():
             logits = self.model(x_tensor, length_tensor)
             pred_idx = int(torch.argmax(logits, dim=1).item())
-            pred_name = self.classes[pred_idx]
-            confidence = float(torch.softmax(logits, dim=1)[0, pred_idx].item())
+            pred_name = self.idx_to_class[pred_idx]
+            confidence = float(torch.softmax(
+                logits, dim=1)[0, pred_idx].item())
 
         return pred_name, confidence
