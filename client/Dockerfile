@@ -10,6 +10,10 @@ COPY . .
 
 RUN npm run export
 
+# Make scripts executable
+RUN chmod +x /app/scripts/*.sh
+
 EXPOSE 3000
 
-CMD ["npm", "run", "serve", "--", "--port", "3000"]
+# Use entrypoint to generate config at runtime
+ENTRYPOINT ["/app/scripts/entrypoint.sh"]

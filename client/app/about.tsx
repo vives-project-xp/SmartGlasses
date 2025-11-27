@@ -5,9 +5,6 @@ import React from "react";
 
 export default function About() {
   const { colors } = useTheme();
-  const handleback = () => {
-    router.push("/");
-  };
 
   function Item({
     item,
