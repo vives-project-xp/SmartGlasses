@@ -141,7 +141,7 @@ export default function Settings() {
         {/* Landmarks toggle for API card */}
         {item.key === "apistuff" ? (
           <>
-            <View className="mt-3 flex-row items-center gap-3">
+            <View className="mt-3 flex-row items-center justify-between gap-3 w-full">
               <Text className="text-sm" style={{ color: colors.text }}>
                 Toon Landmarks
               </Text>
@@ -154,7 +154,7 @@ export default function Settings() {
             </View>
 
             {/* test toggle */}
-            <View className="mt-3 flex-row items-center gap-3">
+            <View className="mt-3 flex-row items-center justify-between gap-3 w-full">
               <Text className="text-sm" style={{ color: colors.text }}>
                 Precision
               </Text>

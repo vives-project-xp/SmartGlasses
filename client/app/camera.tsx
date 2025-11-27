@@ -156,6 +156,8 @@ export default function CameraScreen() {
   useEffect(() => {
     if (!showLandmarksButton) {
       setShowLandmarks(false);
+    } else {
+      setShowLandmarks(true); // auto-enable landmarks when toggle is on
     }
   }, [showLandmarksButton]);
 
@@ -313,22 +315,6 @@ export default function CameraScreen() {
                 size="lg"
                 variant="secondary"
               />
-              {showLandmarksButton && (
-                <Button
-                  label={`Landmarks ${showLandmarks ? "On" : "Off"}`}
-                  className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
-                  style={{
-                    borderColor: colors.border,
-                    borderWidth: 0,
-                    backgroundColor: buttonBg,
-                  }}
-                  labelClasses="text-base sm:text-lg md:text-xl font-semibold"
-                  labelStyle={{ color: colors.text }}
-                  onPress={() => setShowLandmarks((v) => !v)}
-                  size="lg"
-                  variant="secondary"
-                />
-              )}
               <Button
                 label="Flip"
                 className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
