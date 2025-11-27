@@ -3,11 +3,11 @@ from numpy.typing import NDArray
 from pydantic import BaseModel, Field, field_validator
 
 from const import (
-    LSTM_SEQUENCE_LENGTH,
-    LSTM_POSE_LANDMARKS,
     LSTM_HAND_LANDMARKS,
-    PoseLandmark,
+    LSTM_POSE_LANDMARKS,
+    LSTM_SEQUENCE_LENGTH,
     HandLandmark,
+    PoseLandmark,
 )
 
 
@@ -26,6 +26,7 @@ class LSTMFrame(BaseModel):
     - 21 × 3 = 63 right hand features (x, y, z)
     Total: 258 features per frame
     """
+
     pose: list[PoseLandmark] = Field(
         ...,
         description="33 MediaPipe Pose landmarks with x, y, z, visibility",
@@ -53,14 +54,11 @@ class LSTMFrame(BaseModel):
             NDArray[np.float32]: Array of shape (258,) containing [pose, left_hand, right_hand]
         """
         pose_features = np.array(
-            [[lm.x, lm.y, lm.z, lm.visibility] for lm in self.pose]
-        ).flatten()
+            [[lm.x, lm.y, lm.z, lm.visibility] for lm in self.pose]).flatten()
         left_hand_features = np.array(
-            [[lm.x, lm.y, lm.z] for lm in self.left_hand]
-        ).flatten()
+            [[lm.x, lm.y, lm.z] for lm in self.left_hand]).flatten()
         right_hand_features = np.array(
-            [[lm.x, lm.y, lm.z] for lm in self.right_hand]
-        ).flatten()
+            [[lm.x, lm.y, lm.z] for lm in self.right_hand]).flatten()
 
         return np.concatenate([pose_features, left_hand_features, right_hand_features])
 
@@ -83,6 +81,7 @@ class LSTMPredictBody(BaseModel):
        - Right hand landmarks (21 points with x, y, z)
     3. Send all 40 frames in a single request
     """
+
     frames: list[LSTMFrame] = Field(
         ...,
         description=f"Sequence of exactly {LSTM_SEQUENCE_LENGTH} frames with pose and hand landmarks",
@@ -90,15 +89,13 @@ class LSTMPredictBody(BaseModel):
         max_length=LSTM_SEQUENCE_LENGTH,
     )
 
-    @field_validator('frames')
+    @field_validator("frames")
     @classmethod
     def validate_frames(cls, v: list[LSTMFrame]) -> list[LSTMFrame]:
         """Validate that we have exactly 40 frames."""
         if len(v) != LSTM_SEQUENCE_LENGTH:
             raise ValueError(
-                f"LSTM model requires exactly {LSTM_SEQUENCE_LENGTH} frames, "
-                f"received {len(v)} frames"
-            )
+                f"LSTM model requires exactly {LSTM_SEQUENCE_LENGTH} frames, " f"received {len(v)} frames")
         return v
 
     def to_numpy_sequence(self) -> NDArray[np.float32]:
@@ -108,14 +105,12 @@ class LSTMPredictBody(BaseModel):
         Returns:
             NDArray[np.float32]: Array of shape (40, 258) containing all frame features
         """
-        return np.array(
-            [frame.to_feature_array() for frame in self.frames],
-            dtype=np.float32
-        )
+        return np.array([frame.to_feature_array() for frame in self.frames], dtype=np.float32)
 
 
 class LSTMPredictResponse(BaseModel):
     """Response containing the predicted gesture and confidence score."""
+
     prediction: str = Field(
         ...,
         description="Predicted gesture class name",

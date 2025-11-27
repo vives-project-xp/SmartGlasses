@@ -1,7 +1,7 @@
 from .classes import ClassesResponse, LSTMClassesResponse
 from .keypoints import KeypointsResponse
+from .lstm_predict import LSTMFrame, LSTMPredictBody, LSTMPredictResponse
 from .predict import PredictBody, PredictResponse
-from .lstm_predict import LSTMPredictBody, LSTMPredictResponse, LSTMFrame
 from .status import StatusResponse
 
 __all__ = [
