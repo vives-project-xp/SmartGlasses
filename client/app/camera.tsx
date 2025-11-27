@@ -1,11 +1,11 @@
 import { Button } from "@/components/Button";
 import { LandmarksOverlay } from "@/components/LandmarksOverlay";
 import api, { HttpError, NetworkError } from "@/lib/api";
-import { useTheme } from "@/lib/theme";
 import { useAppSettings } from "@/lib/app-settings";
+import { useTheme } from "@/lib/theme";
 import { useWordBuilder } from "@/lib/useWordBuilder";
-import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useIsFocused } from "@react-navigation/native";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Platform, ScrollView, Text, View } from "react-native";
@@ -27,8 +27,8 @@ export default function CameraScreen() {
   const { alphabetModel, showLandmarksButton } = useAppSettings();
   const withAlpha = (hex: string, alpha: string = "D0") =>
     hex?.length === 7 ? `${hex}${alpha}` : hex;
-  const cardTranslucent = withAlpha(colors.card);
-  const buttonBg = withAlpha(colors.card);
+  const cardTranslucent = withAlpha(colors.card, "B3");
+  const buttonBg = withAlpha(colors.card, "B3");
 
   // Word builder hook with optimized settings for sign language
   const { currentWord, letterBuffer, addLetter, clearWord, deleteLastLetter, commitBuffer } =
@@ -156,9 +156,12 @@ export default function CameraScreen() {
   useEffect(() => {
     if (!showLandmarksButton) {
       setShowLandmarks(false);
+    } else {
+      setShowLandmarks(true); // auto-enable landmarks when toggle is on
     }
   }, [showLandmarksButton]);
 
+  
   if (!permission) {
     return (
       <View className="flex-1 items-center justify-center p-6">
@@ -201,7 +204,7 @@ export default function CameraScreen() {
         <View className="w-full px-4 sm:px-6 md:px-8">
           {/* Combined Word + Current Letter */}
           <View
-            className="mb-3 w-full max-w-2xl self-center rounded-xl border px-4 py-3"
+            className="mb-3 w-full max-w-2xl self-center rounded-xl px-4 py-3"
             style={{ borderColor: colors.border, backgroundColor: cardTranslucent }}
           >
             <View className="flex-row items-stretch">
@@ -255,7 +258,7 @@ export default function CameraScreen() {
                 className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
                 style={{
                   borderColor: colors.border,
-                  borderWidth: 2,
+                  borderWidth: 0,
                   backgroundColor: buttonBg,
                 }}
                 labelClasses="text-base sm:text-lg md:text-xl font-semibold"
@@ -269,7 +272,7 @@ export default function CameraScreen() {
                 className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
                 style={{
                   borderColor: colors.border,
-                  borderWidth: 2,
+                  borderWidth: 0,
                   backgroundColor: buttonBg,
                 }}
                 labelClasses="text-base sm:text-lg md:text-xl font-semibold"
@@ -283,7 +286,7 @@ export default function CameraScreen() {
                 className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
                 style={{
                   borderColor: colors.border,
-                  borderWidth: 2,
+                  borderWidth: 0,
                   backgroundColor: buttonBg,
                 }}
                 labelClasses="text-base sm:text-lg md:text-xl font-semibold"
@@ -303,7 +306,7 @@ export default function CameraScreen() {
                 className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
                 style={{
                   borderColor: colors.border,
-                  borderWidth: 2,
+                  borderWidth: 0,
                   backgroundColor: buttonBg,
                 }}
                 labelClasses="text-base sm:text-lg md:text-xl font-semibold"
@@ -312,28 +315,12 @@ export default function CameraScreen() {
                 size="lg"
                 variant="secondary"
               />
-              {showLandmarksButton && (
-                <Button
-                  label={`Landmarks ${showLandmarks ? "On" : "Off"}`}
-                  className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
-                  style={{
-                    borderColor: colors.border,
-                    borderWidth: 2,
-                    backgroundColor: buttonBg,
-                  }}
-                  labelClasses="text-base sm:text-lg md:text-xl font-semibold"
-                  labelStyle={{ color: colors.text }}
-                  onPress={() => setShowLandmarks((v) => !v)}
-                  size="lg"
-                  variant="secondary"
-                />
-              )}
               <Button
                 label="Flip"
                 className="h-12 flex-1 rounded-lg sm:h-14 md:h-16"
                 style={{
                   borderColor: colors.border,
-                  borderWidth: 2,
+                  borderWidth: 0,
                   backgroundColor: buttonBg,
                 }}
                 labelClasses="text-base sm:text-lg md:text-xl font-semibold"
@@ -349,3 +336,6 @@ export default function CameraScreen() {
     </View>
   );
 }
+
+
+

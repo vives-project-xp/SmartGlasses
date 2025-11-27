@@ -141,7 +141,7 @@ export default function Settings() {
         {/* Landmarks toggle for API card */}
         {item.key === "apistuff" ? (
           <>
-            <View className="mt-3 flex-row items-center gap-3">
+            <View className="mt-3 flex-row items-center justify-between gap-3 w-full">
               <Text className="text-sm" style={{ color: colors.text }}>
                 Toon Landmarks
               </Text>
@@ -154,7 +154,7 @@ export default function Settings() {
             </View>
 
             {/* test toggle */}
-            <View className="mt-3 flex-row items-center gap-3">
+            <View className="mt-3 flex-row items-center justify-between gap-3 w-full">
               <Text className="text-sm" style={{ color: colors.text }}>
                 Precision
               </Text>
@@ -186,6 +186,7 @@ export default function Settings() {
               style={{
                 borderColor: colors.border,
                 backgroundColor: colors.pickerBackground,
+                
               }}
             >
               <Picker
@@ -196,6 +197,7 @@ export default function Settings() {
                 style={{
                   color: pickerTextColor,
                   backgroundColor: colors.pickerBackground,
+                  borderRadius: 12
                 }}
                 itemStyle={{
                   color: pickerTextColor,
@@ -274,6 +276,7 @@ export default function Settings() {
       ],
     },
     {
+      className: "rounded-xl",
       key: "THEME",
       title: "Thema",
       content: "Selecteer licht of donker modus.",
@@ -282,6 +285,7 @@ export default function Settings() {
         { label: "Donker", value: "dark" },
         { label: "Systeem", value: "system" },
       ],
+
     },
     {
       key: "apistuff",

@@ -59,7 +59,7 @@ const palettes: Record<"light" | "dark", ThemeColors> = {
     card: "#1f1f1f",
     text: "#f3f4f6",
     textMuted: "#f3f4f6",
-    border: "#2f2f2f",
+    border: "#ffffffff",
     pickerBackground: "#181818",
     memberPlaceholder: "#1f1f1f",
     buttonBackground: "#3b82f6",
