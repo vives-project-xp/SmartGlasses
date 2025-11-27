@@ -1,6 +1,6 @@
 [project]
 name = "server"
-version = "0.1.0"
+version = "0.2.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -13,7 +13,7 @@ dependencies = [
     "mypy~=1.18.2",
     "pre-commit~=4.3.0",
     "typing-extensions~=4.15.0",
-    "smart_gestures==0.2.3",
+    "smart-gestures==0.3.1",
 ]
 
 
@@ -47,3 +47,6 @@ strict = false
 # E501: Line too long (Black's formatting)
 extend-ignore = ["E203", "E501"]
 exclude = [".git", "__pycache__", "build", "dist"]
+
+[tool.uv.sources]
+smart-gestures = { path = "../notebooks/package" }

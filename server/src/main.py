@@ -53,4 +53,5 @@ app.add_middleware(
 app.include_router(routes.root.router)
 app.include_router(routes.ws.router)
 app.include_router(routes.alphabet.router)
+app.include_router(routes.gestures.router)
 app.include_router(routes.keypoints.router)
