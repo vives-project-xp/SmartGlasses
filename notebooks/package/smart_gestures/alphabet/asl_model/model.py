@@ -134,7 +134,7 @@ class ASLModel():
         )
         return arr.reshape(-1)
 
-    def predict(self, lm: list[dict[str, float]]) -> str:
+    def predict(self, lm: list[dict[str, float]]) -> tuple[str, float]:
         """
         Predict the ASL letter from the input landmarks.
 

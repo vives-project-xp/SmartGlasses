@@ -115,7 +115,7 @@ class VGTModel():
         arr = normalize_landmarks(landmarks, root_index=0, scale_methode="wrist_to_middle")
         return arr.reshape(-1)
     
-    def predict(self, landmarks: list[dict[str, float]]) -> str:
+    def predict(self, landmarks: list[dict[str, float]]) -> tuple[str, float]:
         """
         Predict the class for the given landmarks.
         Args:

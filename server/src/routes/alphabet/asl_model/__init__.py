@@ -23,12 +23,11 @@ async def asl_model_classes() -> ClassesResponse:
 async def asl_model_predict(body: PredictBody) -> PredictResponse:
     landmarks_dicts = [landmark.model_dump() for landmark in body.landmarks]
     try:
-        pred_name = model.predict(landmarks_dicts)
+        pred_name, pred_confidence = model.predict(landmarks_dicts)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return PredictResponse(prediction=pred_name)
-
+    return PredictResponse(prediction=pred_name, confidence=pred_confidence)
 
 __all__ = [
     "router",

@@ -16,3 +16,9 @@ class PredictResponse(BaseModel):
         ...,
         description="Predicted class name",
     )
+    confidence: float = Field(
+        ...,
+        description="Confidence score of the prediction",
+        ge=0.0,
+        le=1.0,
+    )
