@@ -1,9 +1,20 @@
+import tomllib
 from enum import Enum
+from pathlib import Path
 from typing import Final
 
 from pydantic import BaseModel
 
-__version__: Final = "0.1.0"
+
+def _get_version() -> str:
+    """Read version from pyproject.toml."""
+    pyproject_path = Path(__file__).parent.parent / "pyproject.toml"
+    with open(pyproject_path, "rb") as f:
+        data = tomllib.load(f)
+    return data["project"]["version"]
+
+
+__version__: Final = _get_version()
 
 
 class FastAPITags(Enum):
