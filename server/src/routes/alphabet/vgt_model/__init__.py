@@ -29,6 +29,7 @@ async def vgt_model_predict(body: PredictBody) -> PredictResponse:
 
     return PredictResponse(prediction=pred_name, confidence=pred_confidence)
 
+
 __all__ = [
     "router",
 ]

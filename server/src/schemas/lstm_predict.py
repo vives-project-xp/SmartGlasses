@@ -2,13 +2,7 @@ import numpy as np
 from numpy.typing import NDArray
 from pydantic import BaseModel, Field, field_validator
 
-from const import (
-    LSTM_HAND_LANDMARKS,
-    LSTM_POSE_LANDMARKS,
-    LSTM_SEQUENCE_LENGTH,
-    HandLandmark,
-    PoseLandmark,
-)
+from const import LSTM_HAND_LANDMARKS, LSTM_POSE_LANDMARKS, LSTM_SEQUENCE_LENGTH, HandLandmark, PoseLandmark
 
 
 class LSTMFrame(BaseModel):
