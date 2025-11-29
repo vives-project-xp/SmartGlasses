@@ -60,10 +60,26 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Check if Docker image with full version tag already exists
+      - name: Check if image version exists
+        id: check-image
+        if: github.event_name != 'pull_request'
+        run: |
+          IMAGE="$REGISTRY/${IMAGE_NAME,,}:${{ steps.version.outputs.version }}"
+          echo "Checking if image exists: $IMAGE"
+          if docker manifest inspect "$IMAGE" > /dev/null 2>&1; then
+            echo "Image $IMAGE already exists, skipping build and push"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Image $IMAGE does not exist, proceeding with build"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
+        if: github.event_name == 'pull_request' || steps.check-image.outputs.exists != 'true'
         uses: docker/metadata-action@v5
         with:
           images: |
@@ -78,6 +94,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
+        if: github.event_name == 'pull_request' || steps.check-image.outputs.exists != 'true'
         uses: docker/build-push-action@v5.0.0
         with:
           # The `defaults: run: working-directory` does not apply to actions.
@@ -96,7 +113,7 @@ jobs:
       # transparency data even for private images, pass --force to cosign below.
       # https://github.com/sigstore/cosign
       - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
+        if: github.event_name != 'pull_request' && steps.check-image.outputs.exists != 'true'
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
           TAGS: ${{ steps.meta.outputs.tags }}
@@ -104,3 +121,24 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+      # Create and push a git tag for the client release (only on non-PR runs and new versions)
+      - name: Create and push git tag
+        if: github.event_name != 'pull_request' && steps.check-image.outputs.exists != 'true'
+        run: |
+          set -euo pipefail
+          TAG_REF=client-v${{ steps.version.outputs.version }}
+
+          # Check if the tag already exists remotely
+          if git ls-remote --tags origin | grep -q "refs/tags/$TAG_REF$"; then
+            echo "Tag $TAG_REF already exists, skipping tag creation"
+            exit 0
+          fi
+
+          echo "Creating tag $TAG_REF"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Annotated tag with message
+          git tag -a "$TAG_REF" -m "Client release $TAG_REF"
+          # Push the tag using the repository's origin
+          git push origin "$TAG_REF"
