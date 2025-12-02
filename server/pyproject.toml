@@ -1,7 +1,7 @@
 [project]
 name = "server"
-version = "0.2.2"
-description = "Add your description here"
+version = "0.3.0"
+description = "Backend REST API for Signapse"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -44,8 +44,8 @@ strict = false
 
 [tool.flake8]
 # E203: Whitespace before ':' (Black's formatting)
-# E501: Line too long (Black's formatting)
-extend-ignore = ["E203", "E501"]
+max-line-length = 120
+extend-ignore = ["E203"]
 exclude = [".git", "__pycache__", "build", "dist"]
 
 [tool.uv.sources]
