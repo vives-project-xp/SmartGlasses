@@ -1,10 +1,12 @@
 from pydantic import BaseModel, Field
 
-from const import NUM_POINTS, Landmark
+from const import NUM_POINTS
+
+from .landmarks import HandLandmark
 
 
-class KeypointsResponse(BaseModel):
-    landmarks: list[Landmark] = Field(
+class HandKeypointsResponse(BaseModel):
+    landmarks: list[HandLandmark] = Field(
         min_length=NUM_POINTS,
         max_length=NUM_POINTS,
         description="List of detected hand keypoints",
