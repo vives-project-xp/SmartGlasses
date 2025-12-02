@@ -8,7 +8,8 @@ from schemas import HandLandmark, PoseLandmark
 
 class LSTMFrame(BaseModel):
     """
-    Single frame containing pose and hand landmarks for LSTM gesture recognition.
+    Single frame containing pose and hand landmarks for LSTM gesture
+    recognition.
 
     Structure:
     - pose: 33 pose landmarks (MediaPipe Pose)
@@ -46,7 +47,8 @@ class LSTMFrame(BaseModel):
         Convert frame to flat feature array of 258 values.
 
         Returns:
-            NDArray[np.float32]: Array of shape (258,) containing [pose, left_hand, right_hand]
+            NDArray[np.float32]: Array of shape (258,) containing
+                [pose, left_hand, right_hand]
         """
         pose_features = np.array([[lm.x, lm.y, lm.z, lm.visibility] for lm in self.pose]).flatten()
         left_hand_features = np.array([[lm.x, lm.y, lm.z] for lm in self.left_hand]).flatten()
@@ -94,9 +96,13 @@ class LSTMPredictBody(BaseModel):
         Convert the sequence of frames to a numpy array for model prediction.
 
         Returns:
-            NDArray[np.float32]: Array of shape (40, 258) containing all frame features
+            NDArray[np.float32]: Array of shape (40, 258) containing all
+                frame features
         """
-        return np.array([frame.to_feature_array() for frame in self.frames], dtype=np.float32)
+        return np.array(
+            [frame.to_feature_array() for frame in self.frames],
+            dtype=np.float32,
+        )
 
 
 class LSTMPredictResponse(BaseModel):
