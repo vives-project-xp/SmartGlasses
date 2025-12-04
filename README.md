@@ -21,11 +21,11 @@ Het **Signapse** project is een ambitieus initiatief ontwikkeld door studenten v
 
 | | Member                                                | Taak |
 |---| ----------------------------------------------------- | ---- |
-| [<img src="https://github.com/SimonStnn.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/SimonStnn) | [Simon Stijnen](https://github.com/SimonStnn)            | tba  |
-| [<img src="https://github.com/kyell182.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/kyell182) | [Kyell De Windt](https://github.com/kyell182)            | tba  |
-| [<img src="https://github.com/LynnDelaere.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/LynnDelaere) | [Lynn Delaere](https://github.com/LynnDelaere)           | tba  |
-| [<img src="https://github.com/OlivierWesterman.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/OlivierWesterman) | [Olivier Westerman](https://github.com/OlivierWesterman) | tba  |
-| [<img src="https://github.com/TimoPlts.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/TimoPlts) | [Timo Plets](https://github.com/TimoPlts)               | tba  |
+| [<img src="https://github.com/SimonStnn.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/SimonStnn) | [Simon Stijnen](https://github.com/SimonStnn)            | Automation and Deployment |
+| [<img src="https://github.com/kyell182.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/kyell182) | [Kyell De Windt](https://github.com/kyell182)            | App and Website Developer  |
+| [<img src="https://github.com/LynnDelaere.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/LynnDelaere) | [Lynn Delaere](https://github.com/LynnDelaere)           | AI developer  |
+| [<img src="https://github.com/OlivierWesterman.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/OlivierWesterman) | [Olivier Westerman](https://github.com/OlivierWesterman) | AI developer    |
+| [<img src="https://github.com/TimoPlts.png" alt="" width="25" style="margin-bottom:-6px;">](https://github.com/TimoPlts) | [Timo Plets](https://github.com/TimoPlts)               | App and Website Developer  |
 
 ## Academische Context
 
@@ -48,3 +48,4 @@ Het **Signapse** project is een ambitieus initiatief ontwikkeld door studenten v
 **Vergeet niet om dit project een ster te geven als je het interessant vindt!**
 
 Gemaakt met ❤️ door [VIVES Bachelor Electronica-ICT studenten](#team)
+
