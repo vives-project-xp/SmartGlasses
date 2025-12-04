@@ -38,31 +38,34 @@ jobs:
       - name: Extract version
         id: version
         run: |
-          # Goal: produce a numeric counter 'N' so image tag becomes 'docs-vN'.
-          # 1) If files contain an explicit docs tag like 'docs-vN', use that (first match).
-          # 2) Otherwise, look for the latest git tag matching 'docs-vN' and bump N by 1.
-          # 3) If none found, start at 1.
+          # Goal: produce a semantic version 'X.0.0' so image tag becomes 'docs-vX.0.0'.
+          # The major version is bumped automatically on each docs build.
+          # 1) Look for the latest git tag matching 'docs-vX.Y.Z' pattern.
+          # 2) Bump the major version (X) by 1, reset minor and patch to 0.
+          # 3) If no tags found, start at 1.0.0.
 
           set -euo pipefail
-          NUM=""
 
-          # Try to find a docs-vN occurrence in files
-          NUM=$(grep -oE 'docs-v[0-9]+' -R --exclude-dir=.git . 2>/dev/null | sed -E 's/.*docs-v([0-9]+).*/\1/' | head -n1 || true)
+          git fetch --tags --quiet
 
-          if [ -z "$NUM" ]; then
-            git fetch --tags --quiet
-            LATEST_DOCS_TAG=$(git tag --list --sort=-v:refname 'docs-v*' | grep -E '^docs-v[0-9]+' | head -n1 || true)
-            if [ -n "$LATEST_DOCS_TAG" ]; then
-              NUM=${LATEST_DOCS_TAG#docs-v}
-              NUM=$((NUM + 1))
-            else
-              # No docs-v tags found: start at 1
-              NUM=1
-            fi
+          # Find the latest semantic version tag for docs
+          LATEST_DOCS_TAG=$(git tag --list --sort=-v:refname 'docs-v*' | grep -E '^docs-v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 || true)
+
+          if [ -n "$LATEST_DOCS_TAG" ]; then
+            # Extract the version without 'docs-v' prefix
+            CURRENT_VERSION=${LATEST_DOCS_TAG#docs-v}
+            # Extract major version number
+            MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
+            # Bump major version
+            NEW_MAJOR=$((MAJOR + 1))
+            VERSION="${NEW_MAJOR}.0.0"
+          else
+            # No docs-v semantic version tags found: start at 1.0.0
+            VERSION="1.0.0"
           fi
 
-          echo "version=$NUM" >> $GITHUB_OUTPUT
-          echo "Detected docs version number: $NUM"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected docs version: $VERSION"
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
