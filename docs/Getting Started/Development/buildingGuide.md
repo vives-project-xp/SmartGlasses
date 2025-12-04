@@ -1,3 +1,6 @@
+<div style="text-align: center;">
+  <img src="/assets/cli.png" alt="Beschrijving van afbeelding" width="200">
+</div>
 # EAS Build Guide
 
 This guide describes how to perform three types of builds with **EAS (Expo Application Services)**: cloud builds, local builds, and iOS builds. This is suitable for beginners and other developers who want to get started quickly.
@@ -72,6 +75,7 @@ This will build the app in the cloud for iOS using the `production` build profil
 4. Choose the build profile when prompted (for example `preview`, `production`, or `development`).
 5. EAS will show a link where you can monitor the build status.
 
+
 #### Example terminal output:
 
 ```bash
@@ -107,6 +111,30 @@ With a local build, the app is built on your own computer. Useful for quick test
 npx eas build --platform android '--local' --profile preview 
 npx eas build --platform ios '--local' --profile preview
 ```
+!!!! note
+    for ease we pre programmed the command in scripts in package.json like so:
+    ```json
+    "scripts":
+    {
+        "prod:build:android": "npx eas build --platform android --profile production --clear-cache",
+        "prod:build:ios": "npx eas build --platform ios --profile production --clear-cache",
+        "dev:build:android": "npx eas build --platform android  --profile development --clear-cache",
+        "dev:build:ios": "npx eas build --platform ios --profile development --clear-cache",
+        "preview:build:android": "npx eas build --platform android --profile preview --clear-cache",
+        "preview:build:ios": "npx eas build --platform ios --profile preview --clear-cache",
+      }
+    ```
+
+    You can run these commands via:
+    ```bash
+    npm run prod:build:android # this will trigger a production build for android
+    npm run prod:build:ios # this will trigger a production build for ios
+    npm run dev:build:android # this will trigger a development build for android
+    npm run dev:build:ios # this will trigger a development build for ios
+    npm run preview:build:android # this will trigger a preview build for android
+    npm run preview:build:ios # this will trigger a preview build for ios
+    ```
+    you can still add extra flags like `--local` if needed.
 
 You can rename the file afterward using F2.
 3. The build runs locally and the result is in the `./build` folder of your project.
@@ -144,6 +172,25 @@ npx eas build --platform ios --profile production
    * Two-factor authentication code
    * Choose a provisioning profile (EAS can handle this automatically)
 4. EAS will start the cloud build and provide a link to monitor the status.
+
+!!!! note
+    for ease we pre programmed the command in scripts in package.json like so:
+    ```json
+    "scripts":
+    {
+        "prod:build:ios": "npx eas build --platform ios --profile production --clear-cache",
+        "dev:build:ios": "npx eas build --platform ios --profile development --clear-cache",
+        "preview:build:ios": "npx eas build --platform ios --profile preview --clear-cache",
+      }
+    ```
+
+    You can run these commands via:
+    ```bash
+    npm run prod:build:ios # this will trigger a production build for ios
+    npm run dev:build:ios # this will trigger a development build for ios
+    npm run preview:build:ios # this will trigger a preview build for ios
+    ```
+    you can still add extra flags like `--non-interactive` if needed.
 
 #### Example terminal output:
 

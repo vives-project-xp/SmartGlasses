@@ -1,12 +1,16 @@
+
+# npm & npx — reference guide
+
+![npm vs npx](/assets/npm%20vs%20npx.png)
+
 !!! warning 
-	This file serves as a reference for understanding npm and npx. For installation or setup, see the [Getting Started](../Getting%20Started/README.md) folder.
+	  This file serves as a reference for understanding npm and npx. For installation or setup, see the [Getting Started](../Getting%20Started/README.md) folder.
 
-# npm & npx — Info
-
+---
 ## What is npm?
 
 * **npm** (Node Package Manager) is the default package manager for Node.js.
-* It consists of three main components:
+It consists of three main components:
 
    - **Website**: [npmjs.com](https://www.npmjs.com/) — discover packages, manage profiles, and organizations.
    - **CLI (Command Line Interface)**: Use it in the terminal to install, publish, and manage packages.

@@ -2,6 +2,46 @@
 
 This document provides a comprehensive overview of how the MkDocs documentation system is structured and configured in the Smart Glasses project.
 
+## Table of Contents <!-- TOC -->
+- [MkDocs Structure Guide](#mkdocs-structure-guide)
+  - [Table of Contents ](#table-of-contents-)
+  - [Directory Structure](#directory-structure)
+  - [Configuration Architecture](#configuration-architecture)
+    - [1. Main Configuration (`config/mkdocs/mkdocs.yml`)](#1-main-configuration-configmkdocsmkdocsyml)
+      - [Site Information](#site-information)
+      - [File Structure](#file-structure)
+      - [Theme Configuration](#theme-configuration)
+      - [Markdown Extensions](#markdown-extensions)
+      - [Plugins](#plugins)
+    - [2. Docker Configuration (`config/mkdocs/Dockerfile`)](#2-docker-configuration-configmkdocsdockerfile)
+      - [Base Image](#base-image)
+      - [Dependencies](#dependencies)
+      - [File Structure Setup](#file-structure-setup)
+      - [Service Configuration](#service-configuration)
+    - [3. Service Orchestration (`docker-compose.yaml`)](#3-service-orchestration-docker-composeyaml)
+      - [Service Definition](#service-definition)
+  - [Content Organization](#content-organization)
+  - [Development Workflow](#development-workflow)
+    - [1. Local Development](#1-local-development)
+    - [2. Content Creation](#2-content-creation)
+    - [3. Configuration Updates](#3-configuration-updates)
+  - [Advanced Features](#advanced-features)
+    - [Mermaid Diagrams](#mermaid-diagrams)
+    - [Code Highlighting](#code-highlighting)
+    - [Admonitions](#admonitions)
+  - [Customization Points](#customization-points)
+    - [Theme Customization](#theme-customization)
+    - [Navigation Structure](#navigation-structure)
+    - [Plugin Extensions](#plugin-extensions)
+  - [Deployment Considerations](#deployment-considerations)
+    - [Production Deployment](#production-deployment)
+    - [Performance Optimization](#performance-optimization)
+    - [Security](#security)
+  - [Troubleshooting](#troubleshooting)
+    - [Common Issues](#common-issues)
+    - [Debug Mode](#debug-mode)
+    - [Log Access](#log-access)
+
 ## Directory Structure
 
 ```text
