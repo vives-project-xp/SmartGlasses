@@ -1,3 +1,8 @@
+"""Download and organize the ASL dataset from Kaggle.
+This script uses the kagglehub library to download the ASL dataset from Kaggle,
+and organizes the images into a specified directory structure.
+"""
+
 import kagglehub
 import shutil
 import os

@@ -1,3 +1,8 @@
+""" Extract hand landmarks from images in a dataset and save them to a CSV file.
+This script processes images from a specified folder, detects hand landmarks using MediaPipe,
+and saves the extracted landmarks along with image metadata to a CSV file.
+"""
+
 import cv2 as cv
 import mediapipe.python.solutions.hands as mp_hands
 import mediapipe.python.solutions.drawing_utils as drawing
@@ -15,7 +20,7 @@ hands = mp_hands.Hands(
     )
 
 # Folder of images to process
-IMAGE_FOLDER = './alphabet/images'
+IMAGE_FOLDER = './alphabet/images/raw/' # Adjust this path as needed
 
 print("Current working directory:", os.getcwd())
 print("Looking for images in:", os.path.abspath(IMAGE_FOLDER))
@@ -117,7 +122,10 @@ for root, dirs, files in os.walk(IMAGE_FOLDER):
         all_entries.append(entry)
 
 # Save all entries to a csv file
-SAVE_CSV = './alphabet/images/hand_landmarks.csv'
+SAVE_CSV = './alphabet/images/hand_landmarks.csv' # Adjust this path as needed
+if not os.path.exists(os.path.dirname(SAVE_CSV)):
+    os.makedirs(os.path.dirname(SAVE_CSV))
+
 with open(SAVE_CSV, 'w', newline='') as csvfile:
     fieldnames = ['image_path', 'variant', 'count', 'class', 'landmarks']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
