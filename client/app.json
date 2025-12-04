@@ -11,7 +11,8 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "deze app gebruikt de camera om de signs te kunnen vertalen."
+        "NSCameraUsageDescription": "deze app gebruikt de camera om de signs te kunnen vertalen.",
+        "ITSAppUsesNonExemptEncryption": false
       },
       "bundleIdentifier": "com.anonymous.signapse"
     },

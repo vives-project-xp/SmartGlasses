@@ -8,6 +8,12 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "export": "expo export -p web",
+    "prod:build:android": "npx eas build --platform android --profile production --clear-cache",
+    "prod:build:ios": "npx eas build --platform ios --profile production --clear-cache",
+    "dev:build:android": "npx eas build --platform android  --profile development --clear-cache",
+    "dev:build:ios": "npx eas build --platform ios --profile development --clear-cache",
+    "preview:build:android": "npx eas build --platform android --profile preview --clear-cache",
+    "preview:build:ios": "npx eas build --platform ios --profile preview --clear-cache",
     "serve": "expo serve",
     "lint": "expo lint",
     "prepare": "husky"

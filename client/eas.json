@@ -15,7 +15,17 @@
       }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "distribution": "store",
+      "env":{
+      "EXPO_PUBLIC_API_URL":"https://api.smart-gestures.devbitapp.be"
+      },
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "image": "latest"
+      }
     }
   },
   "submit": {

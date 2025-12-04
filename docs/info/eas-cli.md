@@ -1,12 +1,11 @@
-!!! warning
-	This file serves as a reference for understanding EAS-CLI. For installation or setup, see the [Getting Started](../Getting%20Started/README.md) folder of your Expo project.
+
+![EAS-CLI Logo](/assets/cli.png)
 
 # EAS-CLI — Info
 (Expo Application Services Command Line Interface)
 
-
-
-
+!!! warning
+	This file serves as a reference for understanding EAS-CLI. For installation or setup, see the [Getting Started](../Getting%20Started/README.md) folder of your Expo project.
 ---
 
 ## What is EAS-CLI?
