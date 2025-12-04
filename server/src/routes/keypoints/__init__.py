@@ -28,6 +28,9 @@ _holistic_detector = mp_holistic.Holistic(
     min_tracking_confidence=0.5,
 )
 
+_emptpy_hands = HandKeypointsResponse(landmarks=[HandLandmark(x=0.0, y=0.0, z=0.0) for _ in range(21)]).landmarks
+_empty_pose = [PoseLandmark(x=0.0, y=0.0, z=0.0, visibility=0.0) for _ in range(33)]
+
 
 def prepare_image(image_data: bytes) -> np.ndarray[Any, Any]:
     """Read and convert uploaded image to RGB numpy array."""
@@ -119,16 +122,23 @@ async def extract_pose_keypoints(
                     visibility=float(getattr(lm, "visibility", 0.0)),
                 )
             )
+    else:
+        # If no pose detected, fill with zeros
+        pose.extend(_empty_pose)
 
     lh: list[HandLandmark] = []
     if left_hand_landmarks:
         for lm in left_hand_landmarks.landmark:  # type: ignore
             lh.append(HandLandmark(x=float(lm.x), y=float(lm.y), z=float(lm.z)))
+    else:
+        lh.extend(_emptpy_hands)
 
     rh: list[HandLandmark] = []
     if right_hand_landmarks:
         for lm in right_hand_landmarks.landmark:  # type: ignore
             rh.append(HandLandmark(x=float(lm.x), y=float(lm.y), z=float(lm.z)))
+    else:
+        rh.extend(_emptpy_hands)
 
     return LSTMFrame(
         pose=pose,
