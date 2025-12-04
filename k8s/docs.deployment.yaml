@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: docs
   namespace: signapse
+  annotations:
+    keel.sh/policy: all
+    keel.sh/trigger: poll
+    keel.sh/pollSchedule: "@every 1m"
 spec:
   replicas: 2
   selector:
@@ -13,9 +17,11 @@ spec:
       labels:
         app: docs
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: docs
-          image: localhost:30500/signapse/docs:0.1.0
+          image: ghcr.io/vives-project-xp/signapse/docs:latest
           ports:
             - containerPort: 8000
           resources:

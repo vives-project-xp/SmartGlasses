@@ -17,10 +17,8 @@ spec:
       labels:
         app: server
     spec:
-      # --- CORRECT PLACEMENT START ---
       imagePullSecrets:
         - name: ghcr-secret
-      # --- CORRECT PLACEMENT END ---
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
