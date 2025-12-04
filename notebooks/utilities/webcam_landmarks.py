@@ -1,3 +1,8 @@
+"""Webcam Hand Landmarks Detection using MediaPipe.
+This script captures images from the webcam, detects hand landmarks using MediaPipe,
+draws the landmarks and bounding boxes around detected hands, and displays the video feed.
+"""
+
 import cv2 as cv
 import mediapipe.python.solutions.hands as mp_hands
 import mediapipe.python.solutions.drawing_utils as drawing

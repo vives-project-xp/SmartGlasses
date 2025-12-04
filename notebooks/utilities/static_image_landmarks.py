@@ -1,3 +1,8 @@
+"""Static Image Hand Landmarks Detection with Plausibility Check
+This script processes static images to detect hand landmarks using MediaPipe's Hands solution.
+It includes a plausibility check for wrist position and visualizes the detected landmarks.
+"""
+
 import cv2 as cv
 import mediapipe.python.solutions.hands as mp_hands
 import mediapipe.python.solutions.drawing_utils as drawing
@@ -13,7 +18,7 @@ hands = mp_hands.Hands(
     )
 
 # List of image files to process
-IMAGE_FILES = ['./images/Poster.png']
+IMAGE_FILES = ["hand1_a_left_seg_3_cropped.jpeg"]
 
 # Add padding to the bottom of the image
 def pad_bottom(image, pad):
@@ -26,7 +31,7 @@ def ensure_min_size(image, min_side):
     if scale == 1.0: return image
     return cv.resize(image, (int(w*scale), int(h*scale)), interpolation=cv.INTER_LINEAR)
 
-# Indices for Metacarpophalangeal joints and fingertip landmarks 
+# Indices for Metacarpophalangeal joints and fingertip landmarks
 MCP = [5, 9, 13, 17]
 TIPS = [4, 8, 12, 16, 20]
 

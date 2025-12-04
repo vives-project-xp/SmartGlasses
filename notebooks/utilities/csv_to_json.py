@@ -1,4 +1,8 @@
-# csv_to_jsonl.py
+
+"""Convert a CSV file to JSONL format, ensuring that certain fields
+are properly parsed as JSON objects.
+"""
+
 import csv
 import json
 import sys

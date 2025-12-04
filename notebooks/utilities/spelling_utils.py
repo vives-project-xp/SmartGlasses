@@ -1,11 +1,13 @@
-# spelling_utils.py
+"""Minimal spelling and word-assembly utilities."""
+
 from __future__ import annotations
 from typing import List, Optional, Tuple
 import re
 import time
 
 try:
-    from transformers import AutoTokenizer, AutoModelForSeq2SeqLM  
+    from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
     _HAS_HF = True
 except Exception:
     _HAS_HF = False
@@ -13,9 +15,10 @@ except Exception:
 
 class WordAssembler:
     """
-    Minimalistische assembler: voegt letters samen tot woorden en doet lichte postprocessing.
-    Optioneel: neural polish met een NL spelling/grammar model (HF).
+    Minimal assembler: joins letters into words and performs light postprocessing.
+    Optional: neural polishing with a Dutch spelling/grammar model (Hugging Face).
     """
+
     def __init__(self, hf_model_id: str | None = None, max_new_tokens: int = 64):
         self._tok = None
         self._mdl = None
@@ -26,7 +29,7 @@ class WordAssembler:
 
     @staticmethod
     def letters_to_words(chars: List[str]) -> str:
-        # samenvouwen: dubbele identieke letters achter elkaar; spaties blijven
+        # collapse: consecutive identical letters; spaces remain
         buf, prev = [], None
         for c in chars:
             if c == " ":
@@ -39,11 +42,12 @@ class WordAssembler:
         text = "".join(buf)
         text = re.sub(r"\s+", " ", text).strip()
 
-        # simpele naam-normalisatie:
+        # simple name normalization
         def _cap_token(tok: str) -> str:
             if tok.isalpha() and tok.upper() == tok and len(tok) >= 2:
                 return tok.capitalize()
             return tok
+
         text = " ".join(_cap_token(t) for t in text.split(" "))
         return text
 
@@ -57,13 +61,14 @@ class WordAssembler:
 
 class TemporalSpeller:
     """
-    Online decoder zonder LetterStream:
-    - Neem frame-voor-frame top-1 label + confidence
-    - Emiteer een letter pas als 'dwell' (aantal opeenvolgende acceptabele frames) gehaald is
-    - Negeer frames < conf_min
-    - Boundary als er 'idle_s' seconden geen hand werd gezien (extern door caller doorgegeven)
-    - Anti-spam: min_word_len voor we een woord printen
+    Online decoder without a LetterStream:
+    - Takes top-1 label + confidence per frame
+    - Emit a letter only after dwell (number of consecutive acceptable frames) is reached
+    - Ignore frames with confidence < conf_min
+    - Boundary when no hand has been seen for 'idle_s' seconds (caller provides last-seen timestamp)
+    - Anti-spam: require min_word_len before emitting a word
     """
+
     def __init__(
         self,
         conf_min: float = 0.60,
@@ -83,28 +88,28 @@ class TemporalSpeller:
 
     def consume(self, label: str, conf: float) -> Optional[str]:
         """
-        Verwerk één frame. Retourneert de geëmiteerde letter (str) of None.
+        Process one frame. Returns the emitted letter (str) or None.
         """
         if conf < self.conf_min:
-            # lage zekerheid: reset huidige run
+            # low confidence: reset current run
             self._cur_label = None
             self._run_len = 0
             self._run_accum_conf = 0.0
             return None
 
         if self._cur_label is None or label != self._cur_label:
-            # nieuwe run
+            # new run
             self._cur_label = label
             self._run_len = 1
             self._run_accum_conf = conf
             return None
 
-        # zelfde label blijft lopen
+        # same label continues
         self._run_len += 1
         self._run_accum_conf += conf
 
         if self._run_len >= self.dwell_frames:
-            # emit en reset run (hysterese: forceer nieuwe run voor volgende letter)
+            # emit and reset run (hysteresis: force a new run for the next letter)
             emitted = self._cur_label
             self._cur_label = None
             self._run_len = 0
@@ -116,8 +121,8 @@ class TemporalSpeller:
 
     def force_boundary(self) -> Optional[str]:
         """
-        Forceer woordgrens (bijv. op SPACE-toets). Retourneert het woord (gepolijst) of None.
-        (Polish gebeurt extern via WordAssembler.)
+        Force a word boundary (e.g. on SPACE). Returns the word (polished) or None.
+        (Polishing is performed externally via `WordAssembler`.)
         """
         if len([c for c in self._emitted_chars if c != " "]) >= self.min_word_len:
             word = "".join(self._emitted_chars).replace("  ", " ").strip()
@@ -127,12 +132,16 @@ class TemporalSpeller:
         self._emitted_chars.clear()
         return None
 
-    def boundary_if_idle(self, last_hand_seen_ts: float, idle_s: float) -> Optional[str]:
+    def boundary_if_idle(
+        self, last_hand_seen_ts: float, idle_s: float
+    ) -> Optional[str]:
         """
-        Check idle gap en emit boundary indien nodig. Retourneert woord of None.
+        Check idle gap and emit a boundary if needed. Returns the word or None.
         """
         now = time.time()
-        if (now - last_hand_seen_ts) >= idle_s and (now - self._last_word_emit_ts) >= max(0.75, 0.9 * idle_s):
+        if (now - last_hand_seen_ts) >= idle_s and (
+            now - self._last_word_emit_ts
+        ) >= max(0.75, 0.9 * idle_s):
             return self.force_boundary()
         return None
 

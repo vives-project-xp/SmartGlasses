@@ -1,3 +1,8 @@
+"""Capture Hand Landmark Data for ASL Alphabet using MediaPipe.
+This script captures images from the webcam, detects hand landmarks using MediaPipe,
+draws the landmarks and bounding boxes around detected hands, and saves the landmark data
+along with cropped images into a structured dataset for training ASL recognition models.
+"""
 import cv2 as cv
 import mediapipe.python.solutions.hands as mp_hands
 import mediapipe.python.solutions.drawing_utils as drawing
@@ -127,31 +132,6 @@ def save_landmark_data(letter, landmarks_list, frame, bbox_norm=None, left_mode=
             'landmarks': landmarks_for_saving,
             'bounding_box': bbox_for_saving
         })
-
-    # # Load existing JSON or initialize
-    # if os.path.exists(json_path):
-    #     with open(json_path, "r") as f:
-    #         try:
-    #             all_data = json.load(f)
-    #         except json.JSONDecodeError:
-    #             all_data = []
-    # else:
-    #     all_data = []
-
-    # # Append new entry
-    # all_data.append({
-    #     "image_id": count_images + 1,
-    #     "timestamp": timestamp,
-    #     "label": letter.upper(),
-    #     "image_file": f"images/{img_name}",
-    #     "left_handed_mode": bool(left_mode),
-    #     "bounding_box": bbox_for_saving,
-    #     "landmarks": landmarks_for_saving
-    # })
-
-    # # Write back
-    # with open(json_path, "w") as f:
-    #     json.dump(all_data, f, indent=2)
 
     print(f"[SAVED] {letter.upper()}{' (mirrored)' if left_mode else ''} → {img_name}  | CSV: {os.path.relpath(CSV_PATH, ASL_MODEL_DIR)}")
 

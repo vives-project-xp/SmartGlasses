@@ -1,3 +1,9 @@
+""" Capture dataset for LSTM model using MediaPipe Holistic model.
+This script captures video from the webcam, detects pose and hand landmarks using MediaPipe,
+and saves the extracted keypoints for training an LSTM model. Images and keypoints are stored
+in a structured directory format based on gesture names and sequence numbers.
+"""
+
 import cv2
 import numpy as np
 import os
