@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: signapse.local
+    - host: signapse.internal
       http:
         paths:
           - path: /
@@ -18,7 +18,7 @@ spec:
                 name: client
                 port:
                   number: 3000
-    - host: api.signapse.local
+    - host: api.signapse.internal
       http:
         paths:
           - path: /
@@ -28,7 +28,7 @@ spec:
                 name: server
                 port:
                   number: 8000
-    - host: docs.signapse.local
+    - host: docs.signapse.internal
       http:
         paths:
           - path: /
@@ -38,43 +38,117 @@ spec:
                 name: docs
                 port:
                   number: 8000
-    - host: registry.signapse.local
+    - host: signapse.devbitapp.be
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: registry-server
+                name: client
                 port:
-                  number: 5000
-    - host: registry-ui.signapse.local
+                  number: 3000
+    - host: api.signapse.devbitapp.be
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: registry-ui
-                port:
-                  number: 5001
-    - host: minio.signapse.local
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: minio
-                port:
-                  number: 9001
-    - host: lakefs.signapse.local
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: lakefs
+                name: server
                 port:
                   number: 8000
+    - host: docs.signapse.devbitapp.be
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: docs
+                port:
+                  number: 8000
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-smart-gestures
+  namespace: signapse
+spec:
+  redirectRegex:
+    regex: ^https?://smart-gestures\.devbitapp\.be(/.*)?$
+    replacement: https://signapse.devbitapp.be${1}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-api-smart-gestures
+  namespace: signapse
+spec:
+  redirectRegex:
+    regex: ^https?://api\.smart-gestures\.devbitapp\.be(/.*)?$
+    replacement: https://api.signapse.devbitapp.be${1}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-docs-smart-gestures
+  namespace: signapse
+spec:
+  redirectRegex:
+    regex: ^https?://docs\.smart-gestures\.devbitapp\.be(/.*)?$
+    replacement: https://docs.signapse.devbitapp.be${1}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: redirect-smart-gestures
+  namespace: signapse
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`smart-gestures.devbitapp.be`)
+      kind: Rule
+      middlewares:
+        - name: redirect-smart-gestures
+          namespace: signapse
+      services:
+        - name: client
+          port: 3000
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: redirect-api-smart-gestures
+  namespace: signapse
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`api.smart-gestures.devbitapp.be`)
+      kind: Rule
+      middlewares:
+        - name: redirect-api-smart-gestures
+          namespace: signapse
+      services:
+        - name: server
+          port: 8000
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: redirect-docs-smart-gestures
+  namespace: signapse
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`docs.smart-gestures.devbitapp.be`)
+      kind: Rule
+      middlewares:
+        - name: redirect-docs-smart-gestures
+          namespace: signapse
+      services:
+        - name: docs
+          port: 8000

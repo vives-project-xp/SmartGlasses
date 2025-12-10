@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`traefik.signapse.local`)
+    - match: Host(`traefik.signapse.internal`)
       kind: Rule
       services:
         - name: api@internal
