@@ -1,5 +1,26 @@
 import { BASE_URL } from "@/lib/const";
 
+// ---- Shared landmark types ----
+export type PoseLandmark = { x: number; y: number; z: number; visibility: number };
+export type HandLandmark = { x: number; y: number; z: number };
+
+export type LstmFrame = {
+  pose: PoseLandmark[];
+  left_hand: HandLandmark[];
+  right_hand: HandLandmark[];
+};
+
+export type LstmPredictResponse = { prediction: string; confidence?: number };
+export type LstmClassesResponse = { classes: string[] | Record<string, number> };
+export type LstmPredictRequest = { frames: LstmFrame[] };
+
+type HandsKeypointsResponse = { landmarks: HandLandmark[] };
+type PoseKeypointsResponse = {
+  pose: PoseLandmark[];
+  left_hand: HandLandmark[];
+  right_hand: HandLandmark[];
+};
+
 // Custom error classes for better error handling
 export class ApiError extends Error {
   constructor(
@@ -79,12 +100,16 @@ export async function apiFetch<T = any>(
   const url = BASE_URL.replace(/\/+$/, "") + "/" + path.replace(/^\/+/, "");
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-
-  let res: Response;
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  let isTimeout = false;
 
   try {
-    res = await fetch(url, {
+    timer = setTimeout(() => {
+      isTimeout = true;
+      controller.abort(new DOMException(`Request to ${path} timed out`, "TimeoutError"));
+    }, timeoutMs);
+
+    const res = await fetch(url, {
       method,
       headers: {
         Accept: "application/json",
@@ -94,12 +119,50 @@ export async function apiFetch<T = any>(
       body: body && !(body instanceof FormData) ? JSON.stringify(body) : body,
       signal: controller.signal,
     });
-  } catch (error: any) {
-    clearTimeout(timer);
 
-    // Handle AbortController timeout
+    if (timer) clearTimeout(timer);
+
+    // Handle HTTP errors
+    if (!res.ok) {
+      const responseText = await safeReadText(res);
+      let errorDetails;
+      try {
+        errorDetails = responseText ? JSON.parse(responseText) : null;
+      } catch {
+        errorDetails = responseText;
+      }
+
+      throw new HttpError(
+        errorDetails?.detail || errorDetails || res.statusText,
+        res.status,
+        res.statusText,
+        responseText
+      );
+    }
+
+    // Parse JSON response
+    try {
+      return (await res.json()) as T;
+    } catch (error: any) {
+      throw new ParseError(
+        `Failed to parse JSON response from ${path}: ${error?.message ?? "Unknown error"}`,
+        error
+      );
+    }
+  } catch (error: any) {
+    // Handle timeout
+    if (isTimeout) {
+      throw new TimeoutError(`Request to ${path} timed out after ${timeoutMs}ms`);
+    }
+
+    // Handle abort/timeout errors
     if (error.name === "AbortError") {
       throw new TimeoutError(`Request to ${path} timed out after ${timeoutMs}ms`);
+    }
+
+    // Re-throw custom API errors
+    if (error instanceof ApiError) {
+      throw error;
     }
 
     // Handle network errors
@@ -108,40 +171,30 @@ export async function apiFetch<T = any>(
       error
     );
   } finally {
-    clearTimeout(timer);
-  }
-
-  // Handle HTTP errors
-  if (!res.ok) {
-    const responseText = await safeReadText(res);
-
-    // Try to extract error details from response
-    let errorDetails;
-    try {
-      errorDetails = responseText ? JSON.parse(responseText) : null;
-    } catch {
-      // Response is not JSON, use as-is
-      errorDetails = responseText;
-    }
-
-    throw new HttpError(
-      errorDetails?.detail || errorDetails || res.statusText,
-      res.status,
-      res.statusText,
-      responseText
-    );
-  }
-
-  // Parse JSON response
-  try {
-    return (await res.json()) as T;
-  } catch (error: any) {
-    throw new ParseError(
-      `Failed to parse JSON response from ${path}: ${error?.message ?? "Unknown error"}`,
-      error
-    );
+    if (timer) clearTimeout(timer);
   }
 }
+
+const createImageFormData = (image: string | Blob | File) => {
+  const form = new FormData();
+
+  if (typeof image === "string") {
+    // React Native (iOS/Android): Use the URI format that React Native expects
+    // @ts-ignore - React Native's FormData accepts this format
+    form.append("image", {
+      uri: image,
+      name: "frame.jpg",
+      type: "image/jpeg",
+    });
+  } else {
+    // Web: append actual File/Blob
+    const file =
+      image instanceof File ? image : new File([image], "frame.jpg", { type: "image/jpeg" });
+    form.append("image", file);
+  }
+
+  return form;
+};
 
 /**
  * API client for the SmartGlasses backend
@@ -191,6 +244,25 @@ const api = {
   },
 
   /**
+   * LSTM gesture (word) model
+   * @throws {NetworkError} If network request fails
+   * @throws {TimeoutError} If request times out
+   * @throws {HttpError} If server returns error status
+   * @throws {ParseError} If response cannot be parsed
+   */
+  lstmClasses: () => {
+    return apiFetch<LstmClassesResponse>("/gestures/lstm/classes");
+  },
+
+  predictLstm: (payload: LstmPredictRequest, timeout:number = 500) => {
+    return apiFetch<LstmPredictResponse>("/gestures/lstm/predict", {
+      method: "POST",
+      body: payload,
+      timeoutMs: timeout,
+    });
+  },
+
+  /**
    * Upload image to keypoints endpoint and extract landmarks
    * @param image - Image URI (iOS/Android) or Blob/File (web)
    * @throws {NetworkError} If network request fails
@@ -198,27 +270,24 @@ const api = {
    * @throws {HttpError} If server returns error status
    * @throws {ParseError} If response cannot be parsed
    */
-  keypointsFromImage: async (image: string | Blob | File) => {
-    const form = new FormData();
-
-    if (typeof image === "string") {
-      // React Native (iOS/Android): Use the URI format that React Native expects
-      // @ts-ignore - React Native's FormData accepts this format
-      form.append("image", {
-        uri: image,
-        name: "frame.jpg",
-        type: "image/jpeg",
-      });
-    } else {
-      // Web: append actual File/Blob
-      const file =
-        image instanceof File ? image : new File([image], "frame.jpg", { type: "image/jpeg" });
-      form.append("image", file);
-    }
-
-    return apiFetch<{ landmarks: { x: number; y: number; z: number }[] }>("/keypoints/", {
+  keypointsHandsFromImage: async (image: string | Blob | File, timeout:number = 500) => {
+    const form = createImageFormData(image);
+    return apiFetch<HandsKeypointsResponse>("/keypoints/hands", {
       method: "POST",
       body: form,
+      timeoutMs: timeout,
+    });
+  },
+
+  /**
+   * Upload image to pose keypoints endpoint (pose + hands) and extract landmarks
+   */
+  keypointsPoseFromImage: async (image: string | Blob | File, timeout:number = 500) => {
+    const form = createImageFormData(image);
+    return apiFetch<PoseKeypointsResponse>("/keypoints/pose", {
+      method: "POST",
+      body: form,
+      timeoutMs: timeout,
     });
   },
 };

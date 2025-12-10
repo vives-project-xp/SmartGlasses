@@ -22,6 +22,7 @@ function RootStack() {
     >
       <Stack.Screen name="index" options={{ title: "Welkom", headerShown: false  } } />
       <Stack.Screen name="camera" options={{ title: "Cameraweergave", headerShown: false  }} />
+      <Stack.Screen name="VGT-photo" options={{ title: "VGT vingeralfabet info", headerShown: true, headerShadowVisible: false }} />
       <Stack.Screen name="about" options={{ title: "Over", headerShown: true, headerShadowVisible: false  }} />
       <Stack.Screen name="settings" options={{ title: "Instellingen", headerShown: true, headerShadowVisible: false   }} />
     </Stack>
