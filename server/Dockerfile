@@ -11,8 +11,7 @@ WORKDIR /app
 
 # Create writable directories for matplotlib and other tools
 RUN mkdir -p /app/.cache/matplotlib && \
-    mkdir -p /tmp && \
-    chmod -R 755 /app/.cache /tmp
+    chmod -R 777 /app/.cache /tmp
 
 # Set matplotlib config directory to writable location BEFORE installing dependencies
 ENV MPLCONFIGDIR=/app/.cache/matplotlib
