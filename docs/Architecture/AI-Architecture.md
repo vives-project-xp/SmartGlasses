@@ -15,6 +15,8 @@ Dit document beschrijft uitsluitend de **AI-componenten** en hun integratie binn
 - De API-laag die de AI-functionaliteit aanbiedt
 - De gebruikte technologieën en frameworks
 
+Voor een deep-dive in het `smart_gestures` package, model lifecycle en alle CLI-opties, zie [AI-Packages.md](./AI-Packages.md).
+
 ## Overzicht Architectuur
 
 ### High-level AI-architectuur
@@ -135,7 +137,10 @@ De 21 landmarks representeren:
 MediaPipe wordt gebruikt om keypoints te extraheren uit een dataset van afbeeldingen en video-frames. Deze keypoints worden vervolgens genormaliseerd en doorgegeven aan de deep learning modellen voor inferentie.
 
 MediaPipe is eveneens geïntegreerd in de FastAPI backend via een dedicated router:
-Het `/keypoints/` REST-endpoint accepteert een afbeelding (multipart/form-data), verwerkt deze met MediaPipe, en retourneert de landmarks als JSON:
+
+- `POST /keypoints/hands`: accepteert een afbeelding (multipart/form-data) en retourneert 21 hand-landmarks als JSON.
+- `POST /keypoints/pose`: accepteert een afbeelding en retourneert een `LSTMFrame` met pose + linker/rechterhand landmarks voor sequentiële modellen.
+- `POST /keypoints/` (root): deprecated; redirect naar `/keypoints/hands`.
 
 ```json
 {
@@ -168,6 +173,7 @@ Het ASL-model herkent **35 klassen** (American Sign Language alfabet + cijfers):
 - **Letters**: a-z (zonder bewegingen)
 - **Cijfers**: 0-9
 - **Totaal**: 35 statische gebaren
+- **Opmerking**: De letter `q` ontbreekt in de huidige dataset omdat MediaPipe geen stabiele keypoints kon extraheren uit de gebruikte Kaggle-bron. Dit gebaar volgt zodra er betrouwbare trainingsdata beschikbaar is.
 
 De klassen zijn gedefinieerd in `notebooks/package/smart_gestures/alphabet/asl_model/data/classes.json`.
 
@@ -184,7 +190,7 @@ Deze normalisatie maakt het model **invariant** voor handpositie en -grootte.
 #### Integratie (ASL Model)
 
 - **Package**: `smart_gestures.alphabet.asl_model.ASLModel`
-- **API-endpoint**: `/asl/predict` (POST)
+- **API-endpoint**: `/alphabet/asl/predict` (POST)
 - **Input**: JSON met lijst van 21 landmarks
 - **Output**: Voorspelde klasse (string)
 
@@ -231,7 +237,7 @@ Hoewel de **modelarchitectuur identiek** is, zijn de modellen getraind op versch
 #### Integratie (VGT Model)
 
 - **Package**: `smart_gestures.alphabet.vgt_model.VGTModel`
-- **API-endpoint**: `/vgt/predict` (POST)
+- **API-endpoint**: `/alphabet/vgt/predict` (POST)
 - **Input**: JSON met lijst van 21 landmarks
 - **Output**: Voorspelde klasse (string)
 
@@ -250,8 +256,8 @@ Hoewel de **modelarchitectuur identiek** is, zijn de modellen getraind op versch
   
   ```label
   Input:          Sequentie van 40 frames × 258 features
-  LSTM Layer 1:   128 hidden units + Dropout(0.4)
-  LSTM Layer 2:   128 hidden units + Dropout(0.4)
+  LSTM Layer 1:   128 hidden units + Dropout(0.2)
+  LSTM Layer 2:   128 hidden units + Dropout(0.2)
   Fully Connected: 128 → 5 klassen
   Output:         5 woordklassen + confidence score
   ```
@@ -298,7 +304,7 @@ Deze preprocessing behoudt **temporele informatie** en maakt het model robuust t
 #### Integratie (LSTM Model)
 
 - **Package**: `smart_gestures.gestures.lstm_model.LSTMModel`
-- **API-endpoint**: `/lstm/predict` (POST)
+- **API-endpoint**: `/gestures/lstm/predict` (POST)
 - **Input**: JSON met sequentie van frames (elk frame bevat 258 features)
 - **Output**: Voorspelde woord + confidence score (0.0 - 1.0)
 
@@ -313,11 +319,11 @@ Deze preprocessing behoudt **temporele informatie** en maakt het model robuust t
 
 | Technologie | Versie | Rol | Voordelen |
 |------------|--------|-----|-----------|
-| **PyTorch** | 2.3 | Deep learning framework | - Flexibele modelarchitectuur; - Dynamische computation graphs; - Sterke community support; - Eenvoudige model serialisatie (.pth) |
-| **MediaPipe** | 0.10 | Computer vision + keypoint extraction | • Real-time performance; • Pre-trained hand detection; • Robuuste landmark tracking; • Cross-platform support |
-| **NumPy** | 1.26 | Numerieke operaties | Efficiënte array-operaties; Basis voor PyTorch tensors; Data preprocessing |
-| **OpenCV (cv2)** | 4.11 | Image processing | Image decoding (JPEG/PNG); Color space conversies (BGR↔RGB); Basis image manipulatie |
-| **Pandas** | 2.3 | Data handling (training) | Dataset management; CSV/JSON I/O; Data augmentatie |
+| **PyTorch** | 2.7.0 | Deep learning framework | - Flexibele modelarchitectuur; - Dynamische computation graphs; - Sterke community support; - Eenvoudige model serialisatie (.pth) |
+| **MediaPipe** | 0.10.21 | Computer vision + keypoint extraction | • Real-time performance; • Pre-trained hand detection; • Robuuste landmark tracking; • Cross-platform support |
+| **NumPy** | 1.26.4 | Numerieke operaties | Efficiënte array-operaties; Basis voor PyTorch tensors; Data preprocessing |
+| **OpenCV (cv2)** | 4.11.0.86 | Image processing | Image decoding (JPEG/PNG); Color space conversies (BGR↔RGB); Basis image manipulatie |
+| **Pandas** | 2.3.3 | Data handling (training) | Dataset management; CSV/JSON I/O; Data augmentatie |
 
 ### Package Management
 
@@ -427,7 +433,7 @@ Geen code-wijzigingen nodig in de API—de `/lstm/classes` endpoint leest automa
 
 #### Resource-gebruik
 
-- **Memory**: ~200-300 MB per model geladen (acceptabel voor smart glasses)
+- **Memory**: ~200-300 MB per model geladen
 - **CPU**: Single-threaded inferentie (mogelijkheid voor threading bij hogere throughput)
 - **GPU**: Niet vereist (belangrijk voor edge devices)
 
@@ -463,7 +469,7 @@ Mogelijke test-coverage:
 
 - **Training metrics**: Accuracy, loss curves (zie `notebooks/training/`)
 - **Validation**: Hold-out test set evaluatie
-- **Calibration**: Confidence scores afstemmen op echte accuratesse (VGT model gebruikt Brier score regularisatie)
+- **Calibration**: Confidence scores afstemmen op echte accuratesse
 
 ## Conclusie
 
@@ -482,7 +488,7 @@ De architectuur is ontworpen met **schaalbaarheid** en **onderhoudbaarheid** in 
 
 **Document-informatie**:
 
-- **Versie**: 1.1
+- **Versie**: 1.2
 - **Datum**: December 2025
 - **Auteurs**: Lynn Delaere
 - **Contact**: Zie [GitHub repository](https://github.com/vives-project-xp/Signapse)
