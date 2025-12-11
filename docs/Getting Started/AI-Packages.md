@@ -1,4 +1,4 @@
-# AI Package Deep Dive
+# Smart Gestures AI Package
 
 Dit document beschrijft de `smart_gestures`-package die de Signapse AI-modellen bundelt. De focus ligt op module-indeling, gebruikte PyTorch-componenten, inference-preprocessing en trainingsutilities rond MediaPipe en NumPy.
 
@@ -143,7 +143,7 @@ Onderstaande checklist beschrijft hoe een nieuw `.pth`-model in productie komt:
 
 **Document-informatie**:
 
-- **Versie**: 1.0
+- **Versie**: 1.1
 - **Datum**: December 2025
 - **Auteurs**: Lynn Delaere
 - **Contact**: Zie [GitHub repository](https://github.com/vives-project-xp/Signapse)

@@ -15,7 +15,7 @@ Dit document beschrijft uitsluitend de **AI-componenten** en hun integratie binn
 - De API-laag die de AI-functionaliteit aanbiedt
 - De gebruikte technologieën en frameworks
 
-Voor een deep-dive in het `smart_gestures` package, model lifecycle en alle CLI-opties, zie [AI-Packages.md](./AI-Packages.md).
+Voor een deep-dive in het `smart_gestures` package, model lifecycle en alle CLI-opties, zie [AI-Packages.md](../Getting%20Started/AI-Packages.md).
 
 ## Overzicht Architectuur
 
@@ -488,7 +488,7 @@ De architectuur is ontworpen met **schaalbaarheid** en **onderhoudbaarheid** in 
 
 **Document-informatie**:
 
-- **Versie**: 1.2
+- **Versie**: 1.3
 - **Datum**: December 2025
 - **Auteurs**: Lynn Delaere
 - **Contact**: Zie [GitHub repository](https://github.com/vives-project-xp/Signapse)
