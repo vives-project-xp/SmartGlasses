@@ -25,6 +25,8 @@ export default function Settings() {
   // Item component with persistent storage
   function Item({
     item,
+    themePreference,
+    currentAiModel, 
   }: {
     item: {
       key: string;
@@ -36,13 +38,20 @@ export default function Settings() {
       options?: { label: string; value: string; description?: string }[];
       members?: { name: string; image?: string; link?: string }[];
     };
+    themePreference: "light" | "dark" | "system";
+    currentAiModel: "VGT" | "ASL" | "LSTM";
   }) {
     const storageKey = `setting_${item.key}`; // Unique key per setting
     const isThemeSetting = item.key === "THEME";
     const isAiSetting = item.key === "AI_VERSION";
-    const [selected, setSelected] = useState(
-      isThemeSetting ? preference : isAiSetting ? aiModel : item.options?.[0]?.value ?? ""
+    const [persistedSelected, setPersistedSelected] = useState(
+      item.options?.[0]?.value ?? ""
     );
+    const selected = isThemeSetting
+      ? themePreference
+      : isAiSetting
+        ? currentAiModel
+        : persistedSelected;
     const selectedOption = item.options?.find((o) => o.value === selected);
 
 
@@ -58,7 +67,7 @@ export default function Settings() {
         try {
           const saved = await AsyncStorage.getItem(storageKey);
           if (saved !== null && item.options?.some((opt) => opt.value === saved)) {
-            setSelected(saved);
+            setPersistedSelected(saved);
           }
         } catch (error) {
           console.error("Failed to load setting:", error);
@@ -69,21 +78,8 @@ export default function Settings() {
       }
     }, [storageKey, item.options, isThemeSetting, isAiSetting]);
 
-    useEffect(() => {
-      if (isThemeSetting && preference !== selected) {
-        setSelected(preference);
-      }
-    }, [isThemeSetting, preference, selected]);
-
-    useEffect(() => {
-      if (isAiSetting && aiModel !== selected) {
-        setSelected(aiModel);
-      }
-    }, [isAiSetting, aiModel, selected]);
-
     // Save value when changed
     const handleChange = async (value: string) => {
-      setSelected(value);
       if (
         isThemeSetting &&
         (value === "light" || value === "dark" || value === "system")
@@ -99,6 +95,7 @@ export default function Settings() {
         return;
       }
       try {
+        setPersistedSelected(value);
         await AsyncStorage.setItem(storageKey, value);
       } catch (error) {
         console.error("Failed to save setting:", error);
@@ -304,7 +301,9 @@ export default function Settings() {
         <FlatList
           data={SettingsData}
           keyExtractor={(item) => item.key}
-          renderItem={({ item }) => <Item item={item} />}
+          renderItem={({ item }) => (
+            <Item item={item} themePreference={preference} currentAiModel={aiModel} />
+          )}
           className="w-full"
           contentContainerStyle={{ paddingBottom: 28, paddingTop: 10 }}
           showsVerticalScrollIndicator={false}
