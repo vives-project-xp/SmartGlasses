@@ -9,20 +9,20 @@ RUN apt-get update && \
 
 WORKDIR /app
 
+# Create writable directories for matplotlib and other tools
+RUN mkdir -p /app/.cache/matplotlib && \
+    mkdir -p /tmp && \
+    chmod -R 755 /app/.cache /tmp
+
+# Set matplotlib config directory to writable location BEFORE installing dependencies
+ENV MPLCONFIGDIR=/app/.cache/matplotlib
+ENV TMPDIR=/tmp
+
 COPY pyproject.toml .
 
 RUN pip install -q --no-cache-dir -e .
 
 COPY . .
-
-# Create writable directories for matplotlib and other tools
-RUN mkdir -p /app/.cache && \
-    mkdir -p /tmp && \
-    chmod -R 755 /app/.cache /tmp
-
-# Set matplotlib config directory to writable location
-ENV MPLCONFIGDIR=/app/.cache/matplotlib
-ENV TMPDIR=/tmp
 
 EXPOSE 8000
 
