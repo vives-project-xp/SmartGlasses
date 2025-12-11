@@ -1,53 +1,5 @@
 [
   {
-    "title": "Home page",
-    "colour": "#BDF",
-    "url": "https://smart-gestures.devbitapp.be/",
-    "description": null,
-    "appid": "null",
-    "appdescription": null
-  },
-  {
-    "title": "Swagger Docs",
-    "colour": "#BDF",
-    "url": "https://api.smart-gestures.devbitapp.be/docs",
-    "description": null,
-    "appid": "null",
-    "appdescription": null
-  },
-  {
-    "title": "Uptime Kuma",
-    "colour": "#161b1f",
-    "url": "http://gesture-project1.tail539c2b.ts.net:3001",
-    "description": "{\"enabled\":\"1\",\"dataonly\":\"1\",\"override_url\":null,\"apikey\":\"uk1_IQXRyDSDeLIDLEpclm1NJPNJg400_0H6PDj5iyNd\",\"ignore_tls\":\"0\"}",
-    "appid": "366c6646eedab83cc4b349f198424d2291cbfa76",
-    "appdescription": "It is a self-hosted monitoring tool like \"Uptime Robot\"."
-  },
-  {
-    "title": "Smartglasses Uptime",
-    "colour": "#BDF",
-    "url": "http://gesture-project1.tail539c2b.ts.net:3001/status/smartglasses",
-    "description": "{\"enabled\":\"0\",\"dataonly\":\"1\",\"override_url\":null,\"apikey\":\"uk1_IQXRyDSDeLIDLEpclm1NJPNJg400_0H6PDj5iyNd\",\"ignore_tls\":\"1\"}",
-    "appid": "366c6646eedab83cc4b349f198424d2291cbfa76",
-    "appdescription": null
-  },
-  {
-    "title": "Swagger Docs",
-    "colour": "#161b1f",
-    "url": "http://gesture-project1.tail539c2b.ts.net:8000/docs",
-    "description": null,
-    "appid": "null",
-    "appdescription": null
-  },
-  {
-    "title": "Smartglasses Documentatie",
-    "colour": "#161b1f",
-    "url": "http://gesture-project1.tail539c2b.ts.net:8085/",
-    "description": null,
-    "appid": "null",
-    "appdescription": null
-  },
-  {
     "title": "Portainer",
     "colour": "#161b1f",
     "url": "http://gesture-project1.tail539c2b.ts.net:9000",
@@ -56,9 +8,73 @@
     "appdescription": "Portainer is a simple management solution for Docker. Easily manage your Docker hosts and Docker Swarm clusters via Portainer web user interface."
   },
   {
+    "title": "Home page",
+    "colour": "#BDF",
+    "url": "https://signapse.devbitapp.be/",
+    "description": null,
+    "appid": "null",
+    "appdescription": null
+  },
+  {
+    "title": "Swagger Docs",
+    "colour": "#BDF",
+    "url": "https://api.signapse.devbitapp.be/docs",
+    "description": null,
+    "appid": "null",
+    "appdescription": null
+  },
+  {
+    "title": "Signapse Uptime",
+    "colour": "#BDF",
+    "url": "http://gesture-project1.tail539c2b.ts.net:3001/status/smartglasses",
+    "description": "{\"enabled\":\"0\",\"dataonly\":\"1\",\"override_url\":null,\"apikey\":\"uk1_IQXRyDSDeLIDLEpclm1NJPNJg400_0H6PDj5iyNd\",\"ignore_tls\":\"1\"}",
+    "appid": "366c6646eedab83cc4b349f198424d2291cbfa76",
+    "appdescription": null
+  },
+  {
+    "title": "Website",
+    "colour": "#161b1f",
+    "url": "http://signapse.internal",
+    "description": null,
+    "appid": "null",
+    "appdescription": null
+  },
+  {
+    "title": "GitHub",
+    "colour": "#BDF",
+    "url": "https://github.com/vives-project-xp/SmartGlasses",
+    "description": null,
+    "appid": "64b2b6d12bfe4baae7dad3d018f8cbf6b0e7a044",
+    "appdescription": "GitHub brings together the world's largest community of developers to discover, share, and build better software."
+  },
+  {
+    "title": "Traefik",
+    "colour": "#161b1f",
+    "url": "http://traefik.signapse.internal/",
+    "description": "{\"enabled\":\"0\",\"override_url\":null,\"fields\":\"E\",\"ignore_tls\":\"0\",\"username\":null,\"password\":null}",
+    "appid": "a83e2ce54bbef3bef63aa7f02b08dbda7fdae4c5",
+    "appdescription": "Træfik is a modern HTTP reverse proxy and load balancer that makes deploying microservices easy. Træfik integrates with your existing infrastructure components and configures itself automatically and dynamically."
+  },
+  {
+    "title": "Swagger Docs",
+    "colour": "#161b1f",
+    "url": "http://api.signapse.internal/docs",
+    "description": null,
+    "appid": "null",
+    "appdescription": null
+  },
+  {
     "title": "LakeFS",
     "colour": "#161b1f",
     "url": "http://gesture-project2.tail539c2b.ts.net:8000",
+    "description": null,
+    "appid": "null",
+    "appdescription": null
+  },
+  {
+    "title": "Documentation",
+    "colour": "#161b1f",
+    "url": "http://docs.signapse.internal/",
     "description": null,
     "appid": "null",
     "appdescription": null
@@ -70,5 +86,13 @@
     "description": null,
     "appid": "30747605e1f6faad5d1cedb2c7953d31ffad3fd4",
     "appdescription": "Minio is an object storage server released under Apache License v2.0. It is compatible with Amazon S3 cloud storage service. It is best suited for storing unstructured data such as photos, videos, log files, backups and container / VM images."
+  },
+  {
+    "title": "Uptime Kuma",
+    "colour": "#161b1f",
+    "url": "http://gesture-project1.tail539c2b.ts.net:3001",
+    "description": "{\"enabled\":\"1\",\"dataonly\":\"1\",\"override_url\":null,\"apikey\":\"uk1_IQXRyDSDeLIDLEpclm1NJPNJg400_0H6PDj5iyNd\",\"ignore_tls\":\"0\"}",
+    "appid": "366c6646eedab83cc4b349f198424d2291cbfa76",
+    "appdescription": "It is a self-hosted monitoring tool like \"Uptime Robot\"."
   }
 ]
