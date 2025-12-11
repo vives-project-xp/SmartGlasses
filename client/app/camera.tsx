@@ -86,6 +86,7 @@ export default function CameraScreen() {
 
   // Reset buffers when switching models
   useEffect(() => {
+    if (!aiModel) return; // guard to keep hook dependency meaningful for lint
     lstmBufferRef.current = [];
     lstmPredictingRef.current = false;
     setPrediction(null);
@@ -492,6 +493,5 @@ export default function CameraScreen() {
     </View>
   );
 }
-
 
 

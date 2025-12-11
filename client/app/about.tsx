@@ -1,5 +1,4 @@
 import { useTheme } from "@/lib/theme";
-import { router } from "expo-router";
 import { FlatList, Image, Linking, Pressable, Text, View } from "react-native";
 import React from "react";
 
