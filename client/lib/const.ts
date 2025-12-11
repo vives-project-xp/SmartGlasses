@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 // For mobile development, you need to use your computer's IP address
 // Run `ipconfig` (Windows) or `ifconfig` (Mac/Linux) to find your local IP
 // Example: "http://192.168.1.100:8000/"
-const DEFAULT_URL = Platform.OS === "web" ? "http://127.0.0.1:8000/" : "http://127.0.0.1:8000/"; // Change this to your computer's IP for mobile testing
+const DEFAULT_URL = "https://api.signapse.devbitapp.be/"; // Change this to your computer's IP for mobile testing
 
 // Runtime config is injected via public/config.js at container startup
 // This allows environment variables to be set at deploy time, not build time

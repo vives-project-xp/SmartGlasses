@@ -28,7 +28,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export function AppSettingsProvider({ children }: { children: ReactNode }) {
   const [aiModel, setAiModelState] = useState<AiModelSetting>(DEFAULT_AI_MODEL);
-  const [showLandmarksButton, setShowLandmarksButtonState] = useState<boolean>(true);
+  const [showLandmarksButton, setShowLandmarksButtonState] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
