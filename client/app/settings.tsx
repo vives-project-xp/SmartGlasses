@@ -261,17 +261,17 @@ export default function Settings() {
         {
           label: "Vlaamse gebarentaal - alfabet",
           value: "VGT",
-          description: "dit gebruikt het VGT - model.\ndit werkt enkel met het alfabet.",
+          description: "Dit gebruikt het VGT - model.\nDit werkt enkel met het alfabet.",
         },
         {
           label: "Amerikaanse gebarentaal - alfabet",
           value: "ASL",
-          description: "dit gebruikt het ASL - model.\ndit werkt enkel met het alfabet.",
+          description: "Dit gebruikt het ASL - model.\nDit werkt enkel met het alfabet.",
         },
         {
           label: "Vlaamse gebarentaal - woorden",
           value: "LSTM",
-          description: "dit gebruikt het LSTM - model.\ndit werkt enkel met woorden.",
+          description: "Dit gebruikt het LSTM - model.\nDit werkt enkel met woorden.",
         },
       ],
     },
@@ -289,7 +289,7 @@ export default function Settings() {
     },
     {
       key: "apistuff",
-      title: "Developer options",
+      title: "Ontwikkelaar instellingen",
       content: `Server URL: ${BASE_URL}\nServer versie: v${apiVersion}`,
     },
   ];

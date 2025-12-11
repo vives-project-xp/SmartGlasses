@@ -89,7 +89,7 @@ export default function About() {
     {
       key: "about",
       title: "Over het project",
-      content: "Signapse helpt je om gebarentaal om te zetten naar tekst in real time.\nDe app herkent handbewegingen met de camera en toont meteen wat er bedoeld wordt — zo wordt communiceren makkelijker en sneller.",
+      content: "Signapse helpt je om gebarentaal om te zetten naar tekst in real time.\nDe app herkent handbewegingen met de camera en toont meteen wat er bedoeld wordt, zo wordt communiceren makkelijker en sneller.",
     },
     {
       key: "idea",
@@ -101,7 +101,7 @@ export default function About() {
       key: "goals",
       title: "Doelen",
       content:
-        "Onze doelen zijn:\n• Gebaren in real time herkennen\n• Herkende gebaren omzetten naar natuurlijke tekst\n• Een eenvoudige en toegankelijke interface bieden\n• Zowel lokaal als via een server efficiënt werken.",
+        "Onze doelen zijn:\n• Gebaren in real time herkennen\n• Herkende gebaren omzetten naar natuurlijke tekst\n• Een eenvoudige en toegankelijke interface bieden\n• Zowel lokaal als via een server efficiënt werken",
     },
     {
       key: "features",
@@ -119,7 +119,7 @@ export default function About() {
       key: "mkdocs",
       title: "MKDocs",
       content:
-        "Alle informatie over het project vind je op onze documentatiesite",
+        "Alle informatie over het project vind je op onze documentatiesite.",
       link: "https://github.com/vives-project-xp/SmartGlasses/tree/main/docs",
     },
     {

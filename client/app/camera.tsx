@@ -36,7 +36,7 @@ export default function CameraScreen() {
 
   const cameraRef = useRef<CameraView>(null);
   const isFocused = useIsFocused();
-  const { colors } = useTheme();
+  const { colors, colorScheme } = useTheme();
   const { aiModel, alphabetModel, showLandmarksButton } = useAppSettings();
   const withAlpha = (hex: string, alpha: string = "D0") =>
     hex?.length === 7 ? `${hex}${alpha}` : hex;
@@ -290,7 +290,8 @@ export default function CameraScreen() {
         </>
       )}
 
-      <SafeAreaView
+      {aiModel === "VGT" && (
+        <SafeAreaView
         pointerEvents="box-none"
         className="absolute left-0 right-0 top-4 w-full px-4 sm:top-6 sm:px-6 md:top-4 md:px-8"
       >
@@ -313,7 +314,7 @@ export default function CameraScreen() {
           >
             <Image
               source={
-                colors.text === "#000000"
+                colorScheme === "light"
                   ? require("../assets/images/info-icon-b.png")
                   : require("../assets/images/info-icon-w.png")
               }
@@ -323,7 +324,8 @@ export default function CameraScreen() {
             />
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      )}
 
       <SafeAreaView
         pointerEvents="box-none"
@@ -347,7 +349,7 @@ export default function CameraScreen() {
                       className="mb-1 text-xs font-medium md:text-sm"
                       style={{ color: colors.textMuted }}
                     >
-                      Word
+                      Woord
                     </Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-1">
                       <Text
@@ -368,7 +370,7 @@ export default function CameraScreen() {
                       className="mb-1 text-xs font-medium md:text-sm"
                       style={{ color: colors.textMuted }}
                     >
-                      Current Letter
+                      Huidige Letter
                     </Text>
                     <Text
                       className="text-center text-2xl font-bold md:text-3xl"
@@ -431,7 +433,11 @@ export default function CameraScreen() {
           ) : (
             <View
               className="mb-3 w-full max-w-2xl self-center rounded-xl border px-4 py-3"
-              style={{ borderColor: colors.border, backgroundColor: cardTranslucent }}
+              style={{ 
+                borderColor: colors.border,
+                borderWidth: 0,
+                backgroundColor: cardTranslucent  
+              }}
             >
               <Text
                 className="mb-1 text-xs font-medium md:text-sm"
