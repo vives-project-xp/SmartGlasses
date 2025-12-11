@@ -8,11 +8,11 @@ Deze README begeleidt nieuwe teamleden die **nieuwe data** willen toevoegen en e
 2. Check een LakeFS-branch uit, voeg de ruwe en verwerkte data toe en commit/push.
 3. Download de data via `lakectl local clone` of `lakectl local pull` en wijs de trainingsscripts naar die map (`LAKEFS_DATA_PATH`).
 4. Train, valideer en sla het `.pth`-bestand op.
-5. Kopieer het model naar `notebooks/package/smart_gestures/.../models/`, bump `smart_gestures` en update de FastAPI- afhankelijkheid (zie [AI-Packages.md](./AI-Packages.md#model-lifecycle)).
+5. Kopieer het model naar `notebooks/package/smart_gestures/.../models/`, bump `smart_gestures` en update de FastAPI- afhankelijkheid (zie [AI-Packages.md](../AI-Packages.md#model-lifecycle)).
 
 ## 1. Voorwaarden
 
-- LakeFS + Minio draaien lokaal en CLI-tools zijn geconfigureerd. Volg [setup_guide_lakefs_minio.md](../Getting%20Started/Development/setup_guide_lakefs_minio.md) om:
+- LakeFS + Minio draaien lokaal en CLI-tools zijn geconfigureerd. Volg [setup_guide_lakefs_minio.md](../Development/setup_guide_lakefs_minio.md) om:
   - `docker compose up -d` te draaien in `notebooks/`.
   - `lakectl`/`mc` te installeren en `lakectl config` uit te voeren.
 - Virtuele omgeving met de notebook-dependencies (bijv. `python3.12 -m venv .venv && source .venv/bin/activate && pip install -r notebooks/requirements.txt`).
@@ -64,7 +64,7 @@ Kopieer je nieuwe alfabetdataset naar `datasets/vgt/<datum>/hand_landmarks.json`
    cd training/vgt_model
    ```
 
-2. Start de training met de gewenste hyperparameters (zie [CLI-tabel](./AI-Packages.md#cli-argumenten-per-trainingsscript)):
+2. Start de training met de gewenste hyperparameters (zie [CLI-tabel](../AI-Packages.md#cli-argumenten-per-trainingsscript)):
 
    ```bash
    python run_training.py \
@@ -92,7 +92,7 @@ Kopieer je nieuwe alfabetdataset naar `datasets/vgt/<datum>/hand_landmarks.json`
    ```
 
 2. Update `classes.json` indien de labelset uitbreidt.
-3. Volg de [model lifecycle](./AI-Packages.md#model-lifecycle) voor package bump, dependency-updates en smoke-tests (focus op `/alphabet/vgt/predict`).
+3. Volg de [model lifecycle](../AI-Packages.md#model-lifecycle) voor package bump, dependency-updates en smoke-tests (focus op `/alphabet/vgt/predict`).
 
 ## 3. LSTM-woordmodel opnieuw trainen
 
@@ -150,7 +150,7 @@ Volg dezelfde werkwijze als voor VGT, maar groepeer je data onder `datasets/lstm
      --output lstm_model_2024_12.pth
    ```
 
-   Pas de argumenten aan op basis van [de CLI-tabel](./AI-Packages.md#cli-argumenten-per-trainingsscript).
+   Pas de argumenten aan op basis van [de CLI-tabel](../AI-Packages.md#cli-argumenten-per-trainingsscript).
 
 3. Controleer de console-output en noteer de validatie-accuracy.
 
@@ -164,7 +164,7 @@ Volg dezelfde werkwijze als voor VGT, maar groepeer je data onder `datasets/lstm
    ```
 
 3. Update eventueel `gesture_map.json` en commit de wijzigingen.
-4. Volg de [model lifecycle checklist](./AI-Packages.md#model-lifecycle):
+4. Volg de [model lifecycle checklist](../AI-Packages.md#model-lifecycle):
    - Bump `smart_gestures` versie in `notebooks/package/pyproject.toml`.
    - Bouw/publiceer of installeer het nieuwe package (bijv. `pip install -e notebooks/package`).
    - Update `server/pyproject.toml` en `server/requirements.txt` zodat de FastAPI backend het nieuwe package gebruikt.
@@ -185,7 +185,7 @@ Nu is de dataset geversioneerd, het model opnieuw getraind en het backend packag
 
 **Document-informatie**:
 
-- **Versie**: 1.0
+- **Versie**: 1.1
 - **Datum**: December 2025
 - **Auteurs**: Lynn Delaere
 - **Contact**: Zie [GitHub repository](https://github.com/vives-project-xp/Signapse)

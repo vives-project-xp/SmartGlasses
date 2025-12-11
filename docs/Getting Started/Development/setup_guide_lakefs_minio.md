@@ -1,304 +1,190 @@
-# Lokale Setup & Data Versioning
+# Lokale Data Platform Setup (LakeFS + MinIO)
 
-## Inleiding
+## Inleiding & Scope
 
-Dit document beschrijft hoe je de Python-omgeving opzet en hoe je LakeFS en Minio lokaal kunt draaien voor data-versioning.
+### Context
 
-We splitsen dit op in vier duidelijke stappen:
+Het Signapse data-platform combineert **LakeFS** voor data-versioning en **MinIO** als S3-compatibele object store. Deze gids beschrijft hoe je dezelfde lokale basis opzet als in de centrale ontwikkelomgeving.
 
-- De Services Starten: LakeFS & Minio via Docker.
+### Scope
 
-- De Services Configureren: Je lokale clients (CLIs) instellen om met de services te praten.
+Dit document behandelt:
 
-- De Python Scripts Draaien: Twee opties om je code uit te voeren.
+- Het starten van LakeFS, MinIO en de notebook container via Docker Compose
+- De installatie en configuratie van de MinIO (`mc`) en LakeFS (`lakectl`) CLI's
+- Een standaard LakeFS workflow (clone, status, commit, branches)
+- Twee opties om Python-scripts uit te voeren (lokaal of in de container)
 
-- Basis Workflow: Hoe je een repository clonet.
+## Platformoverzicht
+
+### Componenten
+
+- **LakeFS** – Git-achtige versiecontrole voor data; web-UI op `http://localhost:8000/setup`
+- **MinIO** – S3-compatible storage back-end; web-UI op `http://localhost:9001`
+- **Notebook container** – Jupyter/Python runtime die automatisch mee start voor Optie B
+
+### Dataflow
+
+```label
+Data scientist → Docker Compose stack → MinIO bucket → LakeFS repository → lokale clone/Jupyter jobs
+```
 
 ## Vereisten
 
-Zorg dat je de volgende tools hebt geïnstalleerd voordat je begint:
+Installeer deze basis-tools voordat je begint:
 
 - Python 3.12
-
-- Docker
-
-- Docker Compose
-
+- Docker + Docker Compose
 - Git
 
-## Start de Core Services (LakeFS & Minio)
+## Stap 1 – Start de core services
 
-Dit is de basis. We gebruiken één docker-compose.yml bestand om zowel de LakeFS- als de Minio-server te starten. Dit bestand start ook een Python/Jupyter-container die je later kunt gebruiken (zie Deel 3, Optie B).
+### Repository & Docker Compose
 
-Clone de repository (als je dat nog niet hebt gedaan):
-
-```Shell
+```bash
 git clone <repository_url>
-```
-
-Navigeer naar de notebooks map (waar de docker-compose.yml staat):
-
-```Shell
 cd /pad/naar/je/repo/notebooks
 ```
 
-Maak een .env bestand aan vanuit het template. Hierin staan je keys en wachtwoorden.
+Maak een `.env` bestand op basis van het template en vul je eigen secrets in (`MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, ...):
 
-```Shell
+```bash
 cp .env.template .env
 ```
 
-Belangrijk: Open het .env bestand en pas de variabelen (zoals MINIO_ACCESS_KEY en MINIO_SECRET_KEY) aan naar wens.
+### Start stack
 
-Start alle services met Docker Compose:
-
-```Shell
-
+```bash
 docker compose up -d
 ```
 
-Je services zijn nu (lokaal) bereikbaar:
+- **LakeFS UI**: [http://localhost:8000/setup](http://localhost:8000/setup) – maak je eerste admin user aan
+- **MinIO UI**: [http://localhost:9001](http://localhost:9001) – login met de waarden uit `.env`
 
-- LakeFS Web UI: [http://localhost:8000/setup](http://localhost:8000/setup)
+## Stap 2 – Configureer storage (MinIO CLI)
 
-  - Volg de setup-instructies in de browser om je eerste admin-gebruiker aan te maken.
+### Installatie (mc)
 
-- Minio Web UI: [http://localhost:9001](http://localhost:9001)
+**Windows (PowerShell)**:
 
-  - Log in met de MINIO_ACCESS_KEY en MINIO_SECRET_KEY uit je .env bestand.
-
-## Configureer de Services (Eerste Gebruik)
-
-Nu de servers draaien, moeten we ze vertellen wat ze moeten doen. Hiervoor installeren en configureren we de lokale command-line clients (mc voor Minio en lakectl voor LakeFS).
-
-### Minio Client (mc) Setup
-
-Met de mc client maken we de storage bucket waar LakeFS zijn data zal opslaan.
-
-#### Installatie
-
-Windows (PowerShell):
-
-```PowerShell
-
-# Download de Minio client
+```powershell
 iwr https://dl.min.io/client/mc/release/windows-amd64/mc.exe -OutFile $env:USERPROFILE\mc.exe
-
-# Voeg toe aan je PATH (voor deze sessie)
 $env:PATH += ";" + $env:USERPROFILE
-
-# Verifieer
 mc.exe --version
-
 ```
 
-Linux (Bash):
+**Linux (Bash)**:
 
-```Bash
-
-# Download de Minio client
+```bash
 curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
-
-# Maak uitvoerbaar en verplaats
 chmod +x mc
 sudo mv mc /usr/local/bin/
-
-# Verifieer
 mc --version
 ```
 
-#### Configuratie & Bucket Aanmaken
+### Configuratie
 
-Configureer een alias: Vertel mc waar je Minio-server draait. Vervang <access_key> en <secret_key> met de waarden uit je .env bestand.
+1. **Alias aanmaken** – wijs `mc` naar je lokale MinIO API (`:9000`):
 
-```Bash
+   ```bash
+   mc alias set myminio http://localhost:9000 <access_key> <secret_key>
+   ```
 
-# We gebruiken poort 9000, de standaard API-poort voor Minio
-mc alias set myminio http://localhost:9000 <access_key> <secret_key>
-```
+2. **Bucket provisioneren** – dit wordt de fysieke opslag voor LakeFS:
 
-Maak een bucket: Dit is de opslaglocatie voor je data.
+   ```bash
+   mc mb myminio/<bucket_name>
+   ```
 
-```Bash
+   Gebruik bijvoorbeeld `lakefs-storage` als bucketnaam.
 
-mc mb myminio/<bucket_name>
-```
+## Stap 3 – Configureer LakeFS (lakectl)
 
-(Vervang <bucket_name> door een naam, bijv. lakefs-storage)
+### Installatie (lakectl)
 
-### LakeFS Client (lakectl) Setup
-  
-Met de lakectl client maken we een LakeFS repository die gelinkt is aan de Minio-bucket.
+**Windows (PowerShell)**:
 
-#### Installatie (lakectl)
-
-Windows (PowerShell):
-
-```PowerShell
-
-# Download de LakeFS CLI (v1.71.0)
+```powershell
 $zip = "$env:TEMP\lakectl.zip"
 iwr https://github.com/treeverse/lakeFS/releases/download/v1.71.0/lakeFS_1.71.0_Windows_x86_64.zip -OutFile $zip
-
-# Unzip naar een map
 $dst = "$env:USERPROFILE\bin\lakectl"
 mkdir $dst -Force | Out-Null
 Expand-Archive $zip -DestinationPath $dst -Force
-
-# Voeg toe aan je PATH (permanent)
 $env:Path = "$env:Path;$dst"
 setx PATH "$($env:Path)"
-
-# Herstart je terminal en verifieer
 lakectl --version
 ```
 
-Linux (Bash):
+**Linux (Bash)**:
 
-```Bash
-
-# Download de LakeFS CLI (v1.71.0)
+```bash
 curl -L https://github.com/treeverse/lakeFS/releases/download/v1.71.0/lakeFS_1.71.0_Linux_x86_64.tar.gz -o lakectl.tar.gz
-
-# Uitpakken en verplaatsen
 tar -xzf lakectl.tar.gz
 chmod +x lakectl
 sudo mv lakectl /usr/local/bin/
-
-# Opruimen en verifiëren
 rm lakectl.tar.gz
 lakectl --version
 ```
 
-#### Configuratie & Repository Aanmaken
+### Configuratie wizard
 
-Configureer de client: Dit start een interactieve wizard.
+Voer `lakectl config` uit en gebruik de admin credentials en endpoint die je in de LakeFS UI hebt aangemaakt (`http://localhost:8000`).
 
-```Bash
-lakectl config
-```
+### Repository koppelen
 
-Access Key & Secret Key: Gebruik de credentials van de admin-gebruiker die je in Start de core services (via de Web UI) hebt aangemaakt alsook het eindpoint die je daar hebt gebruikt.
-
-#### Maak een repository: Link LakeFS aan je Minio-bucket
-
-```Bash
-
+```bash
 lakectl repo create lakefs://<repo_name> s3://<bucket_name>
 ```
 
-Vervang <repo_name> door je gewenste reponaam (bijv. mijn-data-project).
+- `<repo_name>` – kies bv. `mijn-data-project`
+- `<bucket_name>` – de MinIO bucket uit stap 2 (`lakefs-storage`)
 
-Vervang <bucket_name> door de Minio-bucketnaam (bijv. lakefs-storage).
+Je LakeFS-installatie is nu gekoppeld aan MinIO.
 
-Je bent nu klaar! De services draaien en zijn geconfigureerd.
+## Stap 4 – Typische LakeFS workflow
 
-## Typische Workflow met LakeFS
+LakeFS werkt lokaal als Git voor data. Kerncommando's:
 
-Nu alles is opgezet, kun je de lakectl client gebruiken om met je data te werken, vergelijkbaar met Git.
-
-Clone een repository lokaal: Dit "mount" de LakeFS-repository als een lokale map, zodat je bestanden kunt zien en bewerken.
-
-```Bash
-
+```bash
 lakectl local clone lakefs://<repo_name> <local_directory>
-```
-
-Vervang <repo_name> door de naam die je in stap 2b hebt gemaakt.
-
-Vervang <local_directory> door een mapnaam (bijv. ./mijn-data).
-
-Check de status: Nadat je bestanden hebt toegevoegd of gewijzigd in de <local_directory>, kun je de status zien:
-
-```Bash
-# Controleer de status in de lokale directory
 lakectl local status <local_directory>
-
-# Maak een commit met een bericht ( . alle wijzigingen in de directory)
-lakectl local commit . -m "Je commit bericht hier"
-
-# Pull de laatste wijzigingen van de remote repository
+lakectl local commit . -m "Beschrijf je wijziging"
 lakectl local pull <local_directory>
-
-# Maak een nieuwe branch
 lakectl branch create lakefs://<repo_name>/<branch_name> --source lakefs://<repo_name>/<source_branch>
-
-# Wissel van branch (binnen een geclonede directory)
 lakectl local checkout <local_directory> --ref lakefs://<repo_name>/<branch_name>
-
 ```
 
-Voor meer commando's (zoals commit, push, merge), raadpleeg de LakeFS [documentatie](https://docs.lakefs.io/v1.60/howto/local-checkouts/)
+Gebruik `lakectl --help` of de [LakeFS documentatie](https://docs.lakefs.io/v1.60/howto/local-checkouts/) voor aanvullende workflows (push, merge, etc.).
 
-## De Python Scripts Draaien (Kies je Methode)
+## Stap 5 – Python runtimes
 
-Je hebt twee opties om de Python-scripts uit te voeren. Kies er één.
+Je draait de Python/AI code lokaal of in de VS Code dev container. De oude Jupyter container uit `docker-compose.yml` is verwijderd, dus kies een van onderstaande workflows.
 
-### Optie A: Lokaal op je Machine (met Virtual Environment)
+### Optie A – Native (virtual environment)
 
-Gebruik deze methode als je de scripts direct op je eigen besturingssysteem wilt draaien.
-
-Maak een virtual environment:
-
-```Bash
-
+```bash
 # Windows
 py -3.12 -m venv .\.venv
-
-# Linux
-python3.12 -m venv ./.venv`
-```
-
-Activeer de virtual environment:
-
-```Bash
-
-# Windows
 .\.venv\Scripts\activate
 
 # Linux
+python3.12 -m venv ./.venv
 source ./.venv/bin/activate
-```
-
-Installeer de dependencies:
-
-```Bash
 
 pip install -r requirements.txt
-```
-
-Draai je script:
-
-```Bash
-
 python your_script.py
 ```
 
-### Optie B: Via Docker (met de Ingebouwde Jupyter/Python Container)
+### Optie B – VS Code Dev Container
 
-Gebruik deze methode als je liever binnen de geïsoleerde Docker-omgeving werkt. De docker compose up opdracht uit Start de Core Services heeft deze container al voor je gestart.
+1. Installeer de **Dev Containers** extensie in VS Code.
+2. Open de command palette (`Ctrl/Cmd+Shift+P`) en kies `Dev Containers: Open Folder in Container...`.
+3. Selecteer de repository; VS Code bouwt de container op basis van `.devcontainer/devcontainer.json` (Python 3.12 image + tooling).
+4. Zodra de container draait kun je terminals starten binnen VS Code. Alle Python-commando's (inclusief `pip install -r requirements.txt` en `python your_script.py`) draaien geïsoleerd binnen dezelfde omgeving als de rest van het team.
 
-#### Jupyter Notebook Interface
+## Document-informatie
 
-Navigeer in je browser naar: [http://localhost:8888](http://localhost:8888)
-
-Je hebt een token nodig. Vind deze door de logs van de container te bekijken:
-
-```Shell
-
-# Zoek de containernaam (bijv. 'notebooks-jupyter-1')
-docker ps
-
-# Vraag de logs op (vervang containernaam)
-docker logs <jupyter_container_name>
-```
-
-Kopieer de token uit de logs (het deel na ?token=...) en plak dit in je browser.
-
-#### Direct scripts uitvoeren (via docker exec) Je kunt ook direct een commando uitvoeren binnen de draaiende Python-container
-
-```Shell
-docker exec -it <jupyter_container_name> python your_script.py
-```
-
-(Vervang <jupyter_container_name> en your_script.py.)
+- **Versie**: 1.3
+- **Datum**: December 2025
+- **Auteurs**: Lynn Delaere
+- **Contact**: Zie [GitHub repository](https://github.com/vives-project-xp/Signapse)

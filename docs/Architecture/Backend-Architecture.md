@@ -16,7 +16,7 @@ Dit document beschrijft de **backendlaag** die de frontends aanstuurt:
 - Endpoints (REST + WebSocket) inclusief doel en contracten
 - Datastromen tussen client, keypoint-service en inferentie-modellen
 
-Voor details over de AI-modellen zelf, zie [AI-Architecture.md](./AI-Architecture.md).
+Voor details over de AI-modellen zelf, zie [AI-Architecture.md](../Getting%20Started/AI-Packages.md).
 
 ## Overzicht Architectuur
 
@@ -222,7 +222,7 @@ Gebruik `ConnectionManager` om toekomstige features zoals push-notificaties voor
 
 **Document-informatie**:
 
-- **Versie**: 1.0
+- **Versie**: 1.1
 - **Datum**: December 2025
 - **Auteurs**: Lynn Delaere
 - **Contact**: Zie [GitHub repository](https://github.com/vives-project-xp/Signapse)
