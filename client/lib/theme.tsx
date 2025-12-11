@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useState,
   createContext,
@@ -70,7 +71,7 @@ const palettes: Record<"light" | "dark", ThemeColors> = {
 };
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [preference, setPreference] = useState<ThemePreference>("system");
+  const [preference, setPreferenceState] = useState<ThemePreference>("system");
   const [systemScheme, setSystemScheme] = useState<"light" | "dark">(
     Appearance.getColorScheme() ?? "light"
   );
@@ -78,12 +79,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     colorScheme: nativeWindScheme,
     setColorScheme: setNativeWindScheme,
   } = useNativeWindColorScheme();
+  const setPreference = useCallback((value: ThemePreference) => {
+    setPreferenceState(value);
+    AsyncStorage.setItem(THEME_PREF_KEY, value).catch((error) =>
+      console.error("Failed to persist theme preference:", error)
+    );
+  }, []);
 
   useEffect(() => {
     (async () => {
       const saved = await AsyncStorage.getItem(THEME_PREF_KEY);
       if (saved === "light" || saved === "dark" || saved === "system") {
-        setPreference(saved);
+        setPreferenceState(saved);
       }
     })();
   }, []);
@@ -96,10 +103,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     });
     return () => sub.remove();
   }, []);
-
-  useEffect(() => {
-    AsyncStorage.setItem(THEME_PREF_KEY, preference);
-  }, [preference]);
 
   const colorScheme: "light" | "dark" =
     preference === "system" ? systemScheme : preference;
