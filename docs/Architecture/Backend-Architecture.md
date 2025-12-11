@@ -34,40 +34,40 @@ Alle zware objecten (MediaPipe detectors, PyTorch-modellen) worden **éénmalig 
 ### Contextdiagram
 
 ```mermaid
-graph LR
-  subgraph Client["Client (Expo/React Native/Web)"]
-    CAM["CameraView & hooks<br/>client/app/camera.tsx"]
-    APIClient["API helpers<br/>client/lib/api.ts"]
+---
+config:
+  layout: elk
+---
+flowchart RL
+ subgraph Client["Client (Expo/React Native/Web)"]
+        CAM["CameraView &amp; hooks<br>client/app/camera.tsx"]
+        APIClient["API helpers<br>client/lib/api.ts"]
   end
-
-  subgraph Backend["FastAPI backend<br/>server/src/main.py"]
-    ROOT["Root & Health<br/>routes/root.py"]
-    KP["Keypoints router<br/>/keypoints/*"]
-    ALPHA["Alphabet router<br/>/alphabet/{asl|vgt}/*"]
-    GEST["Gestures router<br/>/gestures/lstm/*"]
-    WS["WebSocket /ws"]
+ subgraph Backend["FastAPI backend<br>server/src/main.py"]
+        ROOT["Root &amp; Health<br>routes/root.py"]
+        KP["Keypoints router<br>/keypoints/*"]
+        ALPHA["Alphabet router<br>/alphabet/{asl|vgt}/*"]
+        GEST["Gestures router<br>/gestures/lstm/*"]
+        WS["WebSocket /ws"]
   end
-
-  subgraph AI["AI & Feature laag"]
-    MP["MediaPipe Hands/Holistic<br/>cv2 + mediapipe"]
-    ASL["smart_gestures.alphabet.ASLModel"]
-    VGT["smart_gestures.alphabet.VGTModel"]
-    LSTM["smart_gestures.gestures.LSTMModel"]
+ subgraph AI["AI & Feature laag"]
+        MP["MediaPipe Hands/Holistic<br>cv2 + mediapipe"]
+        ASL["smart_gestures.alphabet.ASLModel"]
+        VGT["smart_gestures.alphabet.VGTModel"]
+        LSTM["smart_gestures.gestures.LSTMModel"]
   end
-
-  CAM -->|Frames| APIClient
-  APIClient -->|Images| KP
-  KP -->|21/258 keypoints| APIClient
-  APIClient -->|Landmarks JSON| ALPHA
-  APIClient -->|Sequences (40×258)| GEST
-  ALPHA -->|REST response| APIClient
-  GEST -->|REST response| APIClient
-  WS -->|Realtime feedback| APIClient
-
-  KP --> MP
-  ALPHA --> ASL
-  ALPHA --> VGT
-  GEST --> LSTM
+    CAM -- Frames --> APIClient
+    APIClient -- Images --> KP
+    KP -- 21/258 keypoints --> APIClient
+    APIClient -- Landmarks JSON --> ALPHA
+    APIClient -- Sequences (40x258) --> GEST
+    ALPHA -- REST response --> APIClient
+    GEST -- REST response --> APIClient
+    WS -- Realtime feedback --> APIClient
+    KP --> MP
+    ALPHA --> ASL & VGT
+    GEST --> LSTM
+    APIClient --> n1["Untitled Node"]
 ```
 
 ## Kerncomponenten
