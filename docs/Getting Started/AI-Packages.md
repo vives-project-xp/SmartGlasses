@@ -140,3 +140,10 @@ Onderstaande checklist beschrijft hoe een nieuw `.pth`-model in productie komt:
 - `notebooks/package/smart_gestures/gestures/lstm_model/model.py` — sequentiële preprocess, `nn.LSTM` en padded sequence handling.
 - `notebooks/training/asl_model/run_training.py`, `.../vgt_model/run_training.py`, `.../lstm_model/run_training.py` — beschrijven hoe datasets geladen en modellen getraind worden met augmentaties, callbacks en checkpoints.
 - `docs/Architecture/README.md` — high-level architectuur; combineer dit document voor deep-dive info met het hoofdarchitectuuroverzicht.
+
+**Document-informatie**:
+
+- **Versie**: 1.0
+- **Datum**: December 2025
+- **Auteurs**: Lynn Delaere
+- **Contact**: Zie [GitHub repository](https://github.com/vives-project-xp/Signapse)

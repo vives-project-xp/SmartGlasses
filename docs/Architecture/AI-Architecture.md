@@ -15,6 +15,8 @@ Dit document beschrijft uitsluitend de **AI-componenten** en hun integratie binn
 - De API-laag die de AI-functionaliteit aanbiedt
 - De gebruikte technologieën en frameworks
 
+Voor een deep-dive in het `smart_gestures` package, model lifecycle en alle CLI-opties, zie [AI-Packages.md](./AI-Packages.md).
+
 ## Overzicht Architectuur
 
 ### High-level AI-architectuur
