@@ -4,4 +4,4 @@ metadata:
   name: client-config
   namespace: signapse
 data:
-  EXPO_PUBLIC_API_URL: "http://api.signapse.local"
+  EXPO_PUBLIC_API_URL: "https://api.signapse.devbitapp.be"

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: docs
+  name: server
   namespace: signapse
   annotations:
     keel.sh/policy: all
@@ -11,37 +11,69 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: docs
+      app: server
   template:
     metadata:
       labels:
-        app: docs
+        app: server
     spec:
       imagePullSecrets:
         - name: ghcr-secret
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
       containers:
-        - name: docs
-          image: ghcr.io/vives-project-xp/signapse/docs:8.0.0
+        - name: server
+          image: ghcr.io/vives-project-xp/signapse/server:0.3
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: cache-volume
+              mountPath: /.cache
+            - name: config-volume
+              mountPath: /.config
+            - name: tmp-volume
+              mountPath: /app/.cache
+          envFrom:
+            - configMapRef:
+                name: server-config
           ports:
             - containerPort: 8000
           resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
             limits:
-              cpu: "250m"
-              memory: "256Mi"
+              cpu: "500m"
+              memory: "1Gi"
+            requests:
+              cpu: "200m"
+              memory: "768Mi"
           readinessProbe:
-            exec:
-              command: ["sh", "-c", "nc -z 127.0.0.1 8000"]
-            initialDelaySeconds: 5
-            periodSeconds: 30
+            httpGet:
+              path: /health
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 60
             timeoutSeconds: 5
             failureThreshold: 3
           livenessProbe:
-            exec:
-              command: ["sh", "-c", "nc -z 127.0.0.1 8000"]
-            initialDelaySeconds: 5
-            periodSeconds: 30
+            httpGet:
+              path: /health
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 90
+            periodSeconds: 60
             timeoutSeconds: 5
             failureThreshold: 3
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}         
+        - name: cache-volume
+          emptyDir: {}         
+        - name: config-volume
+          emptyDir: {}         
