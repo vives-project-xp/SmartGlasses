@@ -3,8 +3,9 @@
 This document provides a comprehensive overview of how the MkDocs documentation system is structured and configured in the Smart Glasses project.
 
 ## Table of Contents <!-- TOC -->
+
 - [MkDocs Structure Guide](#mkdocs-structure-guide)
-  - [Table of Contents ](#table-of-contents-)
+  - [Table of Contents](#table-of-contents-)
   - [Directory Structure](#directory-structure)
   - [Configuration Architecture](#configuration-architecture)
     - [1. Main Configuration (`config/mkdocs/mkdocs.yml`)](#1-main-configuration-configmkdocsmkdocsyml)
@@ -50,7 +51,11 @@ SmartGlasses/
 │   ├── mkdocs.yml              # Main MkDocs configuration
 │   └── Dockerfile              # Docker container definition
 ├── docs/                       # Documentation content
-│   └── ...                     # Documentation sections
+│   ├── architecture/           # Architecture design docs
+│   ├── development/            # Development guides & tools
+│   ├── getting-started/        # Onboarding guides
+│   ├── resources/              # Project assets (posters, wireframes)
+│   └── index.md                # Documentation homepage
 ├── assets/                     # Static assets (images, logos, etc.)
 │   ├── favicon.ico             # Site favicon
 │   └── smart_glasses_logo.webp # Project logo

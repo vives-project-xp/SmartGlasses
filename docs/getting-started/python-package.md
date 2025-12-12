@@ -1,4 +1,4 @@
-# Smart Gestures AI Package
+# Python Package
 
 Dit document beschrijft de `smart_gestures`-package die de Signapse AI-modellen bundelt. De focus ligt op module-indeling, gebruikte PyTorch-componenten, inference-preprocessing en trainingsutilities rond MediaPipe en NumPy.
 
@@ -48,6 +48,7 @@ smart_gestures/
 ## Inference-paden
 
 ### Alphabet-modellen (ASL/VGT)
+
 1. **Data-ingang**: lijst van 21 landmarks met `x,y,z`-velden (MediaPipe Hands output).
 2. **Normalisatie** (`normalize_landmarks`): translatie naar pols-oorsprong + schaling op `wrist_to_middle` afstand; resulteert in een `(21, 3)` array.
 3. **Flattening**: `reshape(-1)` → 63 features.
@@ -55,6 +56,7 @@ smart_gestures/
 5. **Forward pass**: `nn.Sequential` produceert logits, daarna softmax voor klasse + confidence.
 
 ### LSTM woordmodel
+
 1. **Data-ingang**: sequentie van maximaal 40 frames waarin elk frame 258 features heeft (`pose + left hand + right hand`). Deze 258-d vectoren worden opgebouwd door de MediaPipe `/keypoints/pose` endpoint.
 2. **Normalisatie** (`normalize_landmarks` in `gestures/lstm_model/model.py`): centreert hand-keypoints op het eerst gedetecteerde polskoordinaat en schaalt op de pols → middelvinger afstand. Pose-coördinaten blijven ongewijzigd.
 3. **Padding/Truncation** (`prepare_input`): sequenties korter dan 40 frames worden met nullen opgevuld; langere sequenties worden afgekapt. De bijhorende lengte wordt meegegeven voor packed sequences.
@@ -139,7 +141,7 @@ Onderstaande checklist beschrijft hoe een nieuw `.pth`-model in productie komt:
 - `notebooks/package/smart_gestures/alphabet/vgt_model/model.py` — identieke architectuur met aangepaste label-set en calibratie callbacks.
 - `notebooks/package/smart_gestures/gestures/lstm_model/model.py` — sequentiële preprocess, `nn.LSTM` en padded sequence handling.
 - `notebooks/training/asl_model/run_training.py`, `.../vgt_model/run_training.py`, `.../lstm_model/run_training.py` — beschrijven hoe datasets geladen en modellen getraind worden met augmentaties, callbacks en checkpoints.
-- `docs/Architecture/README.md` — high-level architectuur; combineer dit document voor deep-dive info met het hoofdarchitectuuroverzicht.
+- [AI Architecture](../architecture/machine-learning/index.md) — high-level architectuur; combineer dit document voor deep-dive info met het hoofdarchitectuuroverzicht.
 
 **Document-informatie**:
 

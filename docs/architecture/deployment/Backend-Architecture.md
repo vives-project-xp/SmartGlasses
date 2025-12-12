@@ -16,7 +16,7 @@ Dit document beschrijft de **backendlaag** die de frontends aanstuurt:
 - Endpoints (REST + WebSocket) inclusief doel en contracten
 - Datastromen tussen client, keypoint-service en inferentie-modellen
 
-Voor details over de AI-modellen zelf, zie [AI-Architecture.md](../Getting%20Started/AI-Packages.md).
+Voor details over de AI-modellen zelf, zie [AI-Architecture](machine-learning/index.md).
 
 ## Overzicht Architectuur
 
@@ -143,6 +143,7 @@ flowchart RL
 | `/keypoints/pose` | POST | Bouwt één `LSTMFrame` (pose + beide handen) voor sequential models. | `multipart/form-data` met frame. | `LSTMFrame` (33 pose + 2×21 hand landmarks). |
 
 Technische highlights:
+
 - `prepare_image()` decodeert bytes → `numpy` → RGB.
 - Persistente MediaPipe detectors vermijden init-overhead per request.
 

@@ -15,8 +15,8 @@ COPY config/mkdocs /config
 COPY /assets /docs/assets
 
 # Copy documentation files
-COPY /README.md /docs/README.md
 COPY /docs /docs
+COPY /README.md /docs/index.md
 
 # Expose port for MkDocs
 EXPOSE 8000
