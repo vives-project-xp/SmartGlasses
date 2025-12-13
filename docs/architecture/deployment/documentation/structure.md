@@ -87,23 +87,13 @@ docs_dir: /docs  # Points to the documentation root directory
 
 #### Theme Configuration
 
-- **Base Theme**: Material for MkDocs
-- **Color Scheme**: Red primary, pink accent
-- **Dark/Light Mode**: Automatic system preference detection with manual toggle
-- **Features Enabled**:
-  - Navigation tabs and sections
-  - Integrated table of contents
-  - Search suggestions and highlighting
-  - Code copying and annotations
-  - Content tabs linking
+The documentation uses Material for MkDocs as its base theme, configured with a red primary color and pink accent color scheme. The theme automatically detects the user's system preference for dark or light mode while providing a manual toggle for overriding this preference.
+
+Several advanced features are enabled to enhance navigation and usability, including navigation tabs and sections for better content organization, an integrated table of contents for quick reference, search suggestions with result highlighting, code copying capabilities with annotations, and linked content tabs for organizing related information.
 
 #### Markdown Extensions
 
-- **Syntax Highlighting**: `pymdownx.highlight` with line numbers
-- **Code Features**: Inline highlighting, snippets, superfences
-- **Diagrams**: Mermaid diagram support through custom fences
-- **Content Enhancement**: Tables, admonitions, footnotes
-- **Navigation**: Table of contents with permalinks
+The documentation leverages several markdown extensions to enhance content presentation. Syntax highlighting is provided by `pymdownx.highlight` with line number support, while code features include inline highlighting, snippets, and superfences for advanced code block formatting. Mermaid diagram support is enabled through custom fences, allowing developers to create diagrams directly in markdown. Content is further enhanced with support for tables, admonitions, and footnotes. Navigation is streamlined through an automatically generated table of contents with permalinks for easy reference sharing.
 
 #### Plugins
 
@@ -119,8 +109,7 @@ The containerization strategy includes:
 FROM python:3.11-alpine
 ```
 
-- Lightweight Alpine Linux base
-- Python 3.11 for modern compatibility
+The Docker container is built on a lightweight Alpine Linux base with Python 3.11, providing modern compatibility while minimizing the image size.
 
 #### Dependencies
 
@@ -128,8 +117,7 @@ FROM python:3.11-alpine
 RUN pip install --no-cache-dir mkdocs-material
 ```
 
-- MkDocs Material theme (includes MkDocs core)
-- No cache to minimize image size
+The container installs the MkDocs Material theme, which includes the core MkDocs package. The installation uses the `--no-cache-dir` flag to minimize the final image size by avoiding unnecessary cached files.
 
 #### File Structure Setup
 
@@ -169,51 +157,27 @@ services:
 
 **Key Features**:
 
-- **Port Mapping**: External port 8085 → Internal port 8000
-- **User Mapping**: Preserves file permissions with host user/group
-- **Auto-Restart**: Container restarts automatically unless manually stopped
-- **Live Reload**: Enabled for development convenience
+The service maps external port 8085 to the internal container port 8000, making the documentation accessible at localhost:8085. User mapping is configured to preserve file permissions by matching the host user and group IDs, preventing permission conflicts when editing documentation files. The container is configured to automatically restart unless manually stopped, ensuring the documentation remains available even after system reboots. Live reload is enabled for development convenience, automatically refreshing the browser when documentation changes are detected.
 
 ## Content Organization
 
 Documentation files are stored in the `/docs` directory, organized by topic or project component. Each section can contain multiple Markdown files, which MkDocs automatically converts into a navigable website.
 
-Assets are:
-
-- Copied into the Docker container at build time
-- Referenced in MkDocs configuration
-- Accessible to all documentation pages
+Assets are copied into the Docker container at build time and referenced in the MkDocs configuration, making them accessible to all documentation pages throughout the site.
 
 ## Development Workflow
 
 ### 1. Local Development
 
-Start the documentation server.
-
-```bash
-docker-compose up docs
-
-```
-
-Access at <http://localhost:8085>.
-
-Changes auto-reload in browser.
+Start the documentation server using `docker-compose up docs`. Once running, access the documentation at <http://localhost:8085>. The development server monitors file changes and automatically reloads them in your browser, providing immediate feedback as you write and edit documentation.
 
 ### 2. Content Creation
 
-- Add new documentation files to /docs directory
-- Use Markdown syntax
-- Reference images in /assets directory
+Create new documentation by adding Markdown files to the `/docs` directory. Write your content using standard Markdown syntax, and reference any images or other assets from the `/assets` directory to keep your documentation well-organized and maintainable.
 
 ### 3. Configuration Updates
 
-1. Modify `config/mkdocs/mkdocs.yml`.
-1. Rebuild container if needed.
-
-```bash
-docker-compose build docs
-docker-compose up docs
-```
+To update the MkDocs configuration, modify the `config/mkdocs/mkdocs.yml` file. If your changes affect the Docker container setup, rebuild the container using `docker-compose build docs` followed by `docker-compose up docs` to apply the changes.
 
 ## Advanced Features
 
@@ -290,41 +254,29 @@ Result:
 
 ### Theme Customization
 
-- Colors and branding in `mkdocs.yml`
-- Custom CSS through theme overrides
-- Logo and favicon replacement
+Customize the documentation theme by adjusting colors and branding settings in the `mkdocs.yml` configuration file. For more advanced styling needs, you can add custom CSS through theme overrides. The project logo and favicon can be replaced by updating the corresponding asset files referenced in the configuration.
 
 ### Navigation Structure
 
-- Automatic from file structure
-- Manual override in `mkdocs.yml` nav section
-- Section grouping and ordering
+By default, MkDocs automatically generates the navigation structure from your file organization. However, you can manually override this by defining a custom navigation hierarchy in the `mkdocs.yml` nav section, allowing you to control section grouping and page ordering to better suit your documentation flow.
 
 ### Plugin Extensions
 
-- Additional plugins via `pip install` in Dockerfile
-- Plugin configuration in `mkdocs.yml`
-- Custom plugin development possible
+Extend MkDocs functionality by installing additional plugins through `pip install` commands in the Dockerfile. Configure these plugins in the `mkdocs.yml` file to enable their features. For unique requirements, custom plugin development is also possible within the MkDocs framework.
 
 ## Deployment Considerations
 
 ### Production Deployment
 
-- Static site generation: `mkdocs build`
-- Serve static files with web server (Nginx, Apache)
-- CI/CD integration for automatic builds
+For production deployment, generate a static site using the `mkdocs build` command. The resulting static files can be served by any standard web server such as Nginx or Apache. Consider integrating the build process into your CI/CD pipeline to automatically generate and deploy documentation updates whenever changes are committed.
 
 ### Performance Optimization
 
-- Asset optimization
-- Search index tuning
-- Plugin selection and configuration
+Optimize documentation performance by compressing and optimizing assets before including them in your documentation. Fine-tune the search index configuration to balance search quality with load times. Carefully select and configure only the plugins you actually need, as each additional plugin can impact build and load performance.
 
 ### Security
 
-- No server-side processing required
-- Static files reduce attack surface
-- Container isolation provides additional security
+The static site approach provides inherent security benefits since no server-side processing is required, significantly reducing the attack surface compared to dynamic documentation systems. Running the development server in a Docker container provides additional isolation, keeping the documentation environment separate from the host system.
 
 ## Troubleshooting
 
