@@ -11,14 +11,14 @@
     "preview": {
       "distribution": "internal",
       "env":{
-      "EXPO_PUBLIC_API_URL":"https://api.smart-gestures.devbitapp.be"
+      "EXPO_PUBLIC_API_URL":"https://api.signapse.devbitapp.be"
       }
     },
     "production": {
       "autoIncrement": true,
       "distribution": "store",
       "env":{
-      "EXPO_PUBLIC_API_URL":"https://api.smart-gestures.devbitapp.be"
+      "EXPO_PUBLIC_API_URL":"https://api.signapse.devbitapp.be"
       },
       "android": {
         "buildType": "app-bundle"
