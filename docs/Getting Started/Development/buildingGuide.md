@@ -110,8 +110,8 @@ With a local build, the app is built on your own computer. Useful for quick test
 npx eas build --platform android '--local' --profile preview 
 npx eas build --platform ios '--local' --profile preview
 ```
-!!!! note
-     for ease we pre programmed the command in scripts in package.json like so:
+!!! note
+    for ease we pre programmed the command in scripts in package.json like so:
 
 ```json
 "scripts":
