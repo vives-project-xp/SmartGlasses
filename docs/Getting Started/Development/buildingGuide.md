@@ -1,6 +1,4 @@
-<div style="text-align: center;">
-  <img src="/assets/cli.png" alt="Beschrijving van afbeelding" width="200">
-</div>
+
 # EAS Build Guide
 
 This guide describes how to perform three types of builds with **EAS (Expo Application Services)**: cloud builds, local builds, and iOS builds. This is suitable for beginners and other developers who want to get started quickly.
@@ -105,6 +103,7 @@ With a local build, the app is built on your own computer. Useful for quick test
 
    * Android: Android Studio / SDK [https://developer.android.com/studio](https://developer.android.com/studio)
    * iOS: macOS + Xcode (for local builds) [https://developer.apple.com/xcode/](https://developer.apple.com/xcode/)
+
 2. Start the local build:
 
 ```bash
@@ -112,31 +111,41 @@ npx eas build --platform android '--local' --profile preview
 npx eas build --platform ios '--local' --profile preview
 ```
 !!!! note
-    for ease we pre programmed the command in scripts in package.json like so:
-    ```json
-    "scripts":
-    {
-        "prod:build:android": "npx eas build --platform android --profile production --clear-cache",
-        "prod:build:ios": "npx eas build --platform ios --profile production --clear-cache",
-        "dev:build:android": "npx eas build --platform android  --profile development --clear-cache",
-        "dev:build:ios": "npx eas build --platform ios --profile development --clear-cache",
-        "preview:build:android": "npx eas build --platform android --profile preview --clear-cache",
-        "preview:build:ios": "npx eas build --platform ios --profile preview --clear-cache",
-      }
-    ```
+     for ease we pre programmed the command in scripts in package.json like so:
 
-    You can run these commands via:
-    ```bash
-    npm run prod:build:android # this will trigger a production build for android
-    npm run prod:build:ios # this will trigger a production build for ios
-    npm run dev:build:android # this will trigger a development build for android
-    npm run dev:build:ios # this will trigger a development build for ios
-    npm run preview:build:android # this will trigger a preview build for android
-    npm run preview:build:ios # this will trigger a preview build for ios
-    ```
-    you can still add extra flags like `--local` if needed.
+```json
+"scripts":
+  {
+    "prod:build:android": "npx eas build --platform android --profile production --clear-cache",
+    "prod:build:ios": "npx eas build --platform ios --profile production --clear-cache",
+    "dev:build:android": "npx eas build --platform android  --profile development --clear-cache",
+    "dev:build:ios": "npx eas build --platform ios --profile development --clear-cache",
+    "preview:build:android": "npx eas build --platform android --profile preview --clear-cache",
+    "preview:build:ios": "npx eas build --platform ios --profile preview --clear-cache",
+  }
+```
+
+You can run these commands via:
+
+```bash
+  npm run prod:build:android # this will trigger a cloud production build for android 
+
+  npm run prod:build:ios # this will trigger a cloud production build for ios
+
+  npm run dev:build:android # this will trigger a cloud development build for android
+
+  npm run dev:build:ios # this will trigger a cloud development build for ios
+
+  npm run preview:build:android # this will trigger a cloud preview build for android
+
+  npm run preview:build:ios # this will trigger a cloud preview build for ios
+```
+you can still add extra flags like `-- --local` if needed.
+
+(note the extra `--` before local in the npm scripts to pass the flag correctly)
 
 You can rename the file afterward using F2.
+
 3. The build runs locally and the result is in the `./build` folder of your project.
 
 #### Example terminal output:
@@ -190,7 +199,9 @@ npx eas build --platform ios --profile production
     npm run dev:build:ios # this will trigger a development build for ios
     npm run preview:build:ios # this will trigger a preview build for ios
     ```
-    you can still add extra flags like `--non-interactive` if needed.
+    you can still add extra flags like `-- --non-interactive` if needed.
+
+    (note the extra `--` before non-interactive in the npm scripts to pass the flag correctly)
 
 #### Example terminal output:
 

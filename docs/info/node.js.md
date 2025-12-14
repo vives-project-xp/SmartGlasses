@@ -1,6 +1,6 @@
 # Node.js Reference Guide
 
-![node.js logo](/assets/node.js_logo.png)
+![node.js logo](/docs/assets/node.js_logo.png)
 ## What is Node.js?
 
 Node.js is a [**JavaScript runtime**](https://nodejs.org/en/about/) built on the [**V8 engine**](https://nodejs.org/en/learn/getting-started/the-v8-javascript-engine), the same engine that powers Google Chrome. Instead of running JavaScript inside a browser, Node.js allows you to run JavaScript directly on your machine as a backend or scripting environment.
@@ -131,10 +131,15 @@ app.listen(port, () => {
 });
 ```
 -	`import express from "express";` — Import the Express module.
+
 -	`const app = express();` — Create an Express application.
+
 -	`const port = 3000;` — Define the port number (3000).
+
 -	`app.get("/", (req, res) => { ... });` — Define a route for GET requests to the root URL.
+
 - `res.send("Hello from Express!");` — Send a response to the client (Hello from Express!).
+
 -	`app.listen(port, () => { ... });` — Start the server on the specified port.
 
 Run it via:

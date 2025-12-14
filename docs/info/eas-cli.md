@@ -1,5 +1,5 @@
 
-![EAS-CLI Logo](/assets/cli.png)
+![EAS-CLI Logo](/docs/assets/cli.png)
 
 # EAS-CLI — Info
 (Expo Application Services Command Line Interface)
@@ -224,12 +224,19 @@ async function checkForUpdates() {
 }
 ```
 rollout strategies:
+
 *  `Immediate`: Apply the update as soon as it's downloaded.
+
 *  `On Next Restart`: Apply the update the next time the app is restarted.
+
 *  `Custom Logic`: Implement your own logic to determine when to apply the update.
+
 *  `Rollout Percentage`: Gradually roll out the update to a percentage of users.
+
 *  `Staged Rollout`: Release the update to specific user segments or regions first.
+
 *  `Scheduled Rollout`: Plan updates to be released at specific times.
+
 *  `Manual Approval`: Require manual approval before applying updates.
 
 you can do all this configuration in the `eas.json` file with the `workflow` option:
