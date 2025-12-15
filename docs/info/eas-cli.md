@@ -360,9 +360,9 @@ eas build --platform ios --profile development # This  will create a build that 
 
 2. Start the build:
 
-   ```bash
-   npx eas build --platform android --profile production
-   ```
+      ```bash
+      npx eas build --platform android --profile production
+      ```
 
 3. Follow the prompts:
    - Log in with your Google account
@@ -374,9 +374,9 @@ eas build --platform ios --profile development # This  will create a build that 
 
 6. Submit the app to the Google Play Store using EAS Submit:
 
-   ```bash
-   eas submit --platform android --profile production
-   ```
+      ```bash
+      eas submit --platform android --profile production
+      ```
 
 7. Complete the submission by following the prompts.
 
@@ -392,9 +392,9 @@ eas build --platform ios --profile development # This  will create a build that 
 
 2. Start the build:
 
-   ```bash
-   npx eas build --platform ios --profile production
-   ```
+      ```bash
+      npx eas build --platform ios --profile production
+      ```
 
 3. Follow the prompts:
    - Sign in with your Apple ID
@@ -406,10 +406,9 @@ eas build --platform ios --profile development # This  will create a build that 
 5. When the build finishes, download the generated `.ipa` file.
 
 6. Submit the app to the App Store using EAS Submit:
-
-   ```bash
-   eas submit --platform ios --profile production
-   ```
+      ```bash
+      eas submit --platform ios --profile production
+      ```
 
 7. Complete the submission by following the prompts.
 
