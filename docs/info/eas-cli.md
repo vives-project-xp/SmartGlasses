@@ -5,7 +5,7 @@
 (Expo Application Services Command Line Interface)
 
 !!! warning
-	This file serves as a reference for understanding EAS-CLI. For installation or setup, see the [Getting Started](../Getting%20Started/README.md) folder of your Expo project.
+	  This file serves as a reference for understanding EAS-CLI. For installation or setup, see the [Getting Started](../Getting%20Started/README.md) folder of your Expo project.
 ---
 
 ## What is EAS-CLI?
@@ -15,13 +15,13 @@ It replaces traditional local native build pipelines by offering a consistent, a
 
 `EAS` consists of several core services:
 
-*   `EAS Build` — Cloud-based iOS & Android builds.
+* `EAS Build` — Cloud-based iOS & Android builds.
 
-*   `EAS Submit` — Automated submission to app stores.
+* `EAS Submit` — Automated submission to app stores.
 
-*   `EAS Update` — Over-the-air updates without rebuilding binaries.
+* `EAS Update` — Over-the-air updates without rebuilding binaries.
 
-*   `EAS Device` — Register physical iOS devices for internal distribution.
+* `EAS Device` — Register physical iOS devices for internal distribution.
 
 The **EAS CLI** is the local command-line tool used to interact with these services.
 
@@ -93,12 +93,12 @@ EAS Build allows you to create native builds of your app in the cloud or on your
 
 Common build profiles include:
 
-*	`preview`: For quick testing with minimal optimizations.
-*	`development`: For testing with debug options enabled.
-*	`production`: For app store distribution with optimizations.
-*	`custom`: User-defined profiles for specific build configurations.
-*	`internal`: For internal distribution builds.
-*	`simulator`: For building iOS simulator binaries.
+* `preview`: For quick testing with minimal optimizations.
+* `development`: For testing with debug options enabled.
+* `production`: For app store distribution with optimizations.
+* `custom`: User-defined profiles for specific build configurations.
+* `internal`: For internal distribution builds.
+* `simulator`: For building iOS simulator binaries.
 
 running a build is as simple as executing the following command in your project directory:
 
@@ -225,19 +225,13 @@ async function checkForUpdates() {
 ```
 rollout strategies:
 
-*  `Immediate`: Apply the update as soon as it's downloaded.
-
-*  `On Next Restart`: Apply the update the next time the app is restarted.
-
-*  `Custom Logic`: Implement your own logic to determine when to apply the update.
-
-*  `Rollout Percentage`: Gradually roll out the update to a percentage of users.
-
-*  `Staged Rollout`: Release the update to specific user segments or regions first.
-
-*  `Scheduled Rollout`: Plan updates to be released at specific times.
-
-*  `Manual Approval`: Require manual approval before applying updates.
+* `Immediate`: Apply the update as soon as it's downloaded.
+* `On Next Restart`: Apply the update the next time the app is restarted.
+* `Custom Logic`: Implement your own logic to determine when to apply the update.
+* `Rollout Percentage`: Gradually roll out the update to a percentage of users.
+* `Staged Rollout`: Release the update to specific user segments or regions first.
+* `Scheduled Rollout`: Plan updates to be released at specific times.
+* `Manual Approval`: Require manual approval before applying updates.
 
 you can do all this configuration in the `eas.json` file with the `workflow` option:
 

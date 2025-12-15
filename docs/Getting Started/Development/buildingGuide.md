@@ -182,26 +182,28 @@ npx eas build --platform ios --profile production
    * Choose a provisioning profile (EAS can handle this automatically)
 4. EAS will start the cloud build and provide a link to monitor the status.
 
-!!!! note
+!!! note
     for ease we pre programmed the command in scripts in package.json like so:
-    ```json
+
+  ```json
     "scripts":
     {
         "prod:build:ios": "npx eas build --platform ios --profile production --clear-cache",
         "dev:build:ios": "npx eas build --platform ios --profile development --clear-cache",
         "preview:build:ios": "npx eas build --platform ios --profile preview --clear-cache",
       }
-    ```
+  ```
 
-    You can run these commands via:
+  You can run these commands via:
+
     ```bash
     npm run prod:build:ios # this will trigger a production build for ios
     npm run dev:build:ios # this will trigger a development build for ios
     npm run preview:build:ios # this will trigger a preview build for ios
     ```
-    you can still add extra flags like `-- --non-interactive` if needed.
+  you can still add extra flags like `-- --non-interactive` if needed.
 
-    (note the extra `--` before non-interactive in the npm scripts to pass the flag correctly)
+  (note the extra `--` before non-interactive in the npm scripts to pass the flag correctly)
 
 #### Example terminal output:
 
