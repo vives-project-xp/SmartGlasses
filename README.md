@@ -37,15 +37,10 @@ Het **Signapse** project is een ambitieus initiatief ontwikkeld door studenten v
 
 ### Leeruitkomsten
 
-- **Innovatie**: Toepassing van emerging technologies
-- **Teamwerk**: Agile projectmanagement en samenwerking
-- **Onderzoek**: Technisch onderzoek en documentatie
-- **Ontwikkeling**: Full-stack ontwikkeling met hardware integratie
-- **Probleemoplossing**: Toegankelijkheidsuitdagingen aanpakken
+Dit project draagt bij aan verschillende leeruitkomsten. Het stimuleert **innovatie** door toepassing van emerging technologies en bevordert **teamwerk** via agile projectmanagement en samenwerking. Studenten ontwikkelen **onderzoeksvaardigheden** door technisch onderzoek en documentatie, terwijl ze hun **ontwikkelingscompetenties** uitbreiden met full-stack ontwikkeling en hardware integratie. Ten slotte leren ze **probleemoplossend denken** door toegankelijkheidsuitdagingen aan te pakken.
 
 ---
 
 **Vergeet niet om dit project een ster te geven als je het interessant vindt!**
 
 Gemaakt met ❤️ door [VIVES Bachelor Electronica-ICT studenten](#team)
-
