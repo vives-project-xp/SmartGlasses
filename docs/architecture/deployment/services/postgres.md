@@ -1,35 +1,30 @@
-# PostgreSQL (database for lakeFS and metadata)
+# PostgreSQL
 
 ## Overview
 
-PostgreSQL is the relational database used to store lakeFS metadata in this project. PostgreSQL is a mature, ACID-compliant database with strong community support and extensive documentation (<https://www.postgresql.org/docs/>).
+PostgreSQL provides the relational store for lakeFS metadata in this project. It is a mature, ACID-compliant database, well-suited for transactional workloads such as commit and branch metadata where consistency and durability are important.
 
 ## Why PostgreSQL here
 
-- lakeFS relies on a relational DB for transactional metadata (commits, branches, users) — PostgreSQL provides durability and transactional guarantees.
-- Using a standard RDBMS simplifies migrations, backups and compliance requirements.
+lakeFS requires a transactional database to store commits, branches and user metadata; PostgreSQL offers the durability and transactional semantics needed for those operations and simplifies routine tasks such as migrations and backups.
 
 ## Running locally
 
-Start Postgres from the notebooks compose file:
+Bring up PostgreSQL using the Notebooks compose file:
 
+```bash
 docker compose -f notebooks/docker-compose.yml up postgres
+```
 
-Default example env vars (from compose):
-
-- `POSTGRES_USER=lakefs`
-- `POSTGRES_PASSWORD=lakefs`
-- `POSTGRES_DB=lakefs`
+The compose configuration uses example environment variables such as `POSTGRES_USER=lakefs`, `POSTGRES_PASSWORD=lakefs` and `POSTGRES_DB=lakefs` for the local test environment.
 
 ## Persistence
 
-- The compose file mounts a named volume `pg_data` for `/var/lib/postgresql/data`.
-- Ensure appropriate permissions on the underlying host path if using hostPath volumes in k8s.
+The compose stack mounts a named volume (`pg_data`) to persist the database directory. When deploying to Kubernetes ensure the persistent volume has the correct permissions and storage class for your environment.
 
 ## Backups & maintenance
 
-- Regularly run `pg_dump` or base backups (WAL shipping) for critical datasets.
-- For production, prefer managed PostgreSQL or a high-availability cluster with automated backups and failover.
+For local testing `pg_dump` is a simple way to capture backups, while production deployments should use managed PostgreSQL offerings or HA clusters with automated backup and failover (WAL archiving, PITR, or cloud provider snapshots) depending on recovery objectives.
 
 ## References
 
@@ -38,5 +33,4 @@ Default example env vars (from compose):
 
 ## Kubernetes notes
 
-- Postgres manifest in `k8s/postgres.*.yaml` includes PVCs. k3s local-path provisioner will usually satisfy PVCs in local testing, but production should use cloud storage or PV-backed solutions.
-- Use `initContainers` if you need to initialize the DB schema or restore from a backup on first deploy.
+Kubernetes manifests under `k8s/postgres.*.yaml` provision PVCs for Postgres storage; the k3s local-path provisioner generally satisfies these on local clusters, but production should use cloud-backed PVs. Use `initContainers` to perform schema migrations or restore from backups on initial deployment when necessary.

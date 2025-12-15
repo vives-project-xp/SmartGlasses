@@ -17,9 +17,7 @@ The `info` folder serves as a centralized location for **in-depth explanations, 
 
 ## Usage
 
-* Use this folder as a **reference library** when learning, troubleshooting, or understanding how each tool fits into the project.
-* Keep the documentation up-to-date to reflect the latest versions and best practices.
-* For installation or setup instructions, see the [`Getting Started`](../Getting%20Started/README.md)folder.
+Use this folder as a reference library when learning, troubleshooting, or understanding how each tool fits into the project. Keep the documentation up-to-date to reflect the latest versions and best practices. For installation or setup instructions, see the [`Getting Started`](../Getting%20Started/README.md) folder.
 
 !!! note "NODE.JS Information"
     See [node.js.md](./node.js.md) for a details on installing and using Node.js.
@@ -48,6 +46,7 @@ flowchart TD
 classDef tool fill:#f9f,stroke:#333,stroke-width:2px;
 class A,B,C,D,E tool;
 ````
+
 ## Additional Resources
 
 * [Node.js Documentation](https://nodejs.org/en/docs/)

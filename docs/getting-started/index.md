@@ -4,12 +4,7 @@ This guide will walk you through setting up the SmartGlasses development environ
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
-
-- **Git**: Version control system ([Download](https://git-scm.com/downloads))
-- **Visual Studio Code**: Code editor ([Download](https://code.visualstudio.com/))
-- **Docker Desktop**: Container platform ([Download](https://www.docker.com/products/docker-desktop/))
-- **VS Code Dev Containers Extension**: For development container support ([View on Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers))
+Before you begin, ensure you have the necessary tools installed on your system. You'll need **Git** as your version control system ([Download](https://git-scm.com/downloads)), **Visual Studio Code** as your code editor ([Download](https://code.visualstudio.com/)), and **Docker Desktop** as the container platform ([Download](https://www.docker.com/products/docker-desktop/)). Additionally, install the **VS Code Dev Containers Extension** for development container support ([View on Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)).
 
 ### Installing VS Code Extensions
 
@@ -36,11 +31,7 @@ The project uses a VS Code workspace file to organize the multi-folder structure
    - Or from command line: `code SmartGlasses.code-workspace`
    - Or in file explorer, right-click `SmartGlasses.code-workspace` and choose "Open with Code"
 
-The workspace includes three main folders:
-
-- **Root**: Main project folder with documentation and configuration
-- **Server**: FastAPI backend service
-- **Client**: Expo React Native mobile application
+The workspace includes three main folders: the **Root** folder contains the main project documentation and configuration files, the **Server** folder houses the FastAPI backend service, and the **Client** folder contains the Expo React Native mobile application.
 
 ## Step 3: Start the Development Container
 
@@ -58,12 +49,7 @@ The project uses Docker dev containers for a consistent development environment:
    - Select this option
 
 !!! note
-    The initial container build may take 5-10 minutes as it:
-
-    - Downloads the Python 3.12 base image
-    - Installs development tools (Node.js, Android SDK, FFmpeg, Docker CLI)
-    - Configures VS Code extensions
-    - Sets up the development environment
+    The initial container build may take 5-10 minutes as it downloads the Python 3.12 base image, installs development tools including Node.js, Android SDK, FFmpeg, and Docker CLI, configures VS Code extensions, and sets up the complete development environment.
 
 ## Step 4: Verify Installation
 
@@ -110,5 +96,3 @@ docker --version
 
 !!! note "Next Steps"
     See [Building the Application](./Development/buildingGuide.md) for instructions on how to build and run the Signapse application.
-
-

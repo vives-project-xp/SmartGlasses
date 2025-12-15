@@ -2,48 +2,22 @@
 
 ## Modelarchitectuur (ASL)
 
-- **Type**: Feed-forward Neural Network (PyTorch)
-- **Framework**: PyTorch (`nn.Sequential`)
-- **Architectuur**:
-
-```label
-  Input Layer:     63 features (21 landmarks × 3 coördinaten)
-  Hidden Layer 1:  256 neuronen + ReLU + Dropout(0.2)
-  Hidden Layer 2:  256 neuronen + ReLU + Dropout(0.2)
-  Output Layer:    35 klassen
- ```
+The ASL model is a **Feed-forward Neural Network** built with PyTorch using the `nn.Sequential` framework. The architecture consists of an input layer with 63 features (calculated from 21 landmarks multiplied by 3 coordinates), followed by two hidden layers each containing 256 neurons with ReLU activation and Dropout regularization of 0.2, and finally an output layer with 35 classes.
 
 ## Klassen (ASL)
 
-Het ASL-model herkent **35 klassen** (American Sign Language alfabet + cijfers):
-
-- **Letters**: a-z (zonder bewegingen)
-- **Cijfers**: 0-9
-- **Totaal**: 35 statische gebaren
-- **Opmerking**: De letter `q` ontbreekt in de huidige dataset omdat MediaPipe geen stabiele keypoints kon extraheren uit de gebruikte Kaggle-bron. Dit gebaar volgt zodra er betrouwbare trainingsdata beschikbaar is.
+Het ASL-model herkent **35 klassen** voor American Sign Language, bestaande uit letters a-z (zonder bewegingen) en cijfers 0-9. De letter `q` ontbreekt in de huidige dataset omdat MediaPipe geen stabiele keypoints kon extraheren uit de gebruikte Kaggle-bron. Dit gebaar volgt zodra er betrouwbare trainingsdata beschikbaar is.
 
 De klassen zijn gedefinieerd in `notebooks/package/smart_gestures/alphabet/asl_model/data/classes.json`.
 
 ## Data preprocessing
 
-**Normalisatie** (`normalize_landmarks` functie):
-
-1. **Translatie**: Verplaats alle landmarks zodat de pols (index 0) op de oorsprong ligt
-2. **Schaling**: Schaal op basis van de afstand tussen pols en middelvinger MCP (landmark 9)
-3. **Flattenin**: Converteer naar 1D-array van 63 features
-
-Deze normalisatie maakt het model **invariant** voor handpositie en -grootte.
+De `normalize_landmarks` functie voert de normalisatie uit in drie stappen. Eerst worden alle landmarks getranslateerd zodat de pols (index 0) op de oorsprong ligt. Vervolgens wordt er geschaald op basis van de afstand tussen pols en middelvinger MCP (landmark 9). Ten slotte worden de landmarks geconverteerd naar een 1D-array van 63 features door flattening. Deze normalisatie maakt het model **invariant** voor handpositie en -grootte.
 
 ## Integratie (ASL Model)
 
-- **Package**: `smart_gestures.alphabet.asl_model.ASLModel`
-- **API-endpoint**: `/alphabet/asl/predict` (POST)
-- **Input**: JSON met lijst van 21 landmarks
-- **Output**: Voorspelde klasse (string)
+The ASL model is available through the `smart_gestures.alphabet.asl_model.ASLModel` package and can be accessed via the `/alphabet/asl/predict` POST endpoint. The API accepts JSON input containing a list of 21 landmarks and returns the predicted class as a string.
 
 ## Model-opslag (ASL)
 
-- **Training**: `notebooks/training/asl_model/models/asl_alphabet_model.pth`
-- **Package**: `notebooks/package/smart_gestures/alphabet/asl_model/models/asl_alphabet_model.pth`
-
-Het model wordt automatisch geladen bij instantiatie van de `ASLModel` klasse.
+During training, the model is stored in `notebooks/training/asl_model/models/asl_alphabet_model.pth`, and for package distribution it resides in `notebooks/package/smart_gestures/alphabet/asl_model/models/asl_alphabet_model.pth`. Het model wordt automatisch geladen bij instantiatie van de `ASLModel` klasse.

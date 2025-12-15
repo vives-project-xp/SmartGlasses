@@ -1,31 +1,13 @@
-docker compose -f notebooks/docker-compose.yml up registry-ui
-docker compose -f notebooks/docker-compose.yml up registry-ui
-
-# Registry UI (web interface for Docker registry)
+# Registry UI
 
 ## Overview
 
-This repository uses `joxit/docker-registry-ui` to provide a human-friendly UI to browse and manage the images stored in the local Docker registry. The UI queries the registry API and renders catalogs, repositories, and tag lists.
+We use `joxit/docker-registry-ui` to provide a simple web interface for browsing and managing images in the local registry. The UI queries the Registry HTTP API V2 and renders repositories, tags and manifests so developers can inspect or delete images during development.
 
-## Key points & docs
-
-- The UI interacts with the Docker Registry HTTP API V2; see <https://docs.docker.com/registry/spec/api/> for the underlying API.
-- `joxit/docker-registry-ui` project: <https://github.com/Joxit/docker-registry-ui> (documentation and configuration details).
-
-## Running locally
+Run it locally with the Notebooks compose file:
 
 ```bash
 docker compose -f notebooks/docker-compose.yml up registry-ui
 ```
 
-Ports: host `5001` → container `80`.
-
-## Notes & security
-
-- The UI is convenient in development to inspect tags and to delete images; remove or protect it in production.
-- Because it talks directly to the registry, ensure proper CORS and authentication are configured if the registry is exposed over a network.
-
-## References
-
-- Docker Registry API: <https://docs.docker.com/registry/spec/api/>
-- docker-registry-ui GitHub: <https://github.com/Joxit/docker-registry-ui>
+The service exposes the UI on host port `5001` (container `80`). Because it communicates directly with the registry, treat the UI as a development convenience and restrict or remove it in production environments where access should be authenticated and proxied.

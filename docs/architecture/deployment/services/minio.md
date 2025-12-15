@@ -1,40 +1,34 @@
-# MinIO (S3-compatible object storage)
+# MinIO
 
 ## Overview
 
-MinIO is a high-performance, S3-compatible object storage server suited for cloud-native applications. In this repository it is used primarily as the backing object store for `lakefs` and for local experiments that need an S3 API.
+MinIO is an S3-compatible object storage server used here as the backing store for `lakeFS` and for local experiments that need an S3 API. Its lightweight container deployment makes it a convenient, drop-in local replacement for AWS S3 during development.
 
-## Official docs & why it matters
+## Why it matters
 
-- Official docs: <https://docs.min.io/>
-- MinIO provides an S3-compatible API (the same semantics as AWS S3) so many tools and SDKs can operate with it unchanged. For local development it is an excellent drop-in replacement for S3 because it can be run as a lightweight container with a web console.
+Because MinIO implements the S3 API, existing SDKs and tools that speak S3 (boto3, AWS SDKs, etc.) can interact with it without modification. This makes MinIO particularly useful for local development where running a full S3 service is impractical.
 
 ## How the project uses MinIO
 
-- `notebooks/docker-compose.yml` configures `minio` and mounts `./data` for persistence.
-- `lakefs` is configured to use MinIO as its blockstore (S3 endpoint) and relies on environment vars `MINIO_ROOT_USER`/`MINIO_ROOT_PASSWORD`.
+The `notebooks/docker-compose.yml` file configures a MinIO service with `./data` mounted for persistence. lakeFS is pointed at that MinIO endpoint as its blockstore, using the standard S3-compatible environment variables for credentials and endpoint configuration.
 
 ## Running locally
 
-From the `notebooks` folder or by pointing Compose to the file:
+Start MinIO using the Notebooks compose file:
 
+```bash
 docker compose -f notebooks/docker-compose.yml up minio
+```
 
-Default ports exposed:
-
-- `9000` – S3 API (programmatic access)
-- `9001` – MinIO console (web UI)
+By default MinIO exposes the S3 API on port `9000` and the web console on `9001`.
 
 ## Configuration and security
 
-- Access keys: MinIO uses `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` for baseline authentication. For multi-tenant setups or production, use IAM-like policies and service accounts.
-- TLS: For production use, MinIO should be set behind a TLS-terminating proxy or configured with certificates so credentials are not sent in cleartext.
-- Data durability: By default MinIO in single-server mode stores objects locally; for production use consider distributed MinIO clusters or managed S3 offerings.
+MinIO authenticates using `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` by default; for production environments prefer IAM-like policies or service accounts and store credentials in secrets. Ensure TLS termination is configured in front of MinIO in production so credentials and payloads are encrypted in transit, and consider a distributed MinIO deployment or managed S3 service for durability and high availability.
 
 ## Integration notes
 
-- lakeFS: MinIO acts as the backing S3-compatible blockstore for lakeFS; lakeFS provides versioning + git-like semantics on top of object storage.
-- Client SDKs: Use the AWS S3 SDKs (boto3 for Python, AWS SDKs for other languages) pointed at the MinIO endpoint, or MinIO SDKs.
+In this project lakeFS stores object blocks in MinIO so that dataset versioning and branch semantics sit on top of an S3-compatible API. To access MinIO programmatically use the standard AWS S3 SDKs or MinIO SDKs pointed at the local endpoint.
 
 ## References
 
@@ -42,6 +36,6 @@ Default ports exposed:
 - MinIO quickstart (Docker): <https://docs.min.io/docs/minio-docker-quickstart-guide.html>
 - MinIO security and TLS: <https://docs.min.io/docs/how-to-secure-access-to-minio-server.html>
 
-## Notes for k8s
+## Notes for Kubernetes
 
-- When deploying to k8s, MinIO can run as a StatefulSet or use managed S3. For lakeFS in k8s, configure lakeFS to talk to your S3 endpoint (MinIO or real S3) and provide credentials via Secrets.
+On Kubernetes, MinIO may be deployed as a StatefulSet backed by persistent volumes; for production consider using managed S3 instead. When integrating with lakeFS provide credentials through Kubernetes Secrets and configure the lakeFS blockstore settings to point at the cluster's object store endpoint.

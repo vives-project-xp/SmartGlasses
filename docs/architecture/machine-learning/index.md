@@ -8,12 +8,7 @@ Het **Signapse** project is een toegankelijkheidsoplossing die gebarentaal verta
 
 ### Scope van dit document
 
-Dit document beschrijft uitsluitend de **AI-componenten** en hun integratie binnen de totale software-architectuur van het Signapse project. De focus ligt op:
-
-- De deep learning modellen (ASL, VGT, LSTM)
-- De MediaPipe feature extraction pipeline
-- De API-laag die de AI-functionaliteit aanbiedt
-- De gebruikte technologieën en frameworks
+Dit document beschrijft uitsluitend de **AI-componenten** en hun integratie binnen de totale software-architectuur van het Signapse project. De focus ligt op de deep learning modellen voor ASL, VGT en LSTM-gebaseerde woordherkenning, de MediaPipe feature extraction pipeline, de API-laag die de AI-functionaliteit aanbiedt, en de gebruikte technologieën en frameworks.
 
 Voor een deep-dive in het `smart_gestures` package, model lifecycle en alle CLI-opties, zie [AI-Packages.md](../../getting-started/AI-Packages.md).
 
@@ -115,14 +110,7 @@ Zie ook:
 
 ## Conclusie
 
-De AI-architectuur van het Signapse project combineert **moderne deep learning technieken** met **pragmatische software engineering**:
-
-- **MediaPipe** als robuuste feature extractor
-- **PyTorch feed-forward networks** voor snelle alfabet-herkenning (ASL + VGT)
-- **PyTorch LSTM** voor contextuele woord-herkenning
-- **Modulaire package-structuur** voor eenvoudige uitbreidbaarheid
-- **REST API** voor platform-agnostische integratie
-- **Real-time performance** op CPU-only devices
+De AI-architectuur van het Signapse project combineert moderne deep learning technieken met pragmatische software engineering. Het systeem gebruikt **MediaPipe** als robuuste feature extractor en **PyTorch feed-forward networks** voor snelle alfabet-herkenning in zowel ASL als VGT. Voor contextuele woord-herkenning wordt een **PyTorch LSTM** ingezet, terwijl de modulaire package-structuur zorgt voor eenvoudige uitbreidbaarheid. De integratie gebeurt via een platform-agnostische **REST API** die real-time performance mogelijk maakt, zelfs op CPU-only apparaten.
 
 De architectuur is ontworpen met **schaalbaarheid** en **onderhoudbaarheid** in gedachten, waardoor nieuwe modellen, talen of functies eenvoudig toegevoegd kunnen worden zonder grote refactoring.
 

@@ -1,50 +1,15 @@
-docker compose up heimdall
-
-# Heimdall (application dashboard)
-
-Overview
---------
-
-Heimdall is a lightweight home dashboard used to aggregate links to services and applications. It’s not critical to the platform but is convenient for local demos and developer workflows.
-
-Why use Heimdall?
-------------------
-
-- Centralizes links and quick access to internal services (docs, API UIs, registry UI, lakeFS console).
-- Lightweight and easy to run as a Docker container (linuxserver/heimdall).
-
-docker compose up heimdall
-
-# Heimdall (application dashboard)
+# Heimdall
 
 ## Overview
 
-Heimdall is a lightweight home dashboard used to aggregate links to services and applications. It’s not critical to the platform but is convenient for local demos and developer workflows.
+Heimdall is a lightweight dashboard that aggregates links to project services such as the docs site, API UIs, registry UI and lakeFS console. It is not required for platform functionality but is useful for local demos and improving developer workflows.
 
-## Why use Heimdall?
-
-- Centralizes links and quick access to internal services (docs, API UIs, registry UI, lakeFS console).
-- Lightweight and easy to run as a Docker container (linuxserver/heimdall).
-
-## Running locally
+Run it locally with Docker Compose:
 
 ```bash
 docker compose up heimdall
 ```
 
-Ports: `80:80` (host)
+The service persists configuration in the `heimdall_data` volume so dashboards survive restarts, and tiles are managed through the web UI. Heimdall is designed for private networks—do not expose it publicly without authentication; for corporate use protect it behind single sign-on or an authenticated reverse proxy.
 
-## Configuration
-
-- Heimdall persists its configuration to a volume (`heimdall_data`) so dashboards survive container restarts.
-- Use the web UI to add tiles/links and configure icons.
-
-## Security and production notes
-
-- Heimdall is intended for private networks; do not expose it publicly without authentication.
-- For corporate deployments, consider integrating a single sign-on solution or protecting the app with a reverse proxy requiring authentication.
-
-## References
-
-- Heimdall project (linuxserver image docs): <https://hub.docker.com/r/linuxserver/heimdall>
-- Project upstream: <https://github.com/linuxserver/Heimdall>
+References: Heimdall project (linuxserver image docs) and upstream repository.

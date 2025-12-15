@@ -40,7 +40,7 @@ kubectl apply -f k8s/ingress.yaml
 kubectl apply -f k8s/traefik-dashboard.ingress.route.yaml
 ```
 
-Verification & tips
+## Verification & tips
 
 ```bash
 kubectl get pods -n default
@@ -51,3 +51,7 @@ kubectl logs -l app=server --tail=200
 - If kubeconfig is only readable by root, copy it to your user: `sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $(id -u):$(id -g) ~/.kube/config`.
 - k3s includes a local-path provisioner for PVCs; Postgres PVCs should be satisfied by default.
 - Use `kubectl port-forward` if ingress hostnames are not resolvable locally.
+
+Note about other documentation
+
+Service-specific documentation (Postgres, MinIO, registry, etc.) has been moved to the services folder. See the services overview: [Services README](../services/README.md).

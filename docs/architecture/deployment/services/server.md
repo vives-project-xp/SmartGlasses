@@ -1,109 +1,40 @@
-docker compose up --build server
-docker compose up --build
-
-# Server (FastAPI backend)
-
-Deep overview
-----------------
-
-The server component is a Python FastAPI application that performs the following roles:
-
-- Accepts images/landmarks from the client (REST multipart/form-data or JSON).
-- Runs MediaPipe-based keypoint extraction (hands/pose) for feature extraction.
-- Orchestrates inference through local PyTorch models provided by the `smart_gestures` package (ASL/VGT feed-forward models and LSTM sequence models).
-- Exposes a WebSocket endpoint for low-latency realtime feedback and session orchestration.
-
-Why FastAPI? (references)
----------------------------
-
-FastAPI is chosen for its combination of high performance and developer ergonomics. Key points from the official docs (<https://fastapi.tiangolo.com/>) used in this project:
-
-- Automatic input validation & serialization using Pydantic models (type hints → runtime validation + clear errors).
-- Automatic OpenAPI generation and interactive docs (`/docs` using Swagger UI, `/redoc`).
-- Built on Starlette for the web server primitives (routing, background tasks, WebSockets) which makes it suitable for async workloads.
-- Designed to be fast (comparable with Node/Go for many workloads) when served with Uvicorn/uvloop.
-
-Core architecture & flow
--------------------------
-
-1. Client uploads image or JSON landmarks.
-2. `/keypoints/*` endpoints call MediaPipe detectors (imported once at startup to avoid per-request init cost).
-3. Routers convert Pydantic schema → numpy tensors → model input format.
-4. `smart_gestures` models (PyTorch) execute inference and return `(label, confidence)`.
-5. Prediction results are returned to the client; optionally pushed via `/ws` for realtime UI updates.
-
-docker compose up --build server
-docker compose up --build
-
-# Server (FastAPI backend)
+# FastAPI backend
 
 ## Deep overview
 
-The server component is a Python FastAPI application that performs the following roles:
-
-- Accepts images/landmarks from the client (REST multipart/form-data or JSON).
-- Runs MediaPipe-based keypoint extraction (hands/pose) for feature extraction.
-- Orchestrates inference through local PyTorch models provided by the `smart_gestures` package (ASL/VGT feed-forward models and LSTM sequence models).
-- Exposes a WebSocket endpoint for low-latency realtime feedback and session orchestration.
+The backend is a FastAPI application written in Python. It accepts images or landmark payloads from the client, extracts features (using MediaPipe when required), and orchestrates inference through local PyTorch models in the `smart_gestures` package. To support low-latency interactions the service also exposes WebSocket endpoints for realtime feedback and session orchestration.
 
 ## Why FastAPI? (references)
 
-FastAPI is chosen for its combination of high performance and developer ergonomics. Key points from the official docs (<https://fastapi.tiangolo.com/>) used in this project:
-
-- Automatic input validation & serialization using Pydantic models (type hints → runtime validation + clear errors).
-- Automatic OpenAPI generation and interactive docs (`/docs` using Swagger UI, `/redoc`).
-- Built on Starlette for the web server primitives (routing, background tasks, WebSockets) which makes it suitable for async workloads.
-- Designed to be fast (comparable with Node/Go for many workloads) when served with Uvicorn/uvloop.
+FastAPI was selected for its blend of performance and developer ergonomics. It provides automatic validation and serialization through Pydantic, OpenAPI generation with interactive documentation, and robust support for asynchronous features such as background tasks and WebSockets through Starlette. When paired with an ASGI server like Uvicorn (and uvloop), FastAPI delivers the throughput and latency characteristics we need for inference workloads.
 
 ## Core architecture & flow
 
-1. Client uploads image or JSON landmarks.
-2. `/keypoints/*` endpoints call MediaPipe detectors (imported once at startup to avoid per-request init cost).
-3. Routers convert Pydantic schema → numpy tensors → model input format.
-4. `smart_gestures` models (PyTorch) execute inference and return `(label, confidence)`.
-5. Prediction results are returned to the client; optionally pushed via `/ws` for realtime UI updates.
+In a typical request flow the client submits an image or JSON landmarks to an endpoint, where requests are validated by Pydantic models and converted into the numeric tensors expected by the models. MediaPipe detectors are initialized at service startup to avoid repeated cold-start costs, and PyTorch models from `smart_gestures` execute inference and return classification results (label plus confidence). Results are returned synchronously over HTTP or can be pushed to the client via WebSocket for realtime updates.
 
 ## Key technologies and why they matter
 
-- FastAPI (<https://fastapi.tiangolo.com/>): Request validation, dependency injection, built-in docs, WebSocket support.
-- Uvicorn (ASGI server): lightweight, async server used in production with workers (see FastAPI deployment docs).
-- Pydantic (models/validation): ensures predictable JSON -> Python translation and helpful validation errors.
-- MediaPipe (Google): cross-platform ML pipelines for hand/pose landmarks; used here for deterministic, real-time keypoint extraction (<https://developers.google.com/mediapipe>).
-- PyTorch (<https://pytorch.org/docs/stable/>): model runtime for the trained models in `smart_gestures`.
+The service relies on FastAPI for request handling and schema validation, Pydantic for predictable input models, MediaPipe for reliable hand/pose landmark extraction, and PyTorch for running the trained models. Uvicorn is used as the ASGI server in deployment to handle asynchronous requests efficiently.
 
 ## Operational considerations
 
-- Startup cost: MediaPipe and PyTorch models are heavy; the app initializes detectors/models once at process startup (via FastAPI startup events or module import) to avoid per-request overhead.
-- Workers/scale: For CPU inference, run multiple Uvicorn workers (`uvicorn --workers N`) or use an autoscaled k8s Deployment; for GPU inference, use a single process with GPU memory pinned and scale horizontally.
-- Timeouts & streaming: Long-running inference (video sequences) should use background tasks or WebSocket streams to avoid tying HTTP worker threads.
-- Resource limits: Configure container resource limits (CPU/memory) and k8s `resources.requests/limits` to avoid node OOMs when loading MediaPipe and PyTorch.
+MediaPipe and PyTorch have non-trivial memory and startup costs, so detectors and models are initialized at startup (via FastAPI startup events or imports) rather than per-request. For CPU-bound inference run multiple Uvicorn workers or horizontally scale with a Kubernetes Deployment; for GPU-based inference prefer a single process per GPU with memory pinned and scale horizontally as needed. Long-running work such as sequence inference should be handled through background tasks or WebSockets to avoid blocking HTTP workers, and containers should expose reasonable resource requests/limits to prevent OOMs on the node.
 
 ## Security & production hardening
 
-- CORS: The dev setup uses permissive CORS; restrict `allow_origins` in production (FastAPI CORS middleware).
-- HTTPS: Terminate TLS at the ingress/load balancer (k8s Ingress or reverse proxy). FastAPI docs discuss HTTPS and reverse-proxy configurations.
-- Authentication: For production, protect endpoints with OAuth2/JWT or API keys (FastAPI has security utilities documented at <https://fastapi.tiangolo.com/tutorial/security/>).
-- Input validation: Use strict Pydantic validators to reject malformed landmark sequences and enforce expected shapes (e.g., 21 hand landmarks, 40-frame LSTM sequences).
+In production, tighten CORS policies and terminate TLS at the ingress or load balancer rather than exposing unencrypted traffic. Protect sensitive endpoints with JWT/OAuth2 or API keys and enforce strict input validation via Pydantic validators to reject malformed sequences. These measures reduce attack surface and help ensure predictable behavior from downstream inference code.
 
 ## Observability & debugging
 
-- Health & readiness probes: `/health` and container healthchecks are configured in `docker-compose.yaml` and in k8s manifests.
-- Logs: keep structured JSON logs for predictions and errors—suppress noisy TensorFlow/absl logs as done in `main.py`.
-- Metrics: export Prometheus metrics (request latencies, inference duration, model confidence metrics) via a metrics endpoint or integration like `prometheus_client`.
+The service exposes health and readiness probes for container orchestration and uses structured logging for predictions and errors. Suppressing noisy upstream logs (e.g., absl/TensorFlow) keeps logs actionable. For production monitoring, export Prometheus-style metrics such as request latency, inference duration, and model confidence distributions so operators can track service health and model behaviour.
 
 ## Kubernetes notes
 
-- The k8s manifests live in `k8s/server.*.yaml`. Important knobs:
-  - `replicas` and HPA for horizontal scale.
-  - `resources.requests/limits` tuned for MediaPipe and PyTorch memory.
-  - Liveness/readiness probes should use `/health` and possibly a quick model-check endpoint.
+Kubernetes manifests are located under `k8s/server.*.yaml`. In practice tune `replicas` and autoscaling settings according to CPU/GPU usage, set sensible `resources.requests` and `limits` for MediaPipe and PyTorch, and configure liveness/readiness probes against `/health` and optionally a lightweight model-check endpoint.
 
 ## Related services & integration
 
-- `client`: uploads frames and consumes predictions.
-- `docs`: provides API docs and examples for integrators (Swagger UI).
-- `registry-server` / `registry-ui`: local images for reproducible CI/CD.
-- Storage: if the backend stores images or sequences, it may integrate with `minio`/`lakefs` (for versioned object storage).
+This service integrates closely with the `client` (which uploads images and consumes predictions) and with the documentation site for API examples (Swagger UI). For storing images or sequences consider `minio` or `lakeFS` depending on whether you need simple object storage or versioned datasets. Local registries (`registry-server` / `registry-ui`) are used in CI and development for hosting images.
 
 ## References & further reading
 

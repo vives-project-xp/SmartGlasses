@@ -2,11 +2,7 @@
 
 ## Modulaire Architectuur
 
-De AI-componenten zijn **sterk ontkoppeld** via het `smart_gestures` package:
-
-- Elk model is een zelfstandig subpackage
-- Uniforme interface: `get_classes()`, `predict()`
-- Makkelijk toevoegen van nieuwe modellen zonder bestaande code te wijzigen
+De AI-componenten zijn sterk ontkoppeld via het `smart_gestures` package. Elk model is georganiseerd als een zelfstandig subpackage met een uniforme interface die `get_classes()` en `predict()` methoden aanbiedt. Deze structuur maakt het eenvoudig om nieuwe modellen toe te voegen zonder bestaande code te wijzigen.
 
 ## Uitbreidingsmogelijkheden
 
@@ -68,34 +64,18 @@ Geen code-wijzigingen nodig in de API—de `/lstm/classes` endpoint leest automa
 
 ## Model Versioning
 
-**Huidige aanpak**:
-
-- Model weights opgeslagen als `.pth` files
-- Versie-tracking via Git
-
-**Toekomstige verbeteringen**:
-
-- Model registry (bijv. MLflow, Weights & Biases)
-- A/B testing infrastructure
-- Automated retraining pipelines
+De huidige aanpak slaat model weights op als `.pth` bestanden met versie-tracking via Git. Toekomstige verbeteringen kunnen een model registry omvatten zoals MLflow of Weights & Biases, samen met A/B testing infrastructuur en geautomatiseerde retraining pipelines.
 
 ## Testing & Validatie
 
 ### Unit Tests
 
-Mogelijke test-coverage:
-
-- Data preprocessing (normalisatie, augmentatie)
-- Model loading (check architectuur, weights)
-- Endpoint validatie (correcte responses)
+Mogelijke test-coverage omvat data preprocessing zoals normalisatie en augmentatie, model loading waarbij architectuur en weights worden gecontroleerd, en endpoint validatie voor correcte responses.
 
 ### Integration Tests
 
-- End-to-end pipeline: image → keypoints → prediction
-- Error handling: ongeldige inputs, edge cases
+Integration tests dekken de end-to-end pipeline van image naar keypoints naar prediction, en error handling voor ongeldige inputs en edge cases.
 
 ### Model Performance
 
-- **Training metrics**: Accuracy, loss curves (zie `notebooks/training/`)
-- **Validation**: Hold-out test set evaluatie
-- **Calibration**: Confidence scores afstemmen op echte accuratesse
+Model performance wordt gemonitord via training metrics zoals accuracy en loss curves (beschikbaar in `notebooks/training/`), validation op hold-out test sets, en calibration waarbij confidence scores worden afgestemd op echte accuratesse.

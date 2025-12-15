@@ -1,59 +1,53 @@
-# Client (Expo / React Native web dev)
+# React Native Client
 
 ## Overview
 
-The client is built using Expo (a framework on top of React Native) and provides the user-facing camera capture, UI, and network interactions with the backend. It targets mobile and web (Expo for web) using a single codebase.
+The client is an Expo-based React Native application that provides the user-facing camera capture, interactive UI, and network layer for communicating with the backend. A single codebase targets iOS, Android and the web (via Expo for web), which keeps development and testing fast while allowing the app to access native APIs like the camera and WebSockets.
 
 ## Core technologies & references
 
-- Expo (<https://docs.expo.dev/>): simplifies development of React Native apps by bundling native modules, providing local dev tooling (Metro), and offering optional services (EAS) for building and deployment.
-- React Native (<https://reactnative.dev/>): the underlying UI framework for building native-like UIs using JavaScript/TypeScript.
-- Expo Router / File-based routing (if used): organizes screens and navigation using filesystem conventions (see Expo docs).
+The app is built on Expo and React Native: Expo reduces native build complexity during iterative development and includes local tooling (Metro) and optional services (EAS), while React Native provides the UI primitives in JavaScript/TypeScript. When used, file-based routing (Expo Router) organizes navigation by filesystem conventions.
+
+References: Expo (<https://docs.expo.dev/>) · React Native (<https://reactnative.dev/>)
 
 ## Why Expo + React Native here?
 
-- Single codebase for iOS, Android and web which accelerates development and testing.
-- Expo provides a managed workflow that reduces native build complexity during iterative development.
-- The app can access camera APIs and web sockets for streaming and realtime interactions.
+Using Expo with React Native lets the team maintain one codebase for iOS, Android and the web which shortens iteration loops and simplifies testing. Expo's managed workflow reduces native build friction while still allowing access to camera APIs and WebSockets for streaming and real-time interactions.
 
 ## Key modules in this repo
 
-- `client/app/camera.tsx`: Camera view and hooks — captures frames and orchestrates uploads to `/keypoints` or builds landmark sequences for LSTM predictions.
-- `client/lib/api.ts`: API helpers for REST/WebSocket calls and error handling.
-- `client/components`: UI primitives and overlays (landmarks overlay, prediction UI).
+Important implementation points live under the `client/` folder. The camera view and hooks are implemented in `client/app/camera.tsx` and are responsible for capturing frames and preparing keypoints or landmark sequences; `client/lib/api.ts` contains helpers for REST and WebSocket calls; and `client/components` holds UI primitives such as overlays and the prediction UI.
 
 ## Local development
 
-Quick start using Docker Compose (dev):
+You can run the client in a container with Docker Compose for a quick development environment, or use the native Expo workflow locally when iterating on UI and platform-specific behavior.
+
+Container (dev):
 
 ```bash
 docker compose up --build client
 ```
 
-Or using the standard Expo workflow locally:
+Native Expo (recommended for device testing):
 
 ```bash
 cd client
 npm install
 npm start
-# then open on web or scan the QR for native device
+# open on web or scan the QR to run on a device
 ```
 
 ## Performance and camera capture
 
-- Capture cadence: choose a sensible frame rate (e.g., 10–20 FPS) and downscale frames before sending to reduce bandwidth and latency.
-- Local pre-processing: the app can extract camera-native keypoints (if using a client-side model) or send frames to the backend for server-side MediaPipe extraction.
-- Sequence building: for LSTM prediction, the client is responsible for collecting 40 sequential frames/landmark snapshots and sending them as one request to reduce server-side state management.
+Because camera capture and model inference are bandwidth- and CPU-sensitive, the client should limit capture cadence (a sensible range is 10–20 FPS) and downscale frames before upload. Pre-processing can happen on-device (extracting keypoints) or on the server (sending raw frames); for LSTM predictions the client assembles fixed-length sequences (e.g., 40 frames/landmark snapshots) and submits them as a single request to simplify server-side state and keep latency predictable.
 
 ## Security & best practices
 
-- Use HTTPS for all network traffic (in dev, rely on local docker networking or port forwards; in production use TLS via ingress).
-- Validate server certificates in production and disable permissive dev CORS.
+All network traffic should use HTTPS in production; during development local Docker networking or port forwarding is acceptable. Validate server certificates in production and avoid wide-open CORS policies that are sometimes used only in dev.
 
 ## Testing & debugging
 
-- Use Expo Snack for quick prototype demos: <https://snack.expo.dev/>.
-- Debugging: use React Native Debugger, Expo devtools, and browser console (for web).
+Quick prototypes can be trialed with Expo Snack (<https://snack.expo.dev/>). For debugging, rely on Expo DevTools, React Native Debugger, and the browser console when working with the web target.
 
 ## References
 
@@ -63,5 +57,4 @@ npm start
 
 ## Deployment notes
 
-- In k8s, the client may be deployed as a static web app (if using web build) behind the ingress, or the native app is distributed via stores built with EAS (Expo Application Services).
-- K8s manifests: `k8s/client.*.yaml`.
+When built for the web, the client can be deployed as a static site behind the cluster ingress; native builds are distributed through app stores and can be produced with EAS. Kubernetes manifests for serving the web build are found under `k8s/client.*.yaml`.

@@ -8,13 +8,7 @@ Het **Signapse** platform vertaalt gebarentaal naar tekst via een combinatie van
 
 ### Scope van dit document
 
-Dit document beschrijft de **backendlaag** die de frontends aanstuurt:
-
-- FastAPI-applicatie, routers en lifecycle (`server/src/main.py`)
-- Integratie met het `smart_gestures` AI-package
-- Request/response-validatie via Pydantic schema's
-- Endpoints (REST + WebSocket) inclusief doel en contracten
-- Datastromen tussen client, keypoint-service en inferentie-modellen
+Dit document beschrijft de **backendlaag** die de frontends aanstuurt. Het behandelt de FastAPI-applicatie met zijn routers en lifecycle management in `server/src/main.py`, de integratie met het `smart_gestures` AI-package, de request/response-validatie via Pydantic schema's, alle REST en WebSocket endpoints inclusief hun doel en contracten, en de datastromen tussen client, keypoint-service en inferentie-modellen.
 
 Voor details over de AI-modellen zelf, zie [AI-Architecture](machine-learning/index.md).
 
@@ -22,14 +16,9 @@ Voor details over de AI-modellen zelf, zie [AI-Architecture](machine-learning/in
 
 ### High-level backend-architectuur
 
-De backend bestaat uit een **gelaagde FastAPI-app**:
+De backend bestaat uit een gelaagde FastAPI-applicatie met vier duidelijke lagen. De **transportlaag** verzorgt REST en WebSocket endpoints, CORS-configuratie en versiebeheer. De **routerlaag** organiseert de functionaliteit in logische modules zoals `root`, `keypoints`, `alphabet`, `gestures` en `ws`, elk met eigen prefixes en tags. De **service/AI-laag** voert aanroepen uit naar `smart_gestures` voor ASL/VGT feed-forward modellen en LSTM-gebaseerde woordherkenning, samen met MediaPipe detectors voor keypoint-extractie. Tot slot dwingt de **validatielaag** via Pydantic schema's vorm en constraints af, zoals het aantal landmarks en sequentielengtes.
 
-1. **Transportlaag**: REST & WebSocket endpoints, CORS, versiebeheer.
-2. **Routerlaag**: Logische modules (`root`, `keypoints`, `alphabet`, `gestures`, `ws`) met eigen prefixes en tags.
-3. **Service/AI-laag**: Aanroepen naar `smart_gestures` (ASL/VGT feed-forward modellen + LSTM voor woorden) en MediaPipe detectors voor keypoints.
-4. **Validatielaag**: Pydantic schema's die vorm en constraints afdwingen (aantal landmarks, sequentielengte, etc.).
-
-Alle zware objecten (MediaPipe detectors, PyTorch-modellen) worden **éénmalig geinitialiseerd** bij import zodat elk request enkel inference uitvoert.
+Alle zware objecten zoals MediaPipe detectors en PyTorch-modellen worden **éénmalig geinitialiseerd** bij import, zodat elk request enkel inference-berekeningen uitvoert.
 
 ### Contextdiagram
 
@@ -118,12 +107,7 @@ flowchart RL
 
 ### Foutafhandeling & observability
 
-- Inputfouten worden vertaald naar `HTTPException`:
-  - `400` bij lege bestanden of verkeerde landmark-aantallen.
-  - `404` als er geen hand/pose gevonden wordt.
-  - `500` bij onverwachte predictieproblemen (LSTM).
-- Alle responses zijn JSON en beschreven in de OpenAPI-spec (`/docs` & `/redoc`).
-- Logging van `absl`, `tensorflow` en `mediapipe` is onderdrukt in `main.py` om bruikbare logs over te houden voor backend events.
+Inputfouten worden vertaald naar gepaste `HTTPException` responses: een `400` statuscode bij lege bestanden of verkeerde landmark-aantallen, `404` als er geen hand of pose gevonden wordt, en `500` bij onverwachte predictieproblemen in het LSTM-model. Alle responses zijn JSON-geformatteerd en volledig beschreven in de OpenAPI-specificatie die beschikbaar is via `/docs` en `/redoc`. Om de logs overzichtelijk te houden voor backend events, is de logging van `absl`, `tensorflow` en `mediapipe` onderdrukt in `main.py`.
 
 ## Endpointcatalogus
 
@@ -205,19 +189,11 @@ Gebruik `ConnectionManager` om toekomstige features zoals push-notificaties voor
 
 ## Client-integratie & Deployability
 
-- **Client code**:
-  - API-helper: `client/lib/api.ts` (fetch wrappers, JSON parsing, error handling).
-  - Camera workflow: `client/app/camera.tsx` en hooks bouwen de pipeline uit sectie hierboven.
-  - UI logica combineert alphabet predictions tot woorden of triggert LSTM-requests.
-- **CORS & Security**:
-  - Alle origins zijn toegestaan tijdens development; productieconfig kan `allow_origins` beperken tot vertrouwde domeinen/apps.
-  - File uploads verlopen via HTTPS om fotogegevens te beschermen.
-- **Versiebeheer & observability**:
-  - `/health` exposeert `__version__` zodat monitoring kan checken of de juiste release draait.
-  - `fastapi[standard]` levert automatische Swagger UI op `/docs` en ReDoc op `/redoc`, bruikbaar voor QA en integrators.
-- **Containerisatie**:
-  - Dependencies (cv2, MediaPipe) vereisen systeemlibraries (`libgl1`, `libglib2.0-0`), vastgelegd in de Dockerfile.
-  - Environ-variabelen zoals `MPLCONFIGDIR` en `TMPDIR` worden ingesteld zodat MediaPipe en matplotlib kunnen schrijven in sandbox directories.
+De client-code is georganiseerd rond een API-helper in `client/lib/api.ts` die fetch wrappers, JSON parsing en error handling verzorgt. De camera workflow in `client/app/camera.tsx` en bijbehorende hooks bouwen de volledige pipeline op zoals beschreven in de vorige secties. De UI-logica combineert alphabet predictions tot volledige woorden of triggert LSTM-requests voor woordherkenning.
+
+Voor **CORS en security** zijn tijdens development alle origins toegestaan, hoewel de productieconfiguratie `allow_origins` kan beperken tot vertrouwde domeinen en apps. File uploads verlopen via HTTPS om fotogegevens te beschermen. Het **versiebeheer en observability** wordt ondersteund door het `/health` endpoint dat `__version__` exposeert, zodat monitoring kan verifiëren of de juiste release draait. De `fastapi[standard]` dependency levert automatisch een Swagger UI op `/docs` en ReDoc op `/redoc`, wat bruikbaar is voor QA-teams en integrators.
+
+De **containerisatie** vereist specifieke systeemlibraries zoals `libgl1` en `libglib2.0-0` voor dependencies als cv2 en MediaPipe, die vastgelegd zijn in de Dockerfile. Omgevingsvariabelen zoals `MPLCONFIGDIR` en `TMPDIR` worden ingesteld zodat MediaPipe en matplotlib kunnen schrijven in sandbox directories.
 
 ---
 

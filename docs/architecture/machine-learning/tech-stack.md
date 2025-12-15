@@ -44,12 +44,8 @@ Het `smart_gestures` package:
 
 ### PyTorch
 
-- **Flexibiliteit**: Custom LSTM architectuur, eenvoudige debugging
-- **Research-vriendelijk**: Snel prototypen en experimenteren
-- **Production-ready**: Goede performance, mobile deployment mogelijk
+PyTorch biedt de flexibiliteit voor het ontwikkelen van custom LSTM-architecturen met eenvoudige debugging-mogelijkheden. Het framework is research-vriendelijk en maakt snel prototypen en experimenteren mogelijk, terwijl het tegelijkertijd production-ready is met goede performance en mogelijkheden voor mobile deployment.
 
 ### MediaPipe
 
-- **Snelheid**: Geoptimaliseerd voor real-time (60+ FPS mogelijk)
-- **Accuratesse**: State-of-the-art hand tracking
-- **Gebruiksgemak**: Eenvoudige API voor integratie
+MediaPipe is gekozen vanwege zijn snelheid, geoptimaliseerd voor real-time verwerking met meer dan 60 FPS, en state-of-the-art accuratesse in hand tracking. De eenvoudige API maakt integratie in het project straightforward.

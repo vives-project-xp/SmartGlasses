@@ -20,14 +20,7 @@ MediaPipe levert **21 hand landmarks** per gedetecteerde hand:
 - **x, y**: Genormaliseerde 2D-coördinaten (0.0 - 1.0)
 - **z**: Relatieve diepte ten opzichte van de pols
 
-De 21 landmarks representeren:
-
-- Pols (1 punt)
-- Duim (4 punten)
-- Wijsvinger (4 punten)
-- Middelvinger (4 punten)
-- Ringvinger (4 punten)
-- Pink (4 punten)
+De 21 landmarks representeren verschillende delen van de hand: de pols wordt gerepresenteerd door 1 punt, terwijl elk van de vijf vingers (duim, wijsvinger, middelvinger, ringvinger en pink) wordt beschreven door 4 punten.
 
 ## Integratie (MediaPipe)
 

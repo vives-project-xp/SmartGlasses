@@ -2,23 +2,11 @@
 
 ## Modelarchitectuur (VGT)
 
-- **Type**: Feed-forward Neural Network (PyTorch)
-- **Framework**: PyTorch (`nn.Sequential`)
-- **Architectuur**: Identiek aan ASL-model
-
-  ```label
-  Input Layer:     63 features (21 landmarks × 3 coördinaten)
-  Hidden Layer 1:  256 neuronen + ReLU + Dropout(0.2)
-  Hidden Layer 2:  256 neuronen + ReLU + Dropout(0.2)
-  Output Layer:    26 klassen
-  ```
+The VGT model is a **Feed-forward Neural Network** built with PyTorch using the `nn.Sequential` framework, identical in architecture to the ASL model. It features an input layer with 63 features (21 landmarks × 3 coordinates), two hidden layers each with 256 neurons plus ReLU activation and Dropout of 0.2, and an output layer with 26 classes.
 
 ## Klassen (VGT)
 
-Het VGT-model herkent **26 klassen** (Vlaams Gebarentaal alfabet):
-
-- **Letters**: a-z (zonder bewegingen)
-- Deze klassen zijn gedefinieerd in `notebooks/package/smart_gestures/alphabet/vgt_model/data/classes.json`
+Het VGT-model herkent **26 klassen** voor het Vlaams Gebarentaal alfabet, bestaande uit de letters a-z (zonder bewegingen). Deze klassen zijn gedefinieerd in `notebooks/package/smart_gestures/alphabet/vgt_model/data/classes.json`.
 
 ## Verschillen met ASL
 
@@ -33,12 +21,8 @@ Hoewel de **modelarchitectuur identiek** is, zijn de modellen getraind op versch
 
 ## Integratie (VGT Model)
 
-- **Package**: `smart_gestures.alphabet.vgt_model.VGTModel`
-- **API-endpoint**: `/alphabet/vgt/predict` (POST)
-- **Input**: JSON met lijst van 21 landmarks
-- **Output**: Voorspelde klasse (string)
+The VGT model is available through the `smart_gestures.alphabet.vgt_model.VGTModel` package and accessible via the `/alphabet/vgt/predict` POST endpoint. The API accepts JSON input with a list of 21 landmarks and returns the predicted class as a string.
 
 ## Model-opslag (VGT)
 
-- **Training**: `notebooks/training/vgt_model/models/vgt_alphabet_model.pth`
-- **Package**: `notebooks/package/smart_gestures/alphabet/vgt_model/models/vgt_alphabet_model.pth`
+During training, the model is stored at `notebooks/training/vgt_model/models/vgt_alphabet_model.pth`, while for package distribution it is located at `notebooks/package/smart_gestures/alphabet/vgt_model/models/vgt_alphabet_model.pth`.

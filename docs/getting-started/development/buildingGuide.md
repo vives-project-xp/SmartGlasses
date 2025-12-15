@@ -5,11 +5,7 @@
 
 This guide describes how to perform three types of builds with **EAS (Expo Application Services)**: cloud builds, local builds, and iOS builds. This is suitable for beginners and other developers who want to get started quickly.
 
-There are 3 build profiles available: `preview`, `development`, and `production` which can be configured in the `eas.json` file.
-
-* `preview`: For quick tests and internal distribution `APK` or `IPA`.
-* `development`: For extensive testing with debug options `APK` or `IPA`.
-* `production`: For app store distribution `AAB` or `IPA`.
+There are 3 build profiles available: `preview`, `development`, and `production` which can be configured in the `eas.json` file. The `preview` profile is designed for quick tests and internal distribution of APK or IPA files. The `development` profile is intended for extensive testing with debug options enabled, also producing APK or IPA outputs. Finally, the `production` profile is configured for app store distribution, generating AAB or IPA files.
 
 ---
 
@@ -27,11 +23,7 @@ npm install -g eas-cli
 eas build:configure
 ```
 
-This creates an `eas.json` file in your project folder.
-
-* This file contains the build profiles and settings for EAS Build.
-
-  * Modify this file according to your preferences if necessary.
+This creates an `eas.json` file in your project folder. This file contains the build profiles and settings for EAS Build. Modify this file according to your preferences if necessary.
 
 ---
 
@@ -75,8 +67,7 @@ This will build the app in the cloud for iOS using the `production` build profil
 4. Choose the build profile when prompted (for example `preview`, `production`, or `development`).
 5. EAS will show a link where you can monitor the build status.
 
-
-#### Example terminal output:
+#### Example terminal output
 
 ```bash
 ✔ Logged in as user@example.com
@@ -99,18 +90,16 @@ https://expo.dev/accounts/username/projects/project/builds/xyz/artifacts
 
 With a local build, the app is built on your own computer. Useful for quick tests and process control.
 
-#### Steps:
+#### Steps
 
-1. Ensure the correct tools are installed:
-
-   * Android: Android Studio / SDK [https://developer.android.com/studio](https://developer.android.com/studio)
-   * iOS: macOS + Xcode (for local builds) [https://developer.apple.com/xcode/](https://developer.apple.com/xcode/)
+1. Ensure the correct tools are installed. For Android, you'll need Android Studio or the Android SDK ([https://developer.android.com/studio](https://developer.android.com/studio)). For iOS local builds, you'll need macOS with Xcode installed ([https://developer.apple.com/xcode/](https://developer.apple.com/xcode/)).
 2. Start the local build:
 
 ```bash
 npx eas build --platform android '--local' --profile preview 
 npx eas build --platform ios '--local' --profile preview
 ```
+
 !!!! note
     for ease we pre programmed the command in scripts in package.json like so:
     ```json
@@ -139,7 +128,7 @@ npx eas build --platform ios '--local' --profile preview
 You can rename the file afterward using F2.
 3. The build runs locally and the result is in the `./build` folder of your project.
 
-#### Example terminal output:
+#### Example terminal output
 
 ```bash
 ✔ Using project at /path/to/project
@@ -157,7 +146,7 @@ You can rename the file afterward using F2.
 
 iOS builds require extra steps due to Apple certificates and provisioning profiles.
 
-#### Steps:
+#### Steps
 
 1. Open the terminal in your project folder.
 2. Start the build:
@@ -166,11 +155,7 @@ iOS builds require extra steps due to Apple certificates and provisioning profil
 npx eas build --platform ios --profile production
 ```
 
-3. Follow the prompts:
-
-   * Apple ID and password
-   * Two-factor authentication code
-   * Choose a provisioning profile (EAS can handle this automatically)
+3. Follow the prompts by entering your Apple ID and password, providing the two-factor authentication code, and choosing a provisioning profile (EAS can handle this automatically).
 4. EAS will start the cloud build and provide a link to monitor the status.
 
 !!!! note
@@ -192,7 +177,7 @@ npx eas build --platform ios --profile production
     ```
     you can still add extra flags like `--non-interactive` if needed.
 
-#### Example terminal output:
+#### Example terminal output
 
 ```bash
 ✔ Using project at /path/to/project
@@ -207,23 +192,9 @@ https://expo.dev/accounts/username/projects/project/builds/abc
 
 ---
 
-# Tips:
+# Tips
 
-* Use `--clear-cache` if you have issues with old files.
-
-* For local iOS builds, **macOS is required**.
-
-  * For iOS cloud builds, an Apple Developer account is required.
-  * You can build in the cloud without macOS.
-
-* For Android, you can build both in the cloud and locally.
-
-  * Local builds require the Android SDK.
-  * Cloud builds do not require a local SDK.
-
-* Save output files (.apk, .aab, .ipa) in a central location for distribution or upload to app stores.
-
-  * You can easily rename the file afterward using F2.
+Use `--clear-cache` if you have issues with old files. For local iOS builds, **macOS is required**, while iOS cloud builds require an Apple Developer account, though you can build in the cloud without macOS. For Android, you can build both in the cloud and locally—local builds require the Android SDK while cloud builds do not. Save output files (.apk, .aab, .ipa) in a central location for distribution or upload to app stores; you can easily rename the file afterward using F2.
 
 ## Table of build commands
 
