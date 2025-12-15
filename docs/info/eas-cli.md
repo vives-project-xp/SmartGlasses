@@ -355,54 +355,68 @@ eas build --platform ios --profile development # This  will create a build that 
 ---
 
 ## Example: Building an Android App with EAS-CLI
+
 1. Open the terminal in your project folder.
 
-2. Start the build: 
+2. Start the build:
 
-    ```bash
-    npx eas build --platform android --profile production
-    ``` 
+   ```bash
+   npx eas build --platform android --profile production
+   ```
+
 3. Follow the prompts:
-    * Google account credentials
-    * Choose a keystore (EAS can handle this automatically)
+   - Log in with your Google account
+   - Select a keystore (EAS can manage this automatically)
 
-4. EAS will start the cloud build and provide a link to monitor the status. 
+4. EAS starts a cloud build and provides a link to monitor the build status.
 
-5. Once complete, download the `.aab` or `.apk` file for distribution.
+5. When the build finishes, download the generated `.aab` or `.apk` file.
 
 6. Submit the app to the Google Play Store using EAS Submit:
 
-    ```bash
-    eas submit --platform android --profile production
-    ```
-7. Follow the prompts to complete the submission process.
+   ```bash
+   eas submit --platform android --profile production
+   ```
 
-8. Monitor the submission status until your app is live on the Play Store.
+7. Complete the submission by following the prompts.
 
-9.  Celebrate your successful Android app deployment! 🎉
+8. Monitor the submission status until the app becomes available on the Play Store.
+
+9. Celebrate your successful Android app deployment 🎉
 
 ---
 
 ## Example: Building an iOS App with EAS-CLI
-1. Open the terminal in your project folder.
-2. Start the build: 
 
-```bash
-npx eas build --platform ios --profile production
-```
+1. Open the terminal in your project folder.
+
+2. Start the build:
+
+   ```bash
+   npx eas build --platform ios --profile production
+   ```
+
 3. Follow the prompts:
-   * Apple ID and password
-   * Two-factor authentication code
-   * Choose a provisioning profile (EAS can handle this automatically)
-4. EAS will start the cloud build and provide a link to monitor the status.
-5. Once complete, download the `.ipa` file for distribution.
+   - Sign in with your Apple ID
+   - Enter the two-factor authentication code
+   - Choose a provisioning profile (EAS can manage this automatically)
+
+4. EAS starts a cloud build and provides a link to monitor the build status.
+
+5. When the build finishes, download the generated `.ipa` file.
+
 6. Submit the app to the App Store using EAS Submit:
-```bash
-eas submit --platform ios --profile production
-```
-7. Follow the prompts to complete the submission process.
-8. Monitor the submission status until your app is live on the App Store.
-9. Celebrate your successful iOS app deployment! 🎉
+
+   ```bash
+   eas submit --platform ios --profile production
+   ```
+
+7. Complete the submission by following the prompts.
+
+8. Monitor the submission status until the app is live on the App Store.
+
+9. Celebrate your successful iOS app deployment 🎉
+
 
 ## best Practices
 
