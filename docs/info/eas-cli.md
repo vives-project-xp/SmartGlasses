@@ -365,8 +365,8 @@ eas build --platform ios --profile development # This  will create a build that 
       ```
 
 3. Follow the prompts:
-   - Log in with your Google account
-   - Select a keystore (EAS can manage this automatically)
+      - Log in with your Google account
+      - Select a keystore (EAS can manage this automatically)
 
 4. EAS starts a cloud build and provides a link to monitor the build status.
 
@@ -397,9 +397,9 @@ eas build --platform ios --profile development # This  will create a build that 
       ```
 
 3. Follow the prompts:
-   - Sign in with your Apple ID
-   - Enter the two-factor authentication code
-   - Choose a provisioning profile (EAS can manage this automatically)
+      - Sign in with your Apple ID
+      - Enter the two-factor authentication code
+      - Choose a provisioning profile (EAS can manage this automatically)
 
 4. EAS starts a cloud build and provides a link to monitor the build status.
 
