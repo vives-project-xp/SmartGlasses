@@ -1,5 +1,5 @@
 
-![EAS-CLI Logo](/docs/assets/cli.png)
+![EAS-CLI Logo](../assets/cli.png)
 
 # EAS-CLI — Info
 (Expo Application Services Command Line Interface)

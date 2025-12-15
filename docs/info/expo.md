@@ -3,7 +3,7 @@
 
 # Expo Reference Guide
 
-![expo logo](/assets/logo-wordmark.png)
+![expo logo](../assets/logo-wordmark.png)
 
 ## What is Expo?
 

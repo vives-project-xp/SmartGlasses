@@ -1,6 +1,6 @@
 # Node.js Reference Guide
 
-![node.js logo](/docs/assets/node.js_logo.png)
+![node.js logo](../assets/node.js_logo.png)
 ## What is Node.js?
 
 Node.js is a [**JavaScript runtime**](https://nodejs.org/en/about/) built on the [**V8 engine**](https://nodejs.org/en/learn/getting-started/the-v8-javascript-engine), the same engine that powers Google Chrome. Instead of running JavaScript inside a browser, Node.js allows you to run JavaScript directly on your machine as a backend or scripting environment.

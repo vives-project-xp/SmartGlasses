@@ -1,7 +1,7 @@
 
 # npm & npx — reference guide
 
-![npm vs npx](/assets/npm%20vs%20npx.png)
+![npm vs npx](../assets/npm%20vs%20npx.png)
 
 !!! warning 
 	  This file serves as a reference for understanding npm and npx. For installation or setup, see the [Getting Started](../Getting%20Started/README.md) folder.
