@@ -356,23 +356,29 @@ eas build --platform ios --profile development # This  will create a build that 
 
 ## Example: Building an Android App with EAS-CLI
 1. Open the terminal in your project folder.
+
 2. Start the build: 
 
 ```bash
 npx eas build --platform android --profile production
 ``` 
 3. Follow the prompts:
-   * Google account credentials
-   * Choose a keystore (EAS can handle this automatically)
+    - Google account credentials
+    - Choose a keystore (EAS can handle this automatically)
+
 4. EAS will start the cloud build and provide a link to monitor the status. 
+
 5. Once complete, download the `.aab` or `.apk` file for distribution.
+
 6. Submit the app to the Google Play Store using EAS Submit:
 
 ```bash
 eas submit --platform android --profile production
 ```
 7. Follow the prompts to complete the submission process.
+
 8. Monitor the submission status until your app is live on the Play Store.
+
 9.  Celebrate your successful Android app deployment! 🎉
 
 ---
